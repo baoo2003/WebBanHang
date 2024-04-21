@@ -63,7 +63,7 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="trangchu.htm" class="nav-item nav-link active">Home</a>
+                            <a href="home.htm" class="nav-item nav-link active">Home</a>
                             <a href="shop.htm" class="nav-item nav-link">Shop</a>
                             <a href="shop-detail.htm" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
