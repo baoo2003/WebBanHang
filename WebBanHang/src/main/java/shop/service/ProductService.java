@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shop.entity.Category;
 import shop.entity.Product;
 
 @Service
@@ -21,6 +22,13 @@ public class ProductService {
 		Query query = session.createQuery(hql);
 		query.setFirstResult(page * limit);
 		query.setMaxResults(limit);
+		return query.list();
+	}
+	
+	public List<Category> getCategories() {
+		Session session = factory.openSession();
+		String hql = "FROM Category";
+		Query query = session.createQuery(hql);
 		return query.list();
 	}
 }

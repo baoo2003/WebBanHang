@@ -24,13 +24,11 @@
         <!-- Libraries Stylesheet -->
         <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
         <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-
-        <!-- Customized Bootstrap Stylesheet -->
+        
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
+        
+		<link href="css/style.css" rel="stylesheet">
+        
     </head>
 
     <body>
@@ -59,7 +57,7 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="Trangchu.htm" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="Home.htm" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
@@ -159,37 +157,30 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <h4>Categories</h4>
+                                            
                                             <ul class="list-unstyled fruite-categorie">
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                                        <span>(3)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
-                                                        <span>(5)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
-                                                        <span>(2)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                                        <span>(8)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                                        <span>(5)</span>
-                                                    </div>
-                                                </li>
+                                            	<li>                                      
+	                                            	<div class="d-flex justify-content-between fruite-name active">
+	                                            		<c:if test="${categoryActive == 'All' or empty categoryActive}">
+    														<a href="product-All.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>All</a>
+														</c:if>
+														<c:if test="${categoryActive != 'All' and not empty categoryActive}">
+    														<a href="product-All.htm"><i class="fas me-2"></i>All</a>
+														</c:if>															                                           		                        	                                                		                        
+	                                                </div>
+                                                </li> 
+                                            	<c:forEach var="category" items="${categories}">
+											    	<li>
+	                                                    <div class="d-flex justify-content-between fruite-name">
+	                                                    	<c:if test="${categoryActive eq category.name}">														   
+														   		<a href="product-${category.name}.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
+															</c:if>
+															<c:if test="${categoryActive != category.name}">														   
+														   		<a href="product-${category.name}.htm"><i class="fas me-2"></i>${category.name}</a>
+															</c:if>														    	                                                	                        
+	                                                    </div>
+                                                	</li>            	
+                                				</c:forEach>                                                                           
                                             </ul>
                                         </div>
                                     </div>
@@ -217,12 +208,8 @@
                                             </div>
                                             <div class="mb-2">
                                                 <input type="radio" class="me-2" id="Categories-4" name="Categories-1" value="Beverages">
-                                                <label for="Categories-4"> Discount</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-5" name="Categories-1" value="Beverages">
-                                                <label for="Categories-5"> Expired</label>
-                                            </div>
+                                                <label for="Categories-4"> Expired</label>
+                                            </div>                                    
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -285,7 +272,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center my-4">
-                                            <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
+                                            <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -303,21 +290,36 @@
                                 	
                                 	<c:forEach var="product" items="${products}">
 										<div class="col-md-6 col-lg-6 col-xl-4">
-											<div class="fruite-img">
-                                                <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                        <div class="rounded position-relative fruite-item">
+                                            <div class="fruite-img">
+                                                <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
                                             </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category.name}</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                 <h4>${product.name}</h4>
+                                                <p>${product.describe}</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price} / ${product.unit}</p>
                                                     <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                 </div>
                                             </div>
-										</div>	                                	
+                                        </div>
+                                    </div>                                	
                                 	</c:forEach>
                                 
                                     
+                                </div>
+                                <div class="col-12">
+                                        <div class="pagination d-flex justify-content-center mt-5">
+                                            <a href="#" class="rounded">&laquo;</a>
+                                            <a href="#" class="active rounded">1</a>
+                                            <a href="#" class="rounded">2</a>
+                                            <a href="#" class="rounded">3</a>
+                                            <a href="#" class="rounded">4</a>
+                                            <a href="#" class="rounded">5</a>
+                                            <a href="#" class="rounded">6</a>
+                                            <a href="#" class="rounded">&raquo;</a>
+                                        </div>
                                 </div>
                             </div>
                         </div>
