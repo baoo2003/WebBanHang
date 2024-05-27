@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,12 +32,6 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
-		<style>
-			.error {
-				color: red;
-			}
-		</style>
     </head>
 
     <body>
@@ -124,11 +119,11 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Login</h1>
+            <h1 class="text-center text-white display-6">Register</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Login</li>
+                <li class="breadcrumb-item active text-white">Register</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
@@ -140,17 +135,24 @@
                 <div class="p-5 bg-light rounded">
                     <div class="d-flex justify-content-center">
                         <div class="col-lg-7">
-                            <form:form action="login.htm" method="post" modelAttribute="login">
+                            <form:form action="register.htm" method="post" modelAttribute="register">
                                 <form:input path="username" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Username" />
-                                <form:errors path="username" cssClass="error" />
+                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your First Name" />
+                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Last Name" />
+                                <form:select path="gender" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Gender">
+                                	<form:option value="0">Female</form:option>
+                                	<form:option value="1">Male</form:option>
+                                </form:select>
+                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Address" />
+                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Phone Number" />
+                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email" />
                                 <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Password" />
-                                <form:errors path="password" cssClass="error" />
                                 <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
                             </form:form>
                             <br />
                             <span class="d-flex justify-content-center">
-                            	Don't you have an account?&nbsp;
-                            	<a href="register.htm">Register</a>
+                            	Already have an account?&nbsp;
+                            	<a href="login.htm">Login</a>
                             </span>
                         </div>
                     </div>

@@ -1,29 +1,24 @@
 package shop.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "KHACHHANG")
 public class Customer {
 	@Id
+	@GeneratedValue
 	@Column(name = "MAKH")
 	private Integer id;
 	@Column(name = "TEN")
 	private String firstName;
 	@Column(name = "HO")
 	private String lastName;
-	@Column(name = "NGAYSINH", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date birthDay;
 	@Column(name = "GIOITINH")
 	private Boolean gender;
 	@Column(name = "DIACHI", nullable = true)
@@ -38,7 +33,9 @@ public class Customer {
 	@JoinColumn(name = "MATK")
 	private Account account;
 	
-	public Customer() {}
+	public Customer() {
+		this.status = true;
+	}
 
 	public int getId() {
 		return id;
@@ -86,14 +83,6 @@ public class Customer {
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public Date getBirthDay() {
-		return birthDay;
-	}
-
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
 	}
 
 	public Boolean getGender() {
