@@ -161,22 +161,22 @@
                                             <ul class="list-unstyled fruite-categorie">
                                             	<li>                                      
 	                                            	<div class="d-flex justify-content-between fruite-name active">
-	                                            		<c:if test="${categoryActive == 'All' or empty categoryActive}">
-    														<a href="product-All.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>All</a>
+	                                            		<c:if test="${empty categoryActive}">
+    														<a href="product.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>All</a>
 														</c:if>
-														<c:if test="${categoryActive != 'All' and not empty categoryActive}">
-    														<a href="product-All.htm"><i class="fas me-2"></i>All</a>
+														<c:if test="${not empty categoryActive}">
+    														<a href="product.htm"><i class="fas me-2"></i>All</a>
 														</c:if>															                                           		                        	                                                		                        
 	                                                </div>
                                                 </li> 
                                             	<c:forEach var="category" items="${categories}">
 											    	<li>
 	                                                    <div class="d-flex justify-content-between fruite-name">
-	                                                    	<c:if test="${categoryActive eq category.name}">														   
-														   		<a href="product-${category.name}.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
+	                                                    	<c:if test="${categoryActive eq category.id}">														   
+														   		<a href="product.htm?categoryId=${category.id}" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
 															</c:if>
-															<c:if test="${categoryActive != category.name}">														   
-														   		<a href="product-${category.name}.htm"><i class="fas me-2"></i>${category.name}</a>
+															<c:if test="${categoryActive != category.id}">														   
+														   		<a href="product.htm?categoryId=${category.id}"><i class="fas me-2"></i>${category.name}</a>
 															</c:if>														    	                                                	                        
 	                                                    </div>
                                                 	</li>            	
@@ -184,34 +184,38 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <h4 class="mb-2">Price</h4>
-                                            <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
-                                            <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output>
+                                            <form action="product.htm" method="get">
+                                            <div class="mb-2">
+                                                <input type="radio" class="me-2" id="Categories-0" name="filterByPrice" value="0" onchange="this.form.submit()">
+                                                <label for="Categories-0"> All</label>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="radio" class="me-2" id="Categories-1" name="filterByPrice" value="1" onchange="this.form.submit()">
+                                                <label for="Categories-1"> Under $10</label>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="radio" class="me-2" id="Categories-2" name="filterByPrice" value="2" onchange="this.form.submit()">
+                                                <label for="Categories-2"> $10 - $50</label>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="radio" class="me-2" id="Categories-3" name="filterByPrice" value="3" onchange="this.form.submit()">
+                                                <label for="Categories-3"> $50 - $100</label>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="radio" class="me-2" id="Categories-4" name="filterByPrice" value="4" onchange="this.form.submit()">
+                                                <label for="Categories-4"> Over $100</label>
+                                            </div>     
+                                            <div class="mb-2">
+                                                <input type="radio" class="me-2" id="Categories-5" name="filterByPrice" value="5" onchange="this.form.submit()">
+                                                <label for="Categories-4"> Sales</label>
+                                            </div>  
+                                            </form>  
                                         </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <h4>Additional</h4>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="Categories-1" value="Beverages">
-                                                <label for="Categories-1"> Organic</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-2" name="Categories-1" value="Beverages">
-                                                <label for="Categories-2"> Fresh</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-3" name="Categories-1" value="Beverages">
-                                                <label for="Categories-3"> Sales</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-4" name="Categories-1" value="Beverages">
-                                                <label for="Categories-4"> Expired</label>
-                                            </div>                                    
-                                        </div>
-                                    </div>
+                                    </div>                             
                                     <div class="col-lg-12">
                                         <h4 class="mb-3">Featured products</h4>
                                         <div class="d-flex align-items-center justify-content-start">
@@ -290,7 +294,7 @@
                                 	
                                 	<c:forEach var="product" items="${products}">
 										<div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="rounded position-relative fruite-item">
+                                        <div class="rounded position-relative fruite-item" style="bottom: 0px;">
                                             <div class="fruite-img">
                                                 <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
                                             </div>
@@ -309,16 +313,14 @@
                                 
                                     
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12">                                
                                         <div class="pagination d-flex justify-content-center mt-5">
-                                            <a href="#" class="rounded">&laquo;</a>
-                                            <a href="#" class="active rounded">1</a>
-                                            <a href="#" class="rounded">2</a>
-                                            <a href="#" class="rounded">3</a>
-                                            <a href="#" class="rounded">4</a>
-                                            <a href="#" class="rounded">5</a>
-                                            <a href="#" class="rounded">6</a>
-                                            <a href="#" class="rounded">&raquo;</a>
+                                        	<c:if test="${pageActive > 6}"><a href="product.htm?startPage=${startPage - 6}" class="rounded">&laquo;</a></c:if>                                            
+                                            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                                				<c:if test="${pageActive == i}"><a href="#" class="active rounded">${i}</a></c:if>
+                                				<c:if test="${pageActive != i}"><a href="product.htm?pageActive=${i}" class="rounded">${i}</a></c:if>
+                                			</c:forEach>                       
+                                			<c:if test="${endPage < maxPage}"><a href="product.htm?startPage=${endPage + 1}" class="rounded">&raquo;</a></c:if>                                                                         
                                         </div>
                                 </div>
                             </div>
