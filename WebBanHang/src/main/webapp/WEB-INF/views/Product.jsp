@@ -28,8 +28,26 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         
 		<link href="css/style.css" rel="stylesheet">
-        
-    </head>
+		
+		<script type="text/javascript">
+			function appendParam(paramName, paramValue){
+				var currentUrl=window.location.href;
+				var newUrl;
+				if(currentUrl.includes(paramName+"=")){
+					var regex = new RegExp(paramName + "=([^&]*)");
+					newUrl = currentUrl.replace(regex,paramName + "=" + paramValue);
+				}
+				else{
+					if(currentUrl.indexOf('?')>-1)
+						newUrl = currentUrl + "&" + paramName + "=" + paramValue;
+					else
+						newUrl = currentUrl + '?' + paramName + "=" + paramValue;
+				}
+				window.location.href = newUrl;
+			}
+		</script>
+		
+	</head>
 
     <body>
 
@@ -173,10 +191,10 @@
 											    	<li>
 	                                                    <div class="d-flex justify-content-between fruite-name">
 	                                                    	<c:if test="${categoryActive eq category.id}">														   
-														   		<a href="product.htm?categoryId=${category.id}" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
+														   		<a href="${requestScope['javax.servlet.forward.request_uri']}?categoryId=${category.id}" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
 															</c:if>
 															<c:if test="${categoryActive != category.id}">														   
-														   		<a href="product.htm?categoryId=${category.id}"><i class="fas me-2"></i>${category.name}</a>
+														   		<a href="${requestScope['javax.servlet.forward.request_uri']}?categoryId=${category.id}"><i class="fas me-2"></i>${category.name}</a>
 															</c:if>														    	                                                	                        
 	                                                    </div>
                                                 	</li>            	
@@ -190,28 +208,59 @@
                                             <h4 class="mb-2">Price</h4>
                                             <form action="product.htm" method="get">
                                             <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-0" name="filterByPrice" value="0" onchange="this.form.submit()">
+                                            	<c:if test="${filterActive == 0}">	
+                                                	<input type="radio" class="me-2" id="Categories-0" name="filterByPrice" value="0" onclick="appendParam('filterByPrice',0)" checked="true">
+                                                </c:if>
+                                                <c:if test="${filterActive != 0}">
+                                                	<input type="radio" class="me-2" id="Categories-0" name="filterByPrice" value="0" onclick="appendParam('filterByPrice',0)">
+                                                </c:if>
                                                 <label for="Categories-0"> All</label>
+                                                
                                             </div>
                                             <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="filterByPrice" value="1" onchange="this.form.submit()">
+                                            	<c:if test="${filterActive == 1}">
+													<input type="radio" class="me-2" id="Categories-1" name="filterByPrice" value="1" onclick="appendParam('filterByPrice',1)" checked="true">
+												</c:if>
+												<c:if test="${filterActive != 1}">                                            	                                         
+                                                	<input type="radio" class="me-2" id="Categories-1" name="filterByPrice" value="1" onclick="appendParam('filterByPrice',1)">
+                                                </c:if>
                                                 <label for="Categories-1"> Under $10</label>
                                             </div>
                                             <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-2" name="filterByPrice" value="2" onchange="this.form.submit()">
+                                            	<c:if test="${filterActive == 2}">
+													<input type="radio" class="me-2" id="Categories-2" name="filterByPrice" value="2" onclick="appendParam('filterByPrice',2)" checked="true">
+												</c:if>
+												<c:if test="${filterActive != 2}">                                            	                                         
+                                                	<input type="radio" class="me-2" id="Categories-2" name="filterByPrice" value="2" onclick="appendParam('filterByPrice',2)">
+                                                </c:if>                                             
                                                 <label for="Categories-2"> $10 - $50</label>
                                             </div>
                                             <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-3" name="filterByPrice" value="3" onchange="this.form.submit()">
+                                            	<c:if test="${filterActive == 3}">
+                                            		<input type="radio" class="me-2" id="Categories-3" name="filterByPrice" value="3" onclick="appendParam('filterByPrice',3)" checked="true">
+                                            	</c:if>
+                                            	<c:if test="${filterActive != 3}">
+                                            		<input type="radio" class="me-2" id="Categories-3" name="filterByPrice" value="3" onclick="appendParam('filterByPrice',3)">   
+                                            	</c:if>                                                
                                                 <label for="Categories-3"> $50 - $100</label>
                                             </div>
                                             <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-4" name="filterByPrice" value="4" onchange="this.form.submit()">
+                                            	<c:if test="${filterActive == 4}">
+                                            		<input type="radio" class="me-2" id="Categories-4" name="filterByPrice" value="4" onclick="appendParam('filterByPrice',4)" checked="true">
+                                            	</c:if>
+                                            	<c:if test="${filterActive != 4}">
+                                            		<input type="radio" class="me-2" id="Categories-4" name="filterByPrice" value="4" onclick="appendParam('filterByPrice',4)">
+                                            	</c:if>                                                
                                                 <label for="Categories-4"> Over $100</label>
                                             </div>     
                                             <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-5" name="filterByPrice" value="5" onchange="this.form.submit()">
-                                                <label for="Categories-4"> Sales</label>
+                                            	<c:if test="${filterActive == 5}">
+                                                	<input type="radio" class="me-2" id="Categories-5" name="filterByPrice" value="5" onclick="appendParam('filterByPrice',5)" checked="true">
+                                                </c:if>
+                                                <c:if test="${filterActive != 5}">
+                                                	<input type="radio" class="me-2" id="Categories-5" name="filterByPrice" value="5" onclick="appendParam('filterByPrice',5)">
+                                                </c:if>
+                                                <label for="Categories-5"> Sales</label>
                                             </div>  
                                             </form>  
                                         </div>
@@ -288,30 +337,30 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                                                                             						                          
                             <div class="col-lg-9">
-                                <div class="row g-4 justify-content-center">
-                                	
+                                <div class="row g-4 justify-content-center">                                	
                                 	<c:forEach var="product" items="${products}">
-										<div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="rounded position-relative fruite-item" style="bottom: 0px;">
-                                            <div class="fruite-img">
-                                                <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category.name}</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>${product.name}</h4>
-                                                <p>${product.describe}</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price} / ${product.unit}</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                                	
-                                	</c:forEach>
-                                
-                                    
+										<div class="col-md-6 col-lg-6 col-xl-4" onclick="window.location.href='product-detail.htm';" style="cursor: pointer;">
+	                                        <div class="rounded position-relative fruite-item" style="bottom: 0px;">
+	                                            <div class="fruite-img">
+	                                                <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
+	                                            </div>
+	                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category.name}</div>
+	                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+	                                                <h4>${product.name}</h4>
+	                                                <p>${product.describe}</p>
+	                                                <div class="d-flex justify-content-between flex-lg-wrap">
+	                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price} / ${product.unit}</p>
+	                                                    
+	                                                    <form action="">
+	                                                    	<button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+	                                                    </form>	                     
+	                                                </div>
+	                                            </div>
+	                                        </div>
+                                    	</div>                                	
+                                	</c:forEach>                                                                    
                                 </div>
                                 <div class="col-12">                                
                                         <div class="pagination d-flex justify-content-center mt-5">

@@ -40,6 +40,7 @@ public class ProductController {
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("maxPage", maxPage1);
 		model.addAttribute("pageActive", pageNumber);
+		model.addAttribute("filterActive", filterId);
 		return "Product";
 	}
 
