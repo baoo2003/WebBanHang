@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+    
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -146,17 +149,17 @@
     <c:choose>
         <c:when test="${not empty carts}">
             <c:forEach var="cart" items="${carts}">
-                <tr>
+                <tr data-product-id="${cart.cartId.productId}" data-product-price="${cart.productPrice}">
                     <th scope="row">
                         <div class="d-flex align-items-center">
-                            <img src="img/vegetable-item-3.png" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                            <img src="${cart.image}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
                         </div>
                     </th>
                     <td>
-                        <p class="mb-0 mt-4">${cart.cartId.productId}</p>
+                        <p class="mb-0 mt-4">${cart.productName}</p>
                     </td>
                     <td>
-                        <p class="mb-0 mt-4">2.99 $</p>
+                        <p class="mb-0 mt-4">${cart.productPrice} $</p>
                     </td>
                     <td>
                         <div class="input-group quantity mt-4" style="width: 100px;">
@@ -165,7 +168,7 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control form-control-sm text-center border-0" value="${cart.quantity}">
+                            <input type="text" class="form-control form-control-sm text-center border-0 quantity-input" value="${cart.quantity}">
                             <div class="input-group-btn">
                                 <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                     <i class="fa fa-plus"></i>
@@ -174,14 +177,19 @@
                         </div>
                     </td>
                     <td>
-                        <p class="mb-0 mt-4">2.99 $</p>
+                        <p class="mb-0 mt-4 total-price">
+                        <fmt:formatNumber value="${cart.quantity * cart.productPrice}" pattern="#,##0.00"/> $
+                        </p>
                     </td>
                     <td>
-                        <form method="post" action="${pageContext.request.contextPath}/cart/delete/${cart.cartId.customerId}/${cart.cartId.productId}">
-                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Are you sure you want to delete this item?');">
-                            <i class="fa fa-times text-danger"></i>
-                        </button>
-                    </form>
+                        <form method="post" action="${pageContext.request.contextPath}/cart/delete/1">
+					    <input type="hidden" name="customerId" value="${cart.cartId.customerId}"/>
+					    <input type="hidden" name="productId" value="${cart.cartId.productId}"/>
+					    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" 
+					            onclick="return confirm('Are you sure you want to delete this item?');">
+					        <i class="fa fa-times text-danger"></i>
+					    </button>
+						</form>
                     </td>
                 </tr>
             </c:forEach>
@@ -189,7 +197,7 @@
         <c:otherwise>
             <tr>
                 <td colspan="6" class="text-center">
-                    <strong>Giỏ hàng trống</strong>
+                    <strong>Your cart is currently empty.</strong>
                 </td>
             </tr>
         </c:otherwise>
@@ -210,19 +218,19 @@
                                 <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                                 <div class="d-flex justify-content-between mb-4">
                                     <h5 class="mb-0 me-4">Subtotal:</h5>
-                                    <p class="mb-0">$96.00</p>
+                                    <p class="mb-0" id="subtotal-price"></p>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h5 class="mb-0 me-4">Shipping</h5>
                                     <div class="">
-                                        <p class="mb-0">Flat rate: $3.00</p>
+                                        <p class="mb-0" >Flat rate: $3.00</p>
                                     </div>
                                 </div>
-                                <p class="mb-0 text-end">Shipping to Ukraine.</p>
+                                <p class="mb-0 text-end">Shipping to VietNam.</p>
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                <p class="mb-0 pe-4">$99.00</p>
+                                <p class="mb-0 pe-4" id = "total-price"></p>
                             </div>
                             <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
                         </div>

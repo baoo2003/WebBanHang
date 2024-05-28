@@ -129,23 +129,41 @@
         })
     });
 
-
-
+    function updateTotalPrice() {
+		const shippingFee = 3.00
+        var total = 0;
+        $('tr[data-product-id]').each(function() {
+            var pricePerItem = parseFloat($(this).data('product-price'));
+            var quantity = parseFloat($(this).find('.quantity-input').val());
+            total += pricePerItem * quantity;
+        });
+        $('#subtotal-price').text(total.toFixed(2) + ' $');
+        var finalTotal = total + shippingFee;
+        $('#total-price').text(finalTotal.toFixed(2) + ' $');
+        
+    }
     // Product Quantity
     $('.quantity button').on('click', function () {
         var button = $(this);
-        var oldValue = button.parent().parent().find('input').val();
-        if (button.hasClass('btn-plus')) {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
-        }
-        button.parent().parent().find('input').val(newVal);
-    });
+        var inputGroup = button.closest('.input-group');
+        var input = inputGroup.find('.quantity-input');
+        var oldValue = parseFloat(input.val());
+        var pricePerItem = parseFloat(button.closest('tr').data('product-price'));
+        var newVal = oldValue;
 
+        if (button.hasClass('btn-plus')) {
+            newVal = oldValue + 1;
+        } else if (button.hasClass('btn-minus') && oldValue > 0) {
+            newVal = oldValue - 1;
+        }
+
+        input.val(newVal);
+        var newTotal = newVal * pricePerItem;
+        var formattedTotal = newTotal.toFixed(2) + ' $'; // Định dạng số làm tròn đến 2 chữ số
+
+        button.closest('tr').find('.total-price').text(formattedTotal);
+        updateTotalPrice();
+    });
+	updateTotalPrice();
 })(jQuery);
 
