@@ -23,12 +23,15 @@ public class Cart {
     @JoinColumn(name = "MAKH")
     private Customer customer;
 
-    @MapsId("productId")
+    @MapsId("id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAMH")
     private Product product;
 	
-	public Cart() {}
+	public Cart() {
+		this.cartId = new CartId(); // Ensure the ID is never null
+        this.quantity = 0; // Default quantity
+	}
 	
 	public CartId getCartId() {
 		return cartId;
@@ -44,6 +47,22 @@ public class Cart {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 	
