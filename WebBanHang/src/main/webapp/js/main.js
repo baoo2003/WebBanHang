@@ -132,15 +132,17 @@
     function updateTotalPrice() {
 		const shippingFee = 3.00
         var total = 0;
+        var quantityproduct = 0;
         $('tr[data-product-id]').each(function() {
             var pricePerItem = parseFloat($(this).data('product-price'));
             var quantity = parseFloat($(this).find('.quantity-input').val());
             total += pricePerItem * quantity;
+            quantityproduct += 1;
         });
         $('#subtotal-price').text(total.toFixed(2) + ' $');
         var finalTotal = total + shippingFee;
         $('#total-price').text(finalTotal.toFixed(2) + ' $');
-        
+        $('#quantity-product').text(quantityproduct);
     }
     // Product Quantity
     $('.quantity button').on('click', function () {
@@ -162,10 +164,9 @@
         var formattedTotal = newTotal.toFixed(2) + ' $'; // Định dạng số làm tròn đến 2 chữ số
 
         button.closest('tr').find('.total-price').text(formattedTotal);
-        updateTotalPrice();
+        
     });
 	updateTotalPrice();
-	
-	
+
 })(jQuery);
 

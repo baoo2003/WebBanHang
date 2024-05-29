@@ -1,5 +1,6 @@
 package shop.controller;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.entity.CartId;
 import shop.service.CartService;
@@ -27,7 +29,6 @@ public class CartController {
 		Integer customerIdInt = (Integer) session.getAttribute("customerId");
         List<Object[]> cartDetails = cartService.getCartAndProductDetailsByCustomer(customerIdInt);
         List<Map<String, Object>> carts = new ArrayList<>();
-        System.out.print(customerIdInt);
         for (Object[] detail : cartDetails) {
             Map<String, Object> cartMap = new HashMap<>();
             cartMap.put("customer", detail[0]);
@@ -47,12 +48,37 @@ public class CartController {
     public String deleteCartItem(
     		@RequestParam("customerId") Integer customerId,
             @RequestParam("productId") Integer productId) {
-		System.out.print(productId);
         CartId cartId = new CartId(customerId, productId);
         cartService.deleteCart(cartId);
         return "redirect:/cart.htm";  
     }
 
+	@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
+	public String addToCart(HttpSession session,
+			@RequestParam("productId") Integer productId) {
+		
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		if (customerIdInt == null) {
+            return "redirect:/login"; // Redirect to login if customer is not logged in
+        }
+		cartService.addToCart(customerIdInt, productId, 1);
+		
+		return "redirect:/cart.htm";
+	}
 	
-
+	@RequestMapping(value = "/loadCart", method = RequestMethod.POST)
+	public String loadCart(HttpSession session,
+							@RequestParam("customerId") Integer customerId,
+							@RequestParam("productId") Integer productId,
+							@RequestParam("quantity") Integer quantity) {
+		
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		System.out.print(quantity);
+		if (customerIdInt == null) {
+            return "redirect:/login"; // Redirect to login if customer is not logged in
+        }
+		cartService.loadCart(customerIdInt, productId, quantity);
+		
+		return "redirect:/cart.htm";
+	}
 }

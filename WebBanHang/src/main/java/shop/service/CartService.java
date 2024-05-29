@@ -44,8 +44,31 @@ public class CartService {
 	    Transaction tx = null;
 	    try {
 	        tx = session.beginTransaction();
-	        Cart cart = new Cart(new CartId(customerId, productId), quantity);
-	        session.save(cart);
+	       
+         // Fetch the existing cart item
+            CartId cartId = new CartId(customerId, productId);
+            Cart existingCart = (Cart) session.get(Cart.class, cartId);
+
+            if (existingCart != null) {
+                // If the product is already in the cart, update the quantity
+                existingCart.setQuantity(existingCart.getQuantity() + quantity);
+                session.update(existingCart);
+            } else {
+                // If the product is not in the cart, add a new entry
+                Customer customer = (Customer) session.get(Customer.class, customerId);
+                Product product = (Product) session.get(Product.class, productId);
+
+                if (customer == null || product == null) {
+                    throw new RuntimeException("Customer or Product not found");
+                }
+
+                Cart cart = new Cart(cartId, quantity);
+                cart.setCustomer(customer);
+                cart.setProduct(product);
+                session.save(cart);
+            }
+
+	        tx.commit();
 	    } catch (Exception e) {
 	        if (tx != null) tx.rollback();
 	        throw e;  
@@ -64,6 +87,26 @@ public class CartService {
 	        if (cart != null) {
 	            session.delete(cart);
 	        }
+	        tx.commit();
+	    } catch (Exception e) {
+	        if (tx != null) tx.rollback();
+	        throw e;
+	    } finally {
+	        session.close();
+	    }
+	}
+	
+	public void loadCart(Integer customerId, Integer productId, Integer quantity) {
+	    Session session = sessionFactory.openSession();
+	   
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        
+	        CartId cartId = new CartId(customerId, productId);
+            Cart existingCart = (Cart) session.get(Cart.class, cartId);
+            existingCart.setQuantity(quantity);
+            session.update(existingCart);
 	        tx.commit();
 	    } catch (Exception e) {
 	        if (tx != null) tx.rollback();
