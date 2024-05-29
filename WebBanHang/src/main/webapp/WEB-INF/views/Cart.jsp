@@ -85,7 +85,7 @@
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <span id="quantity-product" class=" position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
                             <a href="#" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>
@@ -162,19 +162,24 @@
                         <p class="mb-0 mt-4">${cart.productPrice} $</p>
                     </td>
                     <td>
+                   <form method="post" action="loadCart.htm" class="quantity-form">
                         <div class="input-group quantity mt-4" style="width: 100px;">
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                            	<input type="hidden" name="customerId" value="${cart.customer}"/>
+					    		<input type="hidden" name="productId" value="${cart.product}"/>
+                                <button type="submit" class="btn btn-sm btn-minus rounded-circle bg-light border">
                                     <i class="fa fa-minus"></i>
                                 </button>
+                            	
                             </div>
-                            <input type="text" class="form-control form-control-sm text-center border-0 quantity-input" value="${cart.quantity}">
+                            <input type="text" name="quantity" style = "background-color: white;" class="form-control form-control-sm text-center border-0 quantity-input" value="${cart.quantity}" readonly>
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                <button type="submit" class="btn btn-sm btn-plus rounded-circle bg-light border">
                                     <i class="fa fa-plus"></i>
                                 </ply>
                             </div>
                         </div>
+                       </form>
                     </td>
                     <td>
                         <p class="mb-0 mt-4 total-price">
