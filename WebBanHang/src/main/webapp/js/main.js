@@ -165,5 +165,7 @@
         updateTotalPrice();
     });
 	updateTotalPrice();
+	
+	
 })(jQuery);
 

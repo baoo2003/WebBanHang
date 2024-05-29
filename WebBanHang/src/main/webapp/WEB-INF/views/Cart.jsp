@@ -182,9 +182,9 @@
                         </p>
                     </td>
                     <td>
-                        <form method="post" action="${pageContext.request.contextPath}/cart/delete/1">
-					    <input type="hidden" name="customerId" value="${cart.cartId.customerId}"/>
-					    <input type="hidden" name="productId" value="${cart.cartId.productId}"/>
+                        <form method="post" action="deleteProductOfCart.htm">
+					    <input type="hidden" name="customerId" value="${cart.customer}"/>
+					    <input type="hidden" name="productId" value="${cart.product}"/>
 					    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" 
 					            onclick="return confirm('Are you sure you want to delete this item?');">
 					        <i class="fa fa-times text-danger"></i>

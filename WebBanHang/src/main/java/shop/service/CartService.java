@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import shop.entity.Cart;
 import shop.entity.CartId;
+import shop.entity.Customer;
+import shop.entity.Product;
 
 @Service
 public class CartService {
@@ -22,13 +24,28 @@ public class CartService {
 	    Transaction tx = null;
 	    try {
 	        tx = session.beginTransaction();
-	        String hql = "SELECT c.quantity, p.name, p.price, p.image FROM Cart c JOIN c.product p WHERE c.cartId.customerId = :customerId";
+	        String hql = "SELECT c.cartId.customerId, c.cartId.productId, c.quantity, p.name, p.price, p.image FROM Cart c JOIN c.product p WHERE c.cartId.customerId = :customerId";
 	        Query query = session.createQuery(hql);
 	        query.setParameter("customerId", customerId);
 	        List<Object[]> results = query.list();
 	        tx.commit();
 	        
 	        return results;
+	    } catch (Exception e) {
+	        if (tx != null) tx.rollback();
+	        throw e;  
+	    } finally {
+	        session.close();
+	    }
+	}
+	
+	public void addToCart(Integer customerId, Integer productId, Integer quantity) {
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        Cart cart = new Cart(new CartId(customerId, productId), quantity);
+	        session.save(cart);
 	    } catch (Exception e) {
 	        if (tx != null) tx.rollback();
 	        throw e;  

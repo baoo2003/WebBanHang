@@ -33,6 +33,11 @@ public class Cart {
         this.quantity = 0; // Default quantity
 	}
 	
+	public Cart(CartId cartId, Integer quantity) {
+		this.cartId = cartId; // Ensure the ID is never null
+        this.quantity = quantity; // Default quantity
+	}
+	
 	public CartId getCartId() {
 		return cartId;
 	}
