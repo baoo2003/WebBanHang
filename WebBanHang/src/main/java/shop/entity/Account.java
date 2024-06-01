@@ -24,6 +24,8 @@ public class Account {
 	private Role role;
 	@OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
 	private Customer customer;
+	@OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+	private Staff staff;
 	
 	public Account() {}
 
@@ -71,4 +73,12 @@ public class Account {
     public int hashCode() {
         return Objects.hash(username, password);
     }
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
 }

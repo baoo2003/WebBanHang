@@ -2,7 +2,12 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path=""/>
-			<bean class="shop.interceptor.SercurityInterceptor" />
+			<bean class="shop.interceptor.SecurityCustomerInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/home.htm"/>
+			<bean class="shop.interceptor.SecurityAdminInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

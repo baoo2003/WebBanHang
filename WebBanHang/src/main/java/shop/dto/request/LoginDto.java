@@ -1,11 +1,11 @@
 package shop.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class LoginDto {
-	@NotBlank(message = "This field is required")
+	@NotNull(message = "This field is required")
 	private String username;
-	@NotBlank(message = "This field is required")
+	@NotNull(message = "This field is required")
 	private String password;
 	
 	public LoginDto() {}

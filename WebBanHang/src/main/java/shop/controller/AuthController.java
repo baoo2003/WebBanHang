@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import shop.dto.request.LoginDto;
 import shop.dto.request.RegisterDto;
-import shop.entity.Customer;
+import shop.dto.response.LoginResponse;
 import shop.service.AuthService;
 import shop.service.CustomerService;
 
@@ -27,7 +27,13 @@ public class AuthController {
 	CustomerService customerService;
 	
 	@RequestMapping("/login")
-	public String login(ModelMap model) {
+	public String login(ModelMap model, HttpSession session) {
+		String loginMessage = (String) session.getAttribute("loginMessage");
+		if (loginMessage != null) {
+			model.addAttribute("message", loginMessage);
+			session.removeAttribute("loginMessage");
+		}
+		
 		model.addAttribute("login", new LoginDto());
 		return "login";
 	}
@@ -42,13 +48,20 @@ public class AuthController {
 			return "login";
 		}
 		
-		Integer customerId = authService.login(loginDto);
+		LoginResponse loginResponse = authService.login(loginDto);
 		
-		if (customerId == null) {
+		if (loginResponse.getUserId() == null) {
 			return "login";
 		}
-		session.setAttribute("customerId", customerId);
-		return "redirect:/home.htm";
+		
+		session.setAttribute("userId", loginResponse.getUserId());
+		session.setAttribute("roleId", loginResponse.getRoleId());
+		
+		if (loginResponse.getRoleId().equalsIgnoreCase("KH")) {
+			return "redirect:/product.htm";
+		} else {
+			return "redirect:/home.htm";
+		}
 	}
 	
 	@RequestMapping("/register")
@@ -67,22 +80,11 @@ public class AuthController {
 			return "register";
 		}
 		
-		String accountId = authService.register(registerDto);
-		
-		if (accountId == null) {
+		try {
+			authService.register(registerDto);
+		} catch (Exception e) {
 			return "register";
 		}
-		
-		Customer customer = new Customer();
-		customer.setFirstName(registerDto.getFirstName());
-		customer.setLastName(registerDto.getLastName());
-		customer.setGender(registerDto.getGender());
-		customer.setAddress(registerDto.getAddress());
-		customer.setPhoneNumber(registerDto.getPhoneNumber());
-		customer.setEmail(registerDto.getEmail());
-		
-		customerService.addCustomer(accountId, customer);
-		
 		return "redirect:/login.htm";
 	}
 }
