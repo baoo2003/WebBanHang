@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class SercurityInterceptor extends HandlerInterceptorAdapter {
+public class SecurityCustomerInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(
 		HttpServletRequest request,
@@ -15,7 +15,8 @@ public class SercurityInterceptor extends HandlerInterceptorAdapter {
 	) throws Exception {
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("customerId") == null) {
+		if (session.getAttribute("userId") == null) {
+			session.setAttribute("loginMessage", "Please log in to continue");
 			response.sendRedirect(request.getContextPath() + "/login.htm");
 			return false;
 		}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +47,6 @@
             <div class="spinner-grow text-primary" role="status"></div>
         </div>
         <!-- Spinner End -->
-
 
         <!-- Navbar start -->
         <div class="container-fluid fixed-top">
@@ -132,7 +132,10 @@
             </ol>
         </div>
         <!-- Single Page Header End -->
-
+        
+        <c:if test="${not empty message}">
+        	<div class="alert alert-warning text-center">${message}</div>
+        </c:if>
 
         <!-- Contact Start -->
         <div class="container-fluid contact py-5">
