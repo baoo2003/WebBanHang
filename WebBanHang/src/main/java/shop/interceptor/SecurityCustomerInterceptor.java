@@ -15,7 +15,9 @@ public class SecurityCustomerInterceptor extends HandlerInterceptorAdapter {
 	) throws Exception {
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("userId") == null) {
+		String roleId = (String) session.getAttribute("roleId");
+		
+		if (session.getAttribute("userId") == null || !roleId.equalsIgnoreCase("KH")) {
 			session.setAttribute("loginMessage", "Please log in to continue");
 			response.sendRedirect(request.getContextPath() + "/login.htm");
 			return false;
