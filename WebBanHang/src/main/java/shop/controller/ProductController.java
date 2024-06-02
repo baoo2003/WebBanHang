@@ -19,7 +19,7 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
-	@RequestMapping("/product")
+	@RequestMapping("/home")
 	public String index(ModelMap model, @RequestParam(value="categoryId", required=false) Integer categoryId, 
 						@RequestParam(value="pageActive",defaultValue="1", required=false) Long pageNumber, 
 						@RequestParam(value="startPage", defaultValue="1", required=false) Long startPage, 
