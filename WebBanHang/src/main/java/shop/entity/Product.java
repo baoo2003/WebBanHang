@@ -49,13 +49,16 @@ public class Product {
 	@Column(name = "DONGIA")
 	private Float price;
 	
+	@Column(name = "GIAMGIA")
+	private Integer discount;
+	
 	public Product() {
 		super();
 	}
 	
 	public Product(Integer id, String name, String sku, Brand brand, 
 			Category category, String describe, String origin, String image,
-			Boolean status, String unit, Integer quantity, Float price) {
+			Boolean status, String unit, Integer quantity, Float price, Integer discount) {
 		this.id = id;
 		this.name = name;
 		this.sku=sku;
@@ -68,6 +71,7 @@ public class Product {
 		this.unit = unit;
 		this.quantity = quantity;
 		this.price = price;
+		this.discount = discount;
 	}
 	
 	public Integer getId() {
@@ -162,5 +166,13 @@ public class Product {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
 	}
 }

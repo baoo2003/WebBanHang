@@ -23,16 +23,19 @@ public class ProductService {
 		if(categoryId == null) {
 			switch (filterId) {
 				case 1: 
-					hql = "FROM Product p WHERE p.price<=10";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10";
 					break;
 				case 2:
-					hql = "FROM Product p WHERE p.price>10 and p.price<=50";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50";
 					break;
 				case 3:
-					hql = "FROM Product p WHERE p.price>50 and p.price<=100";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100";
 					break;
 				case 4:
-					hql = "FROM Product p WHERE p.price>100";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100";
+					break;
+				case 5:
+					hql = "FROM Product p WHERE p.discount>0";
 					break;
 				default:
 					hql = "FROM Product";
@@ -44,16 +47,19 @@ public class ProductService {
 		else {
 			switch (filterId) {
 			case 1: 
-				hql = "FROM Product p WHERE p.price<=10 and p.category.id = :categoryId";
+				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId";
 				break;
 			case 2:
-				hql = "FROM Product p WHERE p.price>10 and p.price<=50 and p.category.id = :categoryId";
+				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId";
 				break;
 			case 3:
-				hql = "FROM Product p WHERE p.price>50 and p.price<=100 and p.category.id = :categoryId";
+				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId";
 				break;
 			case 4:
-				hql = "FROM Product p WHERE p.price>100 and p.category.id = :categoryId";
+				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId";
+				break;
+			case 5:
+				hql = "FROM Product p WHERE p.discount>0 and p.category.id = :categoryId";
 				break;
 			default:
 				hql = "FROM Product p WHERE p.category.id = :categoryId";
@@ -80,16 +86,19 @@ public class ProductService {
 		if(categoryId == null) {
 			switch (filterId) {
 			case 1: 
-				hql = "SELECT COUNT(id) FROM Product p WHERE p.price<=10";
+				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10";
 				break;
 			case 2:
-				hql = "SELECT COUNT(id) FROM Product p WHERE p.price>10 and p.price<=50";
+				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50";
 				break;
 			case 3:
-				hql = "SELECT COUNT(id) FROM Product p WHERE p.price>50 and p.price<=100";
+				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100";
 				break;
 			case 4:
-				hql = "SELECT COUNT(id) FROM Product p WHERE p.price>100";
+				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100";
+				break;
+			case 5:
+				hql = "SELECT COUNT(id) FROM Product p WHERE p.discount>0";
 				break;
 			default:
 				hql = "SELECT COUNT(id) FROM Product";
@@ -99,16 +108,19 @@ public class ProductService {
 		else {
 			switch (filterId) {
 			case 1: 
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.price<=10 and p.category.id = :categoryId";
+				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId";
 				break;
 			case 2:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.price>10 and p.price<=50 and p.category.id = :categoryId";
+				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId";
 				break;
 			case 3:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.price>50 and p.price<=100 and p.category.id = :categoryId";
+				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId";
 				break;
 			case 4:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.price>100 and p.category.id = :categoryId";
+				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId";
+				break;
+			case 5:
+				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.discount>0 and p.category.id = :categoryId";
 				break;
 			default:
 				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.category.id = :categoryId";
@@ -117,5 +129,13 @@ public class ProductService {
 			query.setParameter("categoryId", categoryId);
 		}
 		return (Long) query.uniqueResult();
+	}
+	
+	public Product findById(Integer productId) {
+		Session session = factory.openSession();
+		String hql="FROM Product p WHERE p.id = :productId";	
+		Query query=session.createQuery(hql);
+		query.setParameter("productId", productId);
+		return (Product) query.uniqueResult();
 	}
 }

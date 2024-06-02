@@ -64,8 +64,8 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="home.htm" class="nav-item nav-link">Home</a>
-                            <a href="product.htm" class="nav-item nav-link">Product</a>
-                            <a href="product-detail.htm" class="nav-item nav-link">Product Detail</a>
+                            <!-- <a href="product.htm" class="nav-item nav-link">Product</a>
+                            <a href="product-detail.htm" class="nav-item nav-link">Product Detail</a> -->
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">

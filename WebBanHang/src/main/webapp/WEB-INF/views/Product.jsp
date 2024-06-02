@@ -80,9 +80,9 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="home.htm" class="nav-item nav-link">Home</a>
-                            <a href="product.htm" class="nav-item nav-link active">Product</a>
-                            <a href="product-detail.htm" class="nav-item nav-link">Product Detail</a>
+                            <!-- <a href="home.htm" class="nav-item nav-link">Home</a> -->
+                            <a href="home.htm" class="nav-item nav-link active">Home</a>
+                            <!-- <a href="product-detail.htm" class="nav-item nav-link">Product Detail</a> -->
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -156,14 +156,14 @@
                                 </div>
                             </div>
                             <div class="col-6"></div>
-                            <div class="col-xl-3">
+                           		<div class="col-xl-3">
                                 <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                     <label for="fruits">Default Sorting:</label>
                                     <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                        <option value="volvo">Nothing</option>
-                                        <option value="saab">Popularity</option>
+                                        <!-- <option value="volvo">Nothing</option>
+                                        <option value="saab">Popularity</option> -->
                                         <option value="opel">Organic</option>
-                                        <option value="audi">Fantastic</option>
+                                        <!-- <option value="audi">Fantastic</option> -->
                                     </select>
                                 </div>
                             </div>
@@ -179,10 +179,10 @@
                                             	<li>                                      
 	                                            	<div class="d-flex justify-content-between fruite-name active">
 	                                            		<c:if test="${empty categoryActive}">
-    														<a href="product.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>All</a>
+    														<a href="home.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>All</a>
 														</c:if>
 														<c:if test="${not empty categoryActive}">
-    														<a href="product.htm"><i class="fas me-2"></i>All</a>
+    														<a href="home.htm"><i class="fas me-2"></i>All</a>
 														</c:if>															                                           		                        	                                                		                        
 	                                                </div>
                                                 </li> 
@@ -190,10 +190,10 @@
 											    	<li>
 	                                                    <div class="d-flex justify-content-between fruite-name">
 	                                                    	<c:if test="${categoryActive eq category.id}">														   
-														   		<a href="${requestScope['javax.servlet.forward.request_uri']}?categoryId=${category.id}" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
+														   		<a href="javascript:void(0);" onclick="appendParam('categoryId',${category.id})" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>${category.name}</a>
 															</c:if>
 															<c:if test="${categoryActive != category.id}">														   
-														   		<a href="${requestScope['javax.servlet.forward.request_uri']}?categoryId=${category.id}"><i class="fas me-2"></i>${category.name}</a>
+														   		<a href="javascript:void(0);" onclick="appendParam('categoryId',${category.id})"><i class="fas me-2"></i>${category.name}</a>
 															</c:if>														    	                                                	                        
 	                                                    </div>
                                                 	</li>            	
@@ -205,7 +205,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <h4 class="mb-2">Price</h4>
-                                            <form action="product.htm" method="get">
+                                            <form action="home.htm" method="get">
                                             <div class="mb-2">
                                             	<c:if test="${filterActive == 0}">	
                                                 	<input type="radio" class="me-2" id="Categories-0" name="filterByPrice" value="0" onclick="appendParam('filterByPrice',0)" checked="true">
@@ -259,74 +259,12 @@
                                                 <c:if test="${filterActive != 5}">
                                                 	<input type="radio" class="me-2" id="Categories-5" name="filterByPrice" value="5" onclick="appendParam('filterByPrice',5)">
                                                 </c:if>
-                                                <label for="Categories-5"> Sales</label>
-                                            </div>  
+                                                <label for="Categories-5"> Discount</label>
+                                            </div>
                                             </form>  
                                         </div>
                                     </div>                             
-                                    <div class="col-lg-12">
-                                        <h4 class="mb-3">Featured products</h4>
-                                        <div class="d-flex align-items-center justify-content-start">
-                                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                                <img src="img/featur-1.jpg" class="img-fluid rounded" alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-2">Big Banana</h6>
-                                                <div class="d-flex mb-2">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="d-flex mb-2">
-                                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-start">
-                                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                                <img src="img/featur-2.jpg" class="img-fluid rounded" alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-2">Big Banana</h6>
-                                                <div class="d-flex mb-2">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="d-flex mb-2">
-                                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-start">
-                                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                                <img src="img/featur-3.jpg" class="img-fluid rounded" alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-2">Big Banana</h6>
-                                                <div class="d-flex mb-2">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="d-flex mb-2">
-                                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center my-4">
-                                            <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-lg-12">
                                         <div class="position-relative">
                                             <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
@@ -340,7 +278,7 @@
                             <div class="col-lg-9">
                                 <div class="row g-4 justify-content-center">                                	
                                 	<c:forEach var="product" items="${products}">
-										<div class="col-md-6 col-lg-6 col-xl-4" onclick="window.location.href='product-detail.htm';" style="cursor: pointer;">
+										<div class="col-md-6 col-lg-6 col-xl-4" onclick="window.location.href='product-detail.htm?productId=${product.id}';" style="cursor: pointer;">
 	                                        <div class="rounded position-relative fruite-item" style="bottom: 0px;">
 	                                            <div class="fruite-img">
 	                                                <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
@@ -350,7 +288,8 @@
 	                                                <h4>${product.name}</h4>
 	                                                <p>${product.describe}</p>
 	                                                <div class="d-flex justify-content-between flex-lg-wrap">
-	                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price} / ${product.unit}</p>
+	                                                	<c:if test="${product.discount == 0}"><p class="text-dark fs-5 fw-bold mb-0">$${product.price} / ${product.unit}</p></c:if>
+	                                                    <c:if test="${product.discount != 0}"><p class="text-dark fs-5 fw-bold mb-0">$${product.price*(1-(product.discount/100.0))} <span class="text-danger text-decoration-line-through">${product.price}</span>  / ${product.unit}</p></c:if>
 	                                                    
 	                                                    <form action="addToCart.htm" method = "post">
 	                                                    <input type="hidden" name="productId" value="${product.id}"/>
@@ -364,12 +303,12 @@
                                 </div>
                                 <div class="col-12">                                
                                         <div class="pagination d-flex justify-content-center mt-5">
-                                        	<c:if test="${pageActive > 6}"><a href="product.htm?startPage=${startPage - 6}" class="rounded">&laquo;</a></c:if>                                            
+                                        	<c:if test="${pageActive > 6}"><a href="home.htm?startPage=${startPage - 6}" class="rounded">&laquo;</a></c:if>                                            
                                             <c:forEach var="i" begin="${startPage}" end="${endPage}">
                                 				<c:if test="${pageActive == i}"><a href="#" class="active rounded">${i}</a></c:if>
-                                				<c:if test="${pageActive != i}"><a href="product.htm?pageActive=${i}" class="rounded">${i}</a></c:if>
+                                				<c:if test="${pageActive != i}"><a href="home.htm?pageActive=${i}" class="rounded">${i}</a></c:if>
                                 			</c:forEach>                       
-                                			<c:if test="${endPage < maxPage}"><a href="product.htm?startPage=${endPage + 1}" class="rounded">&raquo;</a></c:if>                                                                         
+                                			<c:if test="${endPage < maxPage}"><a href="home.htm?startPage=${endPage + 1}" class="rounded">&raquo;</a></c:if>                                                                         
                                         </div>
                                 </div>
                             </div>
