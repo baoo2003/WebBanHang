@@ -17,7 +17,7 @@ public class SecurityAdminInterceptor extends HandlerInterceptorAdapter {
 		
 		String roleId = (String) session.getAttribute("roleId");
 		
-		if (!(roleId.equalsIgnoreCase("QL") || roleId.equalsIgnoreCase("NV"))) {
+		if (roleId == null || !(roleId.equalsIgnoreCase("QL") || roleId.equalsIgnoreCase("NV"))) {
 			session.setAttribute("loginMessage", "Please log in to continue");
 			response.sendRedirect(request.getContextPath() + "/login.htm");
 			return false;

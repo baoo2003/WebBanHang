@@ -26,7 +26,7 @@ public class CartController {
 	
 	@RequestMapping("/cart")
 	public String index(ModelMap model, HttpSession session) {
-		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		Integer customerIdInt = (Integer) session.getAttribute("userId");
         List<Object[]> cartDetails = cartService.getCartAndProductDetailsByCustomer(customerIdInt);
         List<Map<String, Object>> carts = new ArrayList<>();
         for (Object[] detail : cartDetails) {
@@ -57,7 +57,7 @@ public class CartController {
 	public String addToCart(HttpSession session,
 			@RequestParam("productId") Integer productId) {
 		
-		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		Integer customerIdInt = (Integer) session.getAttribute("userId");
 		if (customerIdInt == null) {
             return "redirect:/login"; // Redirect to login if customer is not logged in
         }
@@ -72,7 +72,7 @@ public class CartController {
 							@RequestParam("productId") Integer productId,
 							@RequestParam("quantity") Integer quantity) {
 		
-		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		Integer customerIdInt = (Integer) session.getAttribute("userId");
 		System.out.print(quantity);
 		if (customerIdInt == null) {
             return "redirect:/login"; // Redirect to login if customer is not logged in
