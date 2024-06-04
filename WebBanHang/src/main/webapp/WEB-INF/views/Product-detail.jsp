@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -371,6 +373,8 @@
                 <h1 class="fw-bold mb-0">Related products</h1>
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
+                    	<c:forEach var="product" items="${products}">
+                    	</c:forEach>
                         <div class="border border-primary rounded position-relative vesitable-item">
                             <div class="vesitable-img">
                                 <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
