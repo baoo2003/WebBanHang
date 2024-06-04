@@ -74,7 +74,7 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="Home.htm" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="home.htm" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
@@ -99,9 +99,15 @@
                             <a href="cart.htm" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <div class=" nav-item dropdown">
+                            	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                	<i class="fas fa-user fa-2x"></i>
+                            	</a>
+                            	<div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                    <a href="login.htm" class="dropdown-item">Login</a>
+                                    <a href="register.htm" class="dropdown-item">Register</a>                                  
+                                </div>
+                            </div>                                               
                         </div>
                     </div>
                 </nav>
@@ -151,8 +157,8 @@
                         <div class="row g-4">
                             <div class="col-xl-3">
                                 <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                    <input type="search" id="search-input" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1" value="${keyWord}">
+                                    <span id="search-icon-1" class="input-group-text p-3" onclick="appendParam('keyWord',document.getElementById('search-input').value);"><i class="fa fa-search"></i></span>
                                 </div>
                             </div>
                             <div class="col-6"></div>
@@ -381,9 +387,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-item">
                             <h4 class="text-light mb-3">Contact</h4>
-                            <p>Address: 1429 Netus Rd, NY 48247</p>
-                            <p>Email: Example@gmail.com</p>
-                            <p>Phone: +0123 4567 8910</p>
+                            <p>Address: 97 Man Thien Street, Thu Duc City</p>
+                            <p>Email: vuquocbao673@gmail.com</p>
+                            <p>Phone: +84964949942</p>
                             <p>Payment Accepted</p>
                             <img src="img/payment.png" class="img-fluid" alt="">
                         </div>
@@ -404,7 +410,7 @@
                         <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
                         <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
                         <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                        Designed By <a class="border-bottom" href="https://github.com/baoo2003">Group 15</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
                     </div>
                 </div>
             </div>

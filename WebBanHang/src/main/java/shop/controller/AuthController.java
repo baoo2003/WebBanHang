@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jakarta.validation.Valid;
 import shop.dto.request.LoginDto;
 import shop.dto.request.RegisterDto;
 import shop.dto.response.LoginResponse;
@@ -40,7 +41,7 @@ public class AuthController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(
-		@Validated @ModelAttribute("login") LoginDto loginDto,
+		@Valid @ModelAttribute("login") LoginDto loginDto,
 		HttpSession session,
 		BindingResult errors
 	) {

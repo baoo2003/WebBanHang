@@ -59,7 +59,7 @@ public class CartController {
 		
 		Integer customerIdInt = (Integer) session.getAttribute("userId");
 		if (customerIdInt == null) {
-            return "redirect:/login"; // Redirect to login if customer is not logged in
+            return "redirect:/login.htm"; 
         }
 		cartService.addToCart(customerIdInt, productId, 1);
 		

@@ -22,13 +22,13 @@ public class ProductController {
 	@RequestMapping("/home")
 	public String index(ModelMap model, @RequestParam(value="categoryId", required=false) Integer categoryId, 
 						@RequestParam(value="pageActive",defaultValue="1", required=false) Long pageNumber, 
-						@RequestParam(value="startPage", defaultValue="1", required=false) Long startPage, 
-						@RequestParam(value="endPage", required=false) Long endPage,
-						@RequestParam(value="maxPage", required=false) Long maxPage, 
-						@RequestParam(value="filterByPrice", defaultValue="0", required=false) Integer filterId) {
-		Long numRecord=productService.countRecord(categoryId, filterId);
+						@RequestParam(value="startPage", defaultValue="1", required=false) Long startPage, 					
+						@RequestParam(value="filterByPrice", defaultValue="0", required=false) Integer filterId, 
+						@RequestParam(value="keyWord", defaultValue="", required=false) String keyWord) {
+		Long endPage;
+		Long numRecord=productService.countRecord(categoryId, filterId, keyWord);
 		if(pageNumber<startPage) pageNumber=startPage;
-		List<Product> products = productService.getProducts(pageNumber, 9, categoryId, filterId);
+		List<Product> products = productService.getProducts(pageNumber, 9, categoryId, filterId, keyWord);
 		model.addAttribute("products", products);
 		List<Category> categories = productService.getCategories();
 		model.addAttribute("categories", categories);
@@ -41,17 +41,9 @@ public class ProductController {
 		model.addAttribute("maxPage", maxPage1);
 		model.addAttribute("pageActive", pageNumber);
 		model.addAttribute("filterActive", filterId);
+		if (keyWord != null) {
+			model.addAttribute("keyWord", keyWord);
+		}		
 		return "Product";
 	}
-
-//    @RequestMapping("/product-{id}")
-//    public String index2(ModelMap model, @PathVariable("id") String id) {
-//    	if(id.equals("All")) return "Product";
-//    	model.addAttribute("categoryActive", id);
-//    	List<Product> products = productService.getProducts(0, 9);
-//		model.addAttribute("products", products);
-//		List<Category> categories = productService.getCategories();
-//		model.addAttribute("categories", categories);
-//		return "Product";
-//    }
 }

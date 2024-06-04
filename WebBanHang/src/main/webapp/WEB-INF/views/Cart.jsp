@@ -307,9 +307,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-item">
                             <h4 class="text-light mb-3">Contact</h4>
-                            <p>Address: 1429 Netus Rd, NY 48247</p>
-                            <p>Email: Example@gmail.com</p>
-                            <p>Phone: +0123 4567 8910</p>
+                            <p>Address: 97 Man Thien Street, Thu Duc City</p>
+                            <p>Email: vuquocbao673@gmail.com</p>
+                            <p>Phone: +84964949942</p>
                             <p>Payment Accepted</p>
                             <img src="img/payment.png" class="img-fluid" alt="">
                         </div>
@@ -330,7 +330,7 @@
                         <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
                         <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
                         <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                        Designed By <a class="border-bottom" href="https://github.com/baoo2003">Group 15</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
                     </div>
                 </div>
             </div>

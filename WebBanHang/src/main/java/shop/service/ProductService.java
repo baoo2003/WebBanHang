@@ -16,59 +16,115 @@ public class ProductService {
 	@Autowired
 	SessionFactory factory;
 	
-	public List<Product> getProducts(Long page, int limit, Integer categoryId, Integer filterId) {
+	public List<Product> getProducts(Long page, int limit, Integer categoryId, Integer filterId, String keyWord) {
 		Session session = factory.openSession();
 		String hql;	
 		Query query;
-		if(categoryId == null) {
-			switch (filterId) {
+		if(keyWord == null || keyWord.isEmpty() || keyWord.isBlank()) {
+			if(categoryId == null) {
+				switch (filterId) {
+					case 1: 
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10";
+						break;
+					case 2:
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50";
+						break;
+					case 3:
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100";
+						break;
+					case 4:
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100";
+						break;
+					case 5:
+						hql = "FROM Product p WHERE p.discount>0";
+						break;
+					default:
+						hql = "FROM Product";
+				}
+				query = session.createQuery(hql);
+				query.setFirstResult((int) ((page-1) * limit));
+				query.setMaxResults(limit);
+			}
+			else {
+				switch (filterId) {
 				case 1: 
-					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId";
 					break;
 				case 2:
-					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId";
 					break;
 				case 3:
-					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId";
 					break;
 				case 4:
-					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100";
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId";
 					break;
 				case 5:
-					hql = "FROM Product p WHERE p.discount>0";
+					hql = "FROM Product p WHERE p.discount>0 and p.category.id = :categoryId";
 					break;
 				default:
-					hql = "FROM Product";
+					hql = "FROM Product p WHERE p.category.id = :categoryId";
+				}
+				query = session.createQuery(hql);
+				query.setParameter("categoryId", categoryId);
+				query.setFirstResult((int) ((page-1) * limit));
+				query.setMaxResults(limit);
 			}
-			query = session.createQuery(hql);
-			query.setFirstResult((int) ((page-1) * limit));
-			query.setMaxResults(limit);
 		}
 		else {
-			switch (filterId) {
-			case 1: 
-				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId";
-				break;
-			case 2:
-				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId";
-				break;
-			case 3:
-				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId";
-				break;
-			case 4:
-				hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId";
-				break;
-			case 5:
-				hql = "FROM Product p WHERE p.discount>0 and p.category.id = :categoryId";
-				break;
-			default:
-				hql = "FROM Product p WHERE p.category.id = :categoryId";
+			if(categoryId == null) {
+				switch (filterId) {
+					case 1: 
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.name LIKE CONCAT('%', :keyWord, '%')";
+						break;
+					case 2:
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.name LIKE CONCAT('%', :keyWord, '%')";
+						break;
+					case 3:
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.name LIKE CONCAT('%', :keyWord, '%')";
+						break;
+					case 4:
+						hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.name LIKE CONCAT('%', :keyWord, '%')";
+						break;
+					case 5:
+						hql = "FROM Product p WHERE p.discount>0 and p.name LIKE CONCAT('%', :keyWord, '%')";
+						break;
+					default:
+						hql = "FROM Product p WHERE p.name LIKE CONCAT('%', :keyWord, '%')";
+				}
+				query = session.createQuery(hql);
+				query.setParameter("keyWord", keyWord);
+				query.setFirstResult((int) ((page-1) * limit));
+				query.setMaxResults(limit);
 			}
-			query = session.createQuery(hql);
-			query.setParameter("categoryId", categoryId);
-			query.setFirstResult((int) ((page-1) * limit));
-			query.setMaxResults(limit);
+			else {
+				switch (filterId) {
+				case 1: 
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 2:
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 3:
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 4:
+					hql = "FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 5:
+					hql = "FROM Product p WHERE p.discount>0 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				default:
+					hql = "FROM Product p WHERE p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+				}
+				query = session.createQuery(hql);
+				query.setParameter("categoryId", categoryId);
+				query.setParameter("keyWord", keyWord);
+				query.setFirstResult((int) ((page-1) * limit));
+				query.setMaxResults(limit);
+			}
 		}
+		
 		return query.list();
 	}
 	
@@ -79,55 +135,107 @@ public class ProductService {
 		return query.list();
 	}
 	
-	public Long countRecord(Integer categoryId, Integer filterId) {
+	public Long countRecord(Integer categoryId, Integer filterId, String keyWord) {
 		Session session = factory.openSession();
 		String hql;
 		Query query;
-		if(categoryId == null) {
-			switch (filterId) {
-			case 1: 
-				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10";
-				break;
-			case 2:
-				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50";
-				break;
-			case 3:
-				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100";
-				break;
-			case 4:
-				hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100";
-				break;
-			case 5:
-				hql = "SELECT COUNT(id) FROM Product p WHERE p.discount>0";
-				break;
-			default:
-				hql = "SELECT COUNT(id) FROM Product";
+		if(keyWord == null || keyWord.isEmpty() || keyWord.isBlank()) {
+			if(categoryId == null) {
+				switch (filterId) {
+				case 1: 
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10";
+					break;
+				case 2:
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50";
+					break;
+				case 3:
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100";
+					break;
+				case 4:
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100";
+					break;
+				case 5:
+					hql = "SELECT COUNT(id) FROM Product p WHERE p.discount>0";
+					break;
+				default:
+					hql = "SELECT COUNT(id) FROM Product";
+				}
+				query = session.createQuery(hql);
 			}
-			query = session.createQuery(hql);
+			else {
+				switch (filterId) {
+				case 1: 
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId";
+					break;
+				case 2:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId";
+					break;
+				case 3:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId";
+					break;
+				case 4:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId";
+					break;
+				case 5:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE p.discount>0 and p.category.id = :categoryId";
+					break;
+				default:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE p.category.id = :categoryId";
+				}
+				query = session.createQuery(hql);
+				query.setParameter("categoryId", categoryId);
+			}
 		}
 		else {
-			switch (filterId) {
-			case 1: 
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId";
-				break;
-			case 2:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId";
-				break;
-			case 3:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId";
-				break;
-			case 4:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId";
-				break;
-			case 5:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.discount>0 and p.category.id = :categoryId";
-				break;
-			default:
-				hql = "SELECT COUNT(p.id) FROM Product p WHERE p.category.id = :categoryId";
+			if(categoryId == null) {
+				switch (filterId) {
+				case 1: 
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 2:
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 3:
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 4:
+					hql = "SELECT COUNT(id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 5:
+					hql = "SELECT COUNT(id) FROM Product p WHERE p.discount>0 and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				default:
+					hql = "SELECT COUNT(id) FROM Product p WHERE p.name LIKE CONCAT('%', :keyWord, '%')";
+				}
+				query = session.createQuery(hql);
+				query.setParameter("keyWord", keyWord);
 			}
-			query = session.createQuery(hql);
-			query.setParameter("categoryId", categoryId);
+			else {
+				switch (filterId) {
+				case 1: 
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))<=10 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 2:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>10 and (p.price*(1-(p.discount/100.0)))<=50 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 3:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>50 and (p.price*(1-(p.discount/100.0)))<=100 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 4:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE (p.price*(1-(p.discount/100.0)))>100 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				case 5:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE p.discount>0 and p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+					break;
+				default:
+					hql = "SELECT COUNT(p.id) FROM Product p WHERE p.category.id = :categoryId and p.name LIKE CONCAT('%', :keyWord, '%')";
+				}
+				query = session.createQuery(hql);
+				query.setParameter("categoryId", categoryId);
+				query.setParameter("keyWord", keyWord);
+			}
 		}
+		
 		return (Long) query.uniqueResult();
 	}
 	

@@ -6,7 +6,7 @@
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
-			<mvc:mapping path="/home.htm"/>
+			<mvc:mapping path=""/>
 			<bean class="shop.interceptor.SecurityAdminInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
