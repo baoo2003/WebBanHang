@@ -1,5 +1,7 @@
 package shop.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +20,8 @@ public class ProductDetailController {
 	@RequestMapping()
 	public String ShopDetail(ModelMap model, @RequestParam(value="productId", required=false) Integer productId) {
 		Product product= productService.findById(productId);
+		List<Product> relatedProducts=productService.getRelatedProducts(product.getCategory().getId());
+		model.addAttribute("relatedProducts", relatedProducts);
 		model.addAttribute("product",product);
 		return "Product-detail";
 	}

@@ -246,4 +246,12 @@ public class ProductService {
 		query.setParameter("productId", productId);
 		return (Product) query.uniqueResult();
 	}
+	
+	public List<Product> getRelatedProducts(Integer categoryId) {
+		Session session = factory.openSession();
+		String hql="FROM Product p WHERE p.category.id = :categoryId";	
+		Query query=session.createQuery(hql);
+		query.setParameter("categoryId", categoryId);
+		return query.list();
+	}
 }
