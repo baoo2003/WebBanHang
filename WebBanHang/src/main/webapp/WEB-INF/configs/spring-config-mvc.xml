@@ -19,6 +19,8 @@
 	<context:annotation-config />
 	<mvc:annotation-driven/>
 	
+	<mvc:resources location="/resources/**" mapping="/resources" />
+	
 	<!-- Cấu hình view -->
 	<bean id="viewResolver" 
 		p:prefix="/WEB-INF/views/" p:suffix=".jsp"
