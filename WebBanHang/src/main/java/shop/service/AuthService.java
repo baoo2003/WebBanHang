@@ -2,6 +2,7 @@ package shop.service;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,7 +22,7 @@ public class AuthService {
 	@Autowired
 	SessionFactory factory;
 	
-	public LoginResponse login(LoginDto loginDto) {
+	public LoginResponse login(LoginDto loginDto) throws Exception {
 		Session session = factory.openSession();
 		String hql = "FROM Account WHERE username = :username AND password = :password";
 		Query query = session.createQuery(hql);
@@ -31,6 +32,10 @@ public class AuthService {
 	    
 	    LoginResponse loginResponse = new LoginResponse();
 	    Account account = (Account) query.uniqueResult();
+	    
+	    if (account == null) {
+	    	throw new Exception("Wrong username or password");
+	    }
 	    
 	    if (account.getRole().getId().equalsIgnoreCase("KH")) {
 	    	Integer customerId = loginForCustomer(session, loginDto.getUsername());
@@ -68,10 +73,13 @@ public class AuthService {
 			session.save(customer);
 			
 			transaction.commit();
+		} catch (NonUniqueObjectException e) {
+			transaction.rollback();
+			throw new Exception("Username already existed!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
-			throw e;
+			throw new Exception("Error while register. Please try again!");
 		} finally {
 			session.close();
 		}
