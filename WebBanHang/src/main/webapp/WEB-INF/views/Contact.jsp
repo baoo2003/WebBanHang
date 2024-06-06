@@ -78,7 +78,7 @@
                             <a href="contact.htm" class="nav-item nav-link active">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                            <!-- <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button> -->
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
@@ -94,7 +94,7 @@
         <!-- Navbar End -->
 
 
-        <!-- Modal Search Start -->
+        <!-- <!-- Modal Search Start -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content rounded-0">
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal Search End -->
+        Modal Search End -->
 
 
         <!-- Single Page Header start -->
@@ -133,17 +133,17 @@
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="text-center mx-auto" style="max-width: 700px;">
-                                <h1 class="text-primary">Get in touch</h1>
-                                <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
+                                <h1 class="text-primary">Get contact</h1>
+                                <p class="mb-4">If you would like to get in touch with us, please get in touch via the information below!</p>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="h-100 rounded">
                                 <iframe class="rounded w-100" 
-                                style="height: 400px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387191.33750346623!2d-73.97968099999999!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1694259649153!5m2!1sen!2sbd" 
+                                style="height: 400px;" src="https://www.google.com/maps/embed?pb=!4m6!3m5!1s0x31752772b245dff1:0xb838977f3d419d!8m2!3d10.847987!4d106.7866647!16s%2Fm%2F0119w781" 
                                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-7">
                             <form action="" class="">
                                 <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
@@ -157,21 +157,21 @@
                                 <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
                                 <div>
                                     <h4>Address</h4>
-                                    <p class="mb-2">123 Street New York.USA</p>
+                                    <p class="mb-2">97 Man Thien Street, Thu Duc City</p>
                                 </div>
                             </div>
                             <div class="d-flex p-4 rounded mb-4 bg-white">
                                 <i class="fas fa-envelope fa-2x text-primary me-4"></i>
                                 <div>
                                     <h4>Mail Us</h4>
-                                    <p class="mb-2">info@example.com</p>
+                                    <p class="mb-2">vuquocbao673@gmail.com</p>
                                 </div>
                             </div>
                             <div class="d-flex p-4 rounded bg-white">
                                 <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
                                 <div>
                                     <h4>Telephone</h4>
-                                    <p class="mb-2">(+012) 3456 7890</p>
+                                    <p class="mb-2">(+84) 0964949942</p>
                                 </div>
                             </div>
                         </div>

@@ -95,7 +95,7 @@
                             <a href="contact.htm" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                            <!-- <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button> -->
                             <a href="cart.htm" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                             </a>
@@ -117,7 +117,7 @@
 
 
         <!-- Modal Search Start -->
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content rounded-0">
                     <div class="modal-header">
@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Modal Search End -->
 
 
@@ -162,16 +162,16 @@
                                 </div>
                             </div>
                             <div class="col-6"></div>
-                           		<div class="col-xl-3">
+                           		<!-- <div class="col-xl-3">
                                 <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                     <label for="fruits">Default Sorting:</label>
                                     <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                        <!-- <option value="volvo">Nothing</option>
-                                        <option value="saab">Popularity</option> -->
+                                        <option value="volvo">Nothing</option>
+                                        <option value="saab">Popularity</option>
                                         <option value="opel">Organic</option>
-                                        <!-- <option value="audi">Fantastic</option> -->
+                                        <option value="audi">Fantastic</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="row g-4">
