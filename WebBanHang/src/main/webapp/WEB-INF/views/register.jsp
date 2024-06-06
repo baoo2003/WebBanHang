@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +32,13 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        
+        <style>
+			.error {
+				color: red;
+				font-style: italic;
+			}
+		</style>
     </head>
 
     <body>
@@ -67,12 +74,12 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="home.htm" class="nav-item nav-link">Home</a>
-                            <!-- <a href="product.htm" class="nav-item nav-link">Product</a>
-                            <a href="product-detail.htm" class="nav-item nav-link">Product Detail</a> -->
+                            <!-- <a href="product.htm" class="nav-item nav-link">Product</a> -->
+                            <!-- <a href="product-detail.htm" class="nav-item nav-link">Product Detail</a> -->
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.htm" class="dropdown-item">Cart</a>
+                                    <a href="cart.htm" class="dropdown-item active">Cart</a>
                                     <a href="checkout.htm" class="dropdown-item">Checkout</a>
                                     <a href="testimonial.htm" class="dropdown-item">Testimonial</a>
                                     <a href="404.htm" class="dropdown-item">404 Page</a>
@@ -81,14 +88,19 @@
                             <a href="contact.htm" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="#" class="position-relative me-4 my-auto">
+                            <a href="cart.htm" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <span id="quantity-product" class=" position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <div class=" nav-item dropdown">
+                            	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                	<i class="fas fa-user fa-2x"></i>
+                            	</a>
+                            	<div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                    <a href="login.htm" class="dropdown-item">Login</a>
+		                            <a href="register.htm" class="dropdown-item">Register</a>                                   
+                                </div>
+                            </div>                                               
                         </div>
                     </div>
                 </nav>
@@ -127,6 +139,10 @@
             </ol>
         </div>
         <!-- Single Page Header End -->
+        
+        <c:if test="${not empty message}">
+        	<div class="alert alert-warning text-center">${message}</div>
+        </c:if>
 
 
         <!-- Contact Start -->
@@ -136,18 +152,24 @@
                     <div class="d-flex justify-content-center">
                         <div class="col-lg-7">
                             <form:form action="register.htm" method="post" modelAttribute="register">
-                                <form:input path="username" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Username" />
-                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your First Name" />
-                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Last Name" />
-                                <form:select path="gender" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Gender">
+                                <form:input path="username" type="text" class="w-100 form-control border-0 py-3" placeholder="Enter Your Username" />
+                                <form:errors path="username" cssClass="error" />
+                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your First Name" />
+                                <form:errors path="firstName" cssClass="error" />
+                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Last Name" />
+                                <form:errors path="lastName" cssClass="error" />
+                                <form:select path="gender" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Gender">
                                 	<form:option value="0">Female</form:option>
                                 	<form:option value="1">Male</form:option>
                                 </form:select>
-                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Address" />
-                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Phone Number" />
-                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email" />
-                                <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Password" />
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
+                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Address" />
+                                <form:errors path="address" cssClass="error" />
+                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Phone Number" />
+                                <form:errors path="phoneNumber" cssClass="error" />
+                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Email" />
+                                <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Password" />
+                                <form:errors path="password" cssClass="error" />
+                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Submit</button>
                             </form:form>
                             <br />
                             <span class="d-flex justify-content-center">

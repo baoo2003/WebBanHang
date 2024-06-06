@@ -1,5 +1,6 @@
 package shop.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +42,32 @@ public class AuthController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(
+		ModelMap model,
 		@Valid @ModelAttribute("login") LoginDto loginDto,
 		HttpSession session,
 		BindingResult errors
 	) {
-		if (errors.hasErrors()) {
+		boolean isValid = true;
+		if (loginDto.getUsername().isBlank()) {
+			errors.rejectValue("username", "login", "This field is required");
+			isValid = false;
+		}
+		if (loginDto.getPassword().isBlank()) {
+			errors.rejectValue("password", "login", "This field is required");
+			isValid = false;
+		}
+		
+		if (!isValid) {
 			return "login";
 		}
 		
-		LoginResponse loginResponse = authService.login(loginDto);
+		LoginResponse loginResponse = new LoginResponse();
+		try {
+			loginResponse = authService.login(loginDto);
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			return "login";
+		}
 		
 		if (loginResponse.getUserId() == null) {
 			return "login";
@@ -59,9 +77,10 @@ public class AuthController {
 		session.setAttribute("roleId", loginResponse.getRoleId());
 		
 		if (loginResponse.getRoleId().equalsIgnoreCase("KH")) {
-			return "redirect:/product.htm";
-		} else {
 			return "redirect:/home.htm";
+		} else {
+			// TODO: redirect to admin page
+			return "redirect:/404.htm";
 		}
 	}
 	
@@ -73,19 +92,55 @@ public class AuthController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(
+		ModelMap model,
 		@Validated @ModelAttribute("register") RegisterDto registerDto,
 		HttpSession session,
 		BindingResult errors
 	) {
-		if (errors.hasErrors()) {
+		boolean isValid = true;
+		if (registerDto.getUsername().isBlank()) {
+			errors.rejectValue("username", "login", "This field is required");
+			isValid = false;
+		}
+		if (registerDto.getFirstName().isBlank()) {
+			errors.rejectValue("username", "login", "This field is required");
+			isValid = false;
+		}
+		if (registerDto.getLastName().isBlank()) {
+			errors.rejectValue("username", "login", "This field is required");
+			isValid = false;
+		}
+		if (registerDto.getPhoneNumber().isBlank()) {
+			errors.rejectValue("username", "login", "This field is required");
+			isValid = false;
+		}
+		if (registerDto.getPassword().isBlank()) {
+			errors.rejectValue("password", "login", "This field is required");
+			isValid = false;
+		}
+		
+		if (!isValid) {
 			return "register";
+		}
+		
+		if (registerDto.getEmail().isBlank()) {
+			registerDto.setEmail(null);
 		}
 		
 		try {
 			authService.register(registerDto);
 		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
 			return "register";
 		}
 		return "redirect:/login.htm";
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logout(HttpSession session) {
+		session.removeAttribute("userId");
+		session.removeAttribute("roleId");
+
+		return "redirect:/home.htm";
 	}
 }
