@@ -72,9 +72,28 @@
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>                            
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <div class=" nav-item dropdown">
+                            	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                	<i class="fas fa-user fa-2x"></i>
+                            	</a>
+                            	<div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                	<c:choose>
+                        				<c:when test="${empty sessionScope.userId}">
+                        					<a href="login.htm" class="dropdown-item">Login</a>
+		                                	<a href="register.htm" class="dropdown-item">Register</a>
+		                       			</c:when>
+                       			
+		                       			<c:otherwise>
+			                            	<a href="profile.htm" class="dropdown-item">View profile</a>
+			                            	<a href="order.htm" class="dropdown-item">View orders</a>
+											<div class="dropdown-divider"></div>
+											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">
+												<button type="submit" class="dropdown-item text-danger">Logout</button>
+											</form>
+		                       			</c:otherwise>
+                           			</c:choose>                                  
+                                </div>
+                            </div>   
                         </div>
                     </div>
                 </nav>

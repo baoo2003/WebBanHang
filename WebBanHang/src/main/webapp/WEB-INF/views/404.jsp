@@ -72,9 +72,15 @@
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>                                
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <div class=" nav-item dropdown">
+                            	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                	<i class="fas fa-user fa-2x"></i>
+                            	</a>
+                            	<div class="dropdown-menu m-0 bg-secondary rounded-0">
+                            		<a href="login.htm" class="dropdown-item">Login</a>
+		                            <a href="register.htm" class="dropdown-item">Register</a>                             
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </nav>
