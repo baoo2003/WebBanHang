@@ -13,18 +13,9 @@ import javax.persistence.MapsId;
 public class OrderDetailId implements Serializable{
 	@Column(name="MADH")
 	private Integer orderId;
+	
 	@Column(name="MASP")
 	private Integer productId;
-	
-	@MapsId("id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MADH")
-    private Order order;
-
-    @MapsId("id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MASP")
-    private Product product;
     
 	public OrderDetailId() {
 		
