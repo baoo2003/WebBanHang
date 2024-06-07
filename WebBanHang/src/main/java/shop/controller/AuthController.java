@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jakarta.validation.Valid;
 import shop.dto.request.LoginDto;
 import shop.dto.request.RegisterDto;
 import shop.dto.response.LoginResponse;
@@ -43,21 +41,21 @@ public class AuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(
 		ModelMap model,
-		@Valid @ModelAttribute("login") LoginDto loginDto,
+		@ModelAttribute("login") LoginDto loginDto,
 		HttpSession session,
 		BindingResult errors
-	) {
-		boolean isValid = true;
+	) {		
 		if (loginDto.getUsername().isBlank()) {
-			errors.rejectValue("username", "login", "This field is required");
-			isValid = false;
+			loginDto.setUsername(null);
+			errors.rejectValue("username", "login", "This field is required");			
 		}
 		if (loginDto.getPassword().isBlank()) {
-			errors.rejectValue("password", "login", "This field is required");
-			isValid = false;
+			loginDto.setPassword(null);
+			errors.rejectValue("password", "login", "This field is required");			
 		}
 		
-		if (!isValid) {
+		if (errors.hasErrors()) {
+			model.addAttribute("message","Please correct the following errors!");
 			return "login";
 		}
 		
@@ -93,33 +91,37 @@ public class AuthController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(
 		ModelMap model,
-		@Validated @ModelAttribute("register") RegisterDto registerDto,
+		@ModelAttribute("register") RegisterDto registerDto,
 		HttpSession session,
 		BindingResult errors
-	) {
-		boolean isValid = true;
+	) {		
 		if (registerDto.getUsername().isBlank()) {
-			errors.rejectValue("username", "login", "This field is required");
-			isValid = false;
+			registerDto.setUsername(null);
+			errors.rejectValue("username", "register", "This field is required");			
 		}
 		if (registerDto.getFirstName().isBlank()) {
-			errors.rejectValue("username", "login", "This field is required");
-			isValid = false;
+			registerDto.setFirstName(null);
+			errors.rejectValue("firstName", "register", "This field is required");			
 		}
 		if (registerDto.getLastName().isBlank()) {
-			errors.rejectValue("username", "login", "This field is required");
-			isValid = false;
+			registerDto.setLastName(null);
+			errors.rejectValue("lastName", "register", "This field is required");			
 		}
 		if (registerDto.getPhoneNumber().isBlank()) {
-			errors.rejectValue("username", "login", "This field is required");
-			isValid = false;
+			registerDto.setPhoneNumber(null);
+			errors.rejectValue("phoneNumber", "register", "This field is required");			
 		}
 		if (registerDto.getPassword().isBlank()) {
-			errors.rejectValue("password", "login", "This field is required");
-			isValid = false;
+			registerDto.setPassword(null);
+			errors.rejectValue("password", "register", "This field is required");			
+		}
+		if (registerDto.getAddress().isBlank()) {
+			registerDto.setAddress(null);
+			errors.rejectValue("address", "register", "This field is required");			
 		}
 		
-		if (!isValid) {
+		if (errors.hasErrors()) {
+			model.addAttribute("message", "Please correct the following errors!");
 			return "register";
 		}
 		
