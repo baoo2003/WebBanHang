@@ -45,21 +45,24 @@ public class CartService {
 	    try {
 	        tx = session.beginTransaction();
 	       
-         // Fetch the existing cart item
             CartId cartId = new CartId(customerId, productId);
             Cart existingCart = (Cart) session.get(Cart.class, cartId);
-
+            Customer customer = (Customer) session.get(Customer.class, customerId);
+            Product product = (Product) session.get(Product.class, productId);
+            
             if (existingCart != null) {
-                // If the product is already in the cart, update the quantity
                 existingCart.setQuantity(existingCart.getQuantity() + quantity);
+                if(existingCart.getQuantity() > product.getQuantity()) {
+                	throw new RuntimeException("Product quantity is not enough");
+                }
                 session.update(existingCart);
             } else {
-                // If the product is not in the cart, add a new entry
-                Customer customer = (Customer) session.get(Customer.class, customerId);
-                Product product = (Product) session.get(Product.class, productId);
-
                 if (customer == null || product == null) {
                     throw new RuntimeException("Customer or Product not found");
+                }
+                
+                if(quantity > product.getQuantity()) {
+                	throw new RuntimeException("Product quantity is not enough");
                 }
 
                 Cart cart = new Cart(cartId, quantity);
@@ -98,15 +101,24 @@ public class CartService {
 	
 	public void loadCart(Integer customerId, Integer productId, Integer quantity) {
 	    Session session = sessionFactory.openSession();
-	   
 	    Transaction tx = null;
 	    try {
 	        tx = session.beginTransaction();
-	        
 	        CartId cartId = new CartId(customerId, productId);
             Cart existingCart = (Cart) session.get(Cart.class, cartId);
-            existingCart.setQuantity(quantity);
-            session.update(existingCart);
+            if (existingCart != null) {
+            	Product product = (Product) session.get(Product.class, productId);
+            	if(quantity == 0) {
+            		throw new RuntimeException("Product quantity must be greater than 0");
+            	}
+            	if(quantity <= product.getQuantity()) {
+	        	   existingCart.setQuantity(quantity);
+	               session.update(existingCart);
+	           }
+            	else {
+            		throw new RuntimeException("Product quantity is not enough");
+            	}
+	        }
 	        tx.commit();
 	    } catch (Exception e) {
 	        if (tx != null) tx.rollback();

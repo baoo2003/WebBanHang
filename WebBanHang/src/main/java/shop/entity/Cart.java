@@ -23,19 +23,19 @@ public class Cart {
     @JoinColumn(name = "MAKH")
     private Customer customer;
 
-    @MapsId("id")
+    @MapsId("productId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MAMH")
+    @JoinColumn(name = "MASP")
     private Product product;
 	
 	public Cart() {
-		this.cartId = new CartId(); // Ensure the ID is never null
-        this.quantity = 0; // Default quantity
+		this.cartId = new CartId(); 
+        this.quantity = 0; 
 	}
 	
 	public Cart(CartId cartId, Integer quantity) {
-		this.cartId = cartId; // Ensure the ID is never null
-        this.quantity = quantity; // Default quantity
+		this.cartId = cartId;
+        this.quantity = quantity;
 	}
 	
 	public CartId getCartId() {

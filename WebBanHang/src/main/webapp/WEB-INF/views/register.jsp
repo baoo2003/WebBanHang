@@ -80,8 +80,7 @@
                         </div>
                         <div class="d-flex m-3 me-0">
                             <a href="cart.htm" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                                <!-- <span id="quantity-product" class=" position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
+                                <i class="fa fa-shopping-bag fa-2x"></i>                                
                             </a>
                             <div class=" nav-item dropdown">
                             	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">

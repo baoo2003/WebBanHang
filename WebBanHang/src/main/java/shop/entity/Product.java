@@ -1,19 +1,23 @@
 package shop.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "SANPHAM")
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "MASP")
 	private Integer id;
 	
@@ -54,6 +58,12 @@ public class Product {
 	
 	@Column(name = "GIAMGIA")
 	private Integer discount;
+	
+	@OneToMany(mappedBy="product", fetch=FetchType.LAZY)
+	private Collection<OrderDetail> orderDetails;
+	
+	@OneToMany(mappedBy="product", fetch=FetchType.LAZY)
+	private Collection<Cart> carts;
 	
 	public Product() {
 		//super();
@@ -202,5 +212,21 @@ public class Product {
 
 	public void setDiscount(Integer discount) {
 		this.discount = discount;
+	}
+
+	public Collection<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(Collection<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
+
+	public Collection<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(Collection<Cart> carts) {
+		this.carts = carts;
 	}
 }

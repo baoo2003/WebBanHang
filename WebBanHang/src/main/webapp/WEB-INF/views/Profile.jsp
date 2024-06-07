@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -31,6 +32,13 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        
+        <style>
+			.error {
+				color: red;
+				font-style: italic;
+			}
+		</style>
     </head>
 
     <body>
@@ -68,11 +76,12 @@
                             <a href="home.htm" class="nav-item nav-link">Home</a>
                             <a href="cart.htm" class="nav-item nav-link">Cart</a>
                             <a href="checkout.htm" class="nav-item nav-link">Checkout</a>
-                            <a href="contact.htm" class="nav-item nav-link active">Contact</a>
+                            <a href="contact.htm" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="d-flex m-3 me-0">                            
-                            <a href="#" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>                            
+                        <div class="d-flex m-3 me-0">
+                            <a href="cart.htm" class="position-relative me-4 my-auto">
+                                <i class="fa fa-shopping-bag fa-2x"></i>
+                                <!-- <span id="quantity-product" class=" position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
                             </a>
                             <div class=" nav-item dropdown">
                             	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -95,7 +104,7 @@
 		                       			</c:otherwise>
                            			</c:choose>                                  
                                 </div>
-                            </div>   
+                            </div>                                                 
                         </div>
                     </div>
                 </nav>
@@ -106,52 +115,83 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Contact</h1>            
+            <h1 class="text-center text-white display-6">Your Profile</h1>            
         </div>
         <!-- Single Page Header End -->
+        
+        <c:if test="${not empty message}">
+        	<div class="alert alert-warning text-center">${message}</div>
+        </c:if>
 
 
         <!-- Contact Start -->
         <div class="container-fluid contact py-5">
             <div class="container py-5">
                 <div class="p-5 bg-light rounded">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="text-center mx-auto" style="max-width: 700px;">
-                                <h1 class="text-primary">Get contact</h1>
-                                <p class="mb-4">If you would like to get in touch with us, please get in touch via the information below!</p>
-                            </div>
-                        </div>                        
-                        <div class="col-lg-7">
-                            <form action="" class="">
-                                <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
-                                <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email">
-                                <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"></textarea>
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Submit</button>
-                            </form>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="d-flex p-4 rounded mb-4 bg-white">
-                                <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Address</h4>
-                                    <p class="mb-2">97 Man Thien Street, Thu Duc City</p>
+                    <div class="d-flex justify-content-center">
+                        <div class="col-lg-7">                        	
+                            <form:form action="customer-profile.htm" method="post" modelAttribute="profileDto">                            	
+                                                        	
+                            	<div class="mt-4">
+                            		<label>Username</label>
+                            		<label class="w-100 form-control border-0 py-3 mt-0">${profileDto.username}</label>
+                            		<form:hidden path="username" />                            		
+                            	</div>
+                                                                
+                                <div class="mt-4">
+	                                <label>First name</label>
+	                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your First Name"/>
+	                                <form:errors path="firstName" cssClass="error" />
                                 </div>
-                            </div>
-                            <div class="d-flex p-4 rounded mb-4 bg-white">
-                                <i class="fas fa-envelope fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Mail Us</h4>
-                                    <p class="mb-2">vuquocbao673@gmail.com</p>
+                                
+                                <div class="mt-4">
+	                                <label>Last name</label>
+	                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Last Name"/>
+	                                <form:errors path="lastName" cssClass="error" />
                                 </div>
-                            </div>
-                            <div class="d-flex p-4 rounded bg-white">
-                                <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Telephone</h4>
-                                    <p class="mb-2">(+84) 0964949942</p>
+                                
+                                <div class="mt-4">                                
+                                <div>Gender</div>
+	                                <c:choose>
+									    <c:when test="${profileDto.gender == true}">
+									        <form:radiobutton path="gender" value="true" label="Male" style="margin-left: 10px;" />
+									        <form:radiobutton path="gender" value="false" label="Female" style="margin-left: 10px;" />
+									    </c:when>
+									    <c:otherwise>
+									        <form:radiobutton path="gender" value="true" label="Male" style="margin-left: 10px;" />
+									        <form:radiobutton path="gender" value="false" label="Female" style="margin-left: 10px;" />
+									    </c:otherwise>
+									</c:choose>
+	                            	                           
+	                            </div>
+	                            
+	                            <div class="mt-4">	                                                          
+	                                <label>Address</label>                                
+	                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Address"/>
+	                                <form:errors path="address" cssClass="error" />
                                 </div>
-                            </div>
+                                
+                                <div class="mt-4">
+	                                <label>Phone Number</label>
+	                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Phone Number"/>
+	                                <form:errors path="phoneNumber" cssClass="error" />
+                                </div>
+                                
+                                <div class="mt-4">
+	                                <label>Email</label>
+	                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Email"/>	                                
+                                </div>
+                                
+                                <div class="mt-4">
+	                                <label>Password</label>
+	                                <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Password"/>
+	                                <form:errors path="password" cssClass="error" />
+                                </div>
+                                
+                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Update</button>
+                                
+                            </form:form>
+                            <br />                            
                         </div>
                     </div>
                 </div>

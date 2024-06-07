@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,8 +104,8 @@
 		                       			</c:when>
                        			
 		                       			<c:otherwise>
-			                            	<a href="profile.htm" class="dropdown-item">View profile</a>
-			                            	<a href="order.htm" class="dropdown-item">View orders</a>
+			                            	<a href="customer-profile.htm" class="dropdown-item">View profile</a>
+			                            	<a href="customer-order.htm" class="dropdown-item">View orders</a>
 											<div class="dropdown-divider"></div>
 											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">
 												<button type="submit" class="dropdown-item text-danger">Logout</button>
@@ -286,26 +288,46 @@
                                 </div>
                             </div>                                                                             						                          
                             <div class="col-lg-9">
-                                <div class="row g-4 justify-content-center">                                	
+                                <div class="row g-4 justify-content-center">
+                                	<span class="d-flex justify-content-center">
+										<p style="color: red;">
+								<c:if test="${not empty errorMessage}">${errorMessage} </c:if>
+							</p>
+						</span>
+                                                                	
                                 	<c:forEach var="product" items="${products}">
 										<div class="col-md-6 col-lg-6 col-xl-4" onclick="window.location.href='product-detail.htm?productId=${product.id}';" style="cursor: pointer;">
-	                                        <div class="rounded position-relative fruite-item" style="bottom: 0px;">
+	                                        <div class="rounded position-relative fruite-item border border-secondary" style="bottom: 0px;">
 	                                            <div class="fruite-img">
 	                                                <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
 	                                            </div>
 	                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category.name}</div>
-	                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+	                                            <div class="p-4 rounded-bottom">
 	                                                <h4>${product.name}</h4>
-	                                                <p>${product.describe}</p>
-	                                                <div class="d-flex justify-content-between flex-lg-wrap">
-	                                                	<c:if test="${product.discount == 0}"><p class="text-dark fs-5 fw-bold mb-0">$${product.price} / ${product.unit}</p></c:if>
-	                                                    <c:if test="${product.discount != 0}"><p class="text-dark fs-5 fw-bold mb-0">$${product.price*(1-(product.discount/100.0))} <span class="text-danger text-decoration-line-through">${product.price}</span>  / ${product.unit}</p></c:if>
-	                                                    
-	                                                    <form action="addToCart.htm" method = "post">
-	                                                    <input type="hidden" name="productId" value="${product.id}"/>
-	                                                    	<button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-	                                                    </form>	                     
-	                                                </div>
+	                                                <p>
+									                    <c:choose>
+									                        <c:when test="${fn:length(product.describe) > 100}">
+									                            ${fn:substring(product.describe, 0, 100)}...
+									                        </c:when>
+									                        <c:otherwise>
+									                            ${product.describe}
+									                        </c:otherwise>
+									                    </c:choose>
+									                </p>	                                                
+	                                                <c:if test="${product.discount == 0}"><p class="text-dark fs-5 fw-bold mb-2">$${product.price} / ${product.unit}</p></c:if>
+	                                                <c:if test="${product.discount != 0}"><p class="text-dark fs-5 fw-bold mb-2">$${product.price*(1-(product.discount/100.0))} <span class="text-danger text-decoration-line-through">${product.price}</span>  / ${product.unit}</p></c:if>
+	                                                    	                                                    
+                                                    <form action="addToCart.htm" method = "post">
+                                                    	<input type="hidden" name="productId" value="${product.id}"/>
+                                                    	<div class="inline-block">
+	                                                    	<c:if test="${product.quantity > 0}">
+	                                                    		<button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+	                                                    	</c:if>
+	                                                    	<c:if test="${product.quantity == 0}">
+	                                                    		<p style="color: red;">SOLD OUT</p>
+	                                                    	</c:if>
+                                                    	</div>	                                                    
+                                                    </form>	                     	                                                
 	                                            </div>
 	                                        </div>
                                     	</div>                                	
@@ -325,8 +347,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>       
         <!-- Fruits Shop End-->
 
 
