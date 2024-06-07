@@ -171,7 +171,7 @@
         				<c:otherwise>
         					<c:forEach var="product" items="${products}">
 		        				<div class="col-sm-6 col-xl-3">
-				                    <div class="card overflow-hidden rounded-2 border border-primary" onclick="window.location.href='${pageContext.request.contextPath}/admin.htm';" style="cursor: pointer">
+				                    <div class="card overflow-hidden rounded-2 border border-primary" onclick="window.location.href='${pageContext.request.contextPath}/manage-product-detail.htm?id=${product.id}';" style="cursor: pointer">
 				                        <div class="position-relative">
 				                            <img src="${product.image}" class="card-img-top rounded-0" alt="Image ${product.name}">
 										</div>

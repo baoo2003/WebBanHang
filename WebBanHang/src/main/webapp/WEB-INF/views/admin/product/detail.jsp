@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Create New Product</title>
+	<title>Product ${product.name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/images/logos/favicon.png" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/styles.min.css" />" />
@@ -142,74 +142,95 @@
         <div class="container-fluid">
         	<div class="card-body p-4">
         		<div class="d-flex justify-content-center">
-        			<h3>Create a new product</h3>
+        			<h3>Detail of ${product.name}</h3>
         		</div>
         		<div class="d-flex justify-content-center">
         			<span class="error">${message}</span>
         		</div>
-        		<form:form action="create-product.htm" method="post" modelAttribute="product" enctype="multipart/form-data">
-                    <div class="mb-3">
-	                    <form:label path="name" for="productName" class="form-label">Name</form:label>
-	                    <form:input path="name" class="form-control" id="productName" />
-	                    <form:errors path="name" cssClass="error" />
+        		<div class="row g-4">
+        			<div class="col-lg-12">
+                        <div class="row g-4">
+                            <div class="col-lg-4">
+                                <div class="border rounded">
+                                    <a href="#">
+                                        <img src="${product.imagePath}" class="img-fluid rounded" alt="Image">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <form:form action="update-product.htm?id=${param.id}" method="post" modelAttribute="product" enctype="multipart/form-data">
+                                	<div class="mb-3">
+					                    <form:label path="name" for="productName" class="form-label">Name</form:label>
+					                    <form:input path="name" class="form-control" id="productName" />
+					                    <form:errors path="name" cssClass="error" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="brandId" for="productBrand" class="form-label">Brand</form:label>
+					                    <form:select path="brandId" class="form-control" id="productBrand" items="${brands}" itemLabel="name" itemValue="id"/>
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="categoryId" for="productCategory" class="form-label">Category</form:label>
+					                    <form:select path="categoryId" class="form-control" id="productCategory" items="${categories}" itemLabel="name" itemValue="id" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="description" for="productDescription" class="form-label">Description</form:label>
+					                    <form:textarea path="description" class="form-control" id="productDescription" />
+					                    <form:errors path="description" cssClass="error" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="origin" for="productOrigin" class="form-label">Origin</form:label>
+					                    <form:input path="origin" class="form-control" id="productOrigin" />
+					                    <form:errors path="origin" cssClass="error" />
+				                    </div>
+				                    
+				                    <form:hidden path="imagePath" />
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="image" for="productImage" class="form-label">New image</form:label>
+					                    <form:input path="image" type="file" class="form-control" id="productImage" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="unit" for="productUnit" class="form-label">Unit</form:label>
+					                    <form:input path="unit" class="form-control" id="productUnit" />
+					                    <form:errors path="unit" cssClass="error" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="quantity" for="productQuantity" class="form-label">Quantity</form:label>
+					                    <form:input path="quantity" type="number" class="form-control" id="productQuantity" />
+					                    <form:errors path="quantity" cssClass="error" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="price" for="productPrice" class="form-label">Price</form:label>
+					                    <form:input path="price" type="number" class="form-control" id="productPrice" />
+					                    <form:errors path="price" cssClass="error" />
+				                    </div>
+				                    
+				                    <div class="mb-3">
+					                    <form:label path="discount" for="productDiscount" class="form-label">Discount</form:label>
+					                    <form:input path="discount" type="number" class="form-control" id="productDiscount" />
+					                    <form:errors path="discount" cssClass="error" />
+				                    </div>
+				                    
+				                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
+				                    	Update
+				                    </button>
+                                </form:form>
+                                <form:form action="delete" method="post" modelAttribute="product">
+                                	<button type="submit" class="btn btn-danger w-100 py-8 fs-4 mb-4 rounded-2">
+                                        Delete
+                                    </button>
+                                </form:form>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="brandId" for="productBrand" class="form-label">Brand</form:label>
-	                    <form:select path="brandId" class="form-control" id="productBrand" items="${brands}" itemLabel="name" itemValue="id"/>
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="categoryId" for="productCategory" class="form-label">Category</form:label>
-	                    <form:select path="categoryId" class="form-control" id="productCategory" items="${categories}" itemLabel="name" itemValue="id" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="description" for="productDescription" class="form-label">Description</form:label>
-	                    <form:textarea path="description" class="form-control" id="productDescription" />
-	                    <form:errors path="description" cssClass="error" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="origin" for="productOrigin" class="form-label">Origin</form:label>
-	                    <form:input path="origin" class="form-control" id="productOrigin" />
-	                    <form:errors path="origin" cssClass="error" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="image" for="productImage" class="form-label">Image</form:label>
-	                    <form:input path="image" type="file" class="form-control" id="productImage" />
-	                    <form:errors path="image" cssClass="error" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="unit" for="productUnit" class="form-label">Unit</form:label>
-	                    <form:input path="unit" class="form-control" id="productUnit" />
-	                    <form:errors path="unit" cssClass="error" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="quantity" for="productQuantity" class="form-label">Quantity</form:label>
-	                    <form:input path="quantity" type="number" value="1" class="form-control" id="productQuantity" />
-	                    <form:errors path="quantity" cssClass="error" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="price" for="productPrice" class="form-label">Price</form:label>
-	                    <form:input path="price" type="number" value="0.0" class="form-control" id="productPrice" />
-	                    <form:errors path="price" cssClass="error" />
-                    </div>
-                    
-                    <div class="mb-3">
-	                    <form:label path="discount" for="productDiscount" class="form-label">Discount</form:label>
-	                    <form:input path="discount" type="number" value="0" class="form-control" id="productDiscount" />
-	                    <form:errors path="discount" cssClass="error" />
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
-                    	Submit
-                    </button>
-                  </form:form>
+        		</div>
         	</div>
         </div>
     </div>

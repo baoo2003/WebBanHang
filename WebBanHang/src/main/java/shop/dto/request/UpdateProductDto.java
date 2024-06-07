@@ -2,19 +2,47 @@ package shop.dto.request;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class CreateProductDto {
+public class UpdateProductDto {
+	private Integer id;
 	private String name;
 	private Integer brandId;
 	private Integer categoryId;
 	private String description;
 	private String origin;
+	private String imagePath;
 	private MultipartFile image;
 	private String unit;
 	private Integer quantity;
 	private Float price;
 	private Integer discount;
 	
-	public CreateProductDto() {}
+	public UpdateProductDto() {}
+	
+	public UpdateProductDto(
+		Integer id,
+		String name,
+		Integer brandId,
+		Integer categoryId,
+		String description,
+		String origin,
+		String imagePath,
+		String unit,
+		Integer quantity,
+		Float price,
+		Integer discount
+	) {
+		this.id = id;
+		this.name = name;
+		this.brandId = brandId;
+		this.categoryId = categoryId;
+		this.description = description;
+		this.origin = origin;
+		this.imagePath = imagePath;
+		this.unit = unit;
+		this.quantity = quantity;
+		this.price = price;
+		this.discount = discount;
+	}
 
 	public String getName() {
 		return name;
@@ -94,5 +122,21 @@ public class CreateProductDto {
 
 	public void setDiscount(Integer discount) {
 		this.discount = discount;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }

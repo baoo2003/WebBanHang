@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.dto.request.CreateProductDto;
+import shop.dto.request.UpdateProductDto;
 import shop.entity.Brand;
 import shop.entity.Category;
 import shop.entity.Product;
@@ -272,6 +273,37 @@ public class ProductService {
 		
 		try {
 			session.save(product);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Transactional
+	public void updateProduct(UpdateProductDto updateProduct, Brand brand, Category category, String newImage) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		try {
+			Product product = (Product) session.get(Product.class, updateProduct.getId());
+			product.setName(updateProduct.getName());
+			product.setBrand(brand);
+			product.setCategory(category);
+			product.setDescribe(updateProduct.getDescription());
+			product.setOrigin(updateProduct.getOrigin());
+			if (newImage != null) {
+				product.setImage(newImage);
+			}
+			product.setUnit(updateProduct.getUnit());
+			product.setQuantity(updateProduct.getQuantity());
+			product.setPrice(updateProduct.getPrice());
+			product.setDiscount(updateProduct.getDiscount());
+			
+			session.update(product);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

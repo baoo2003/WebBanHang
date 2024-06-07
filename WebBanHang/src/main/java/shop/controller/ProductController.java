@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import shop.dto.request.CreateProductDto;
 import shop.dto.request.FilterProductDto;
+import shop.dto.request.UpdateProductDto;
 import shop.entity.Brand;
 import shop.entity.Category;
 import shop.entity.Product;
@@ -160,6 +162,10 @@ public class ProductController {
 		}
 		if (createProduct.getDiscount() == null || createProduct.getDiscount().toString().isBlank()) {
 			errors.rejectValue("discount", "createProduct", "This field is required");
+		} else if (createProduct.getDiscount() < 0) {
+			errors.rejectValue("discount", "createProduct", "This field must be greater than 0");
+		} else if (createProduct.getDiscount() > 100) {
+			errors.rejectValue("discount", "createProduct", "This field must be less than 100");
 		}
 		
 		if (errors.hasErrors()) {
@@ -167,11 +173,7 @@ public class ProductController {
 		}
 		
 		try {
-			Integer brandId = createProduct.getBrandId();
-			Brand brand;
-			brand = brandId != null
-					? brandService.findById(createProduct.getBrandId())
-					: null;
+			Brand brand = brandService.findById(createProduct.getBrandId());
 			
 			Category category = categoryService.findById(createProduct.getCategoryId());
 
@@ -183,6 +185,88 @@ public class ProductController {
 			model.addAttribute("message", e.getMessage());
 			e.printStackTrace();
 			return "admin/product/create";
+		}
+	}
+	
+	@RequestMapping("/manage-product-detail")
+	public String manageProductDetail(
+		ModelMap model,
+		@RequestParam("id") Integer productId
+	) {
+		Product product = productService.findById(productId);
+		UpdateProductDto updateProduct = new UpdateProductDto(
+			product.getId(),
+			product.getName(),
+			product.getBrand().getId(),
+			product.getCategory().getId(),
+			product.getDescribe(),
+			product.getOrigin(),
+			product.getImage(),
+			product.getUnit(),
+			product.getQuantity(),
+			product.getPrice(),
+			product.getDiscount()
+		);
+		
+		model.addAttribute("product", updateProduct);
+		return "admin/product/detail";
+	}
+	
+	@RequestMapping(value = "/update-product", method = RequestMethod.POST)
+	public String updateProduct(
+		ModelMap model,
+		@ModelAttribute("product") UpdateProductDto updateProduct,
+		BindingResult errors
+	) {
+		if (updateProduct.getName() == null || updateProduct.getName().isBlank()) {
+			errors.rejectValue("name", "createProduct", "This field is required");
+		}
+		if (updateProduct.getDescription() == null || updateProduct.getDescription().isBlank()) {
+			errors.rejectValue("description", "createProduct", "This field is required");
+		}
+		if (updateProduct.getOrigin() == null || updateProduct.getOrigin().isBlank()) {
+			errors.rejectValue("origin", "createProduct", "This field is required");
+		}
+		if (updateProduct.getUnit() == null || updateProduct.getUnit().isBlank()) {
+			errors.rejectValue("unit", "createProduct", "This field is required");
+		}
+		if (updateProduct.getQuantity() == null || updateProduct.getQuantity().toString().isBlank()) {
+			errors.rejectValue("quantity", "createProduct", "This field is required");
+		} else if (updateProduct.getQuantity() == 0) {
+			errors.rejectValue("quantity", "createProduct", "This field must be greater than 0");
+		}
+		if (updateProduct.getPrice() == null || updateProduct.getPrice().toString().isBlank()) {
+			errors.rejectValue("price", "createProduct", "This field is required");
+		} else if (updateProduct.getPrice() == 0.0) {
+			errors.rejectValue("price", "createProduct", "This field must be greater than 0.0");
+		}
+		if (updateProduct.getDiscount() == null || updateProduct.getDiscount().toString().isBlank()) {
+			errors.rejectValue("discount", "createProduct", "This field is required");
+		} else if (updateProduct.getDiscount() < 0) {
+			errors.rejectValue("discount", "createProduct", "This field must be greater than 0");
+		} else if (updateProduct.getDiscount() > 100) {
+			errors.rejectValue("discount", "createProduct", "This field must be less than 100");
+		}
+		
+		if (errors.hasErrors()) {
+			return "admin/product/detail?id=" + updateProduct.getId();
+		}
+		
+		try {
+			Brand brand = brandService.findById(updateProduct.getBrandId());
+			
+			Category category = categoryService.findById(updateProduct.getCategoryId());
+			
+			String imagePath = null;
+			if (updateProduct.getImage() != null && !updateProduct.getImage().isEmpty()) {
+				imagePath = imageService.replace(updateProduct.getImagePath(), updateProduct.getImage());
+			}
+			
+			productService.updateProduct(updateProduct, brand, category, imagePath);
+			return "redirect:/manage-product-detail.htm?id=" + updateProduct.getId();
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			return "admin/product/detail";
 		}
 	}
 }
