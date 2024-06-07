@@ -151,7 +151,11 @@
 	                                        </button>
 	                                    </div>
 	                                </div>
-	                                <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+	                                <form action="addToCart.htm" method = "post">
+	                                <input type="hidden" name="productId" value="${product.id}"/>
+	                                <button type = "submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+	                                
+	                                </form>
                                 </c:if>
                                 <c:if test="${product.quantity==0}">
                                 	<p style="color: red;">SOLD OUT</p>

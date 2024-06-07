@@ -155,7 +155,7 @@
 
         if (button.hasClass('btn-plus')) {
             newVal = oldValue + 1;
-        } else if (button.hasClass('btn-minus') && oldValue > 1) {
+        } else if (button.hasClass('btn-minus') && oldValue >= 1) {
             newVal = oldValue - 1;
         }
 

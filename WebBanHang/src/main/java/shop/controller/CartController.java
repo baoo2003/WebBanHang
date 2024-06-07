@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,31 +55,35 @@ public class CartController {
     }
 
 	@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
-	public String addToCart(HttpSession session,
+	public String addToCart(HttpSession session, ModelMap model, RedirectAttributes redirectAttributes,
 			@RequestParam("productId") Integer productId) {
-		
+		try {
 		Integer customerIdInt = (Integer) session.getAttribute("userId");
 		if (customerIdInt == null) {
             return "redirect:/login.htm"; 
         }
 		cartService.addToCart(customerIdInt, productId, 1);
-		
-		return "redirect:/cart.htm";
+		return "redirect:/home.htm";
+		} catch (Exception e){
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+			return "redirect:/home.htm" ;
+		}
 	}
 	
 	@RequestMapping(value = "/loadCart", method = RequestMethod.POST)
-	public String loadCart(HttpSession session,
+	public String loadCart(HttpSession session, RedirectAttributes redirectAttributes,
 							@RequestParam("customerId") Integer customerId,
 							@RequestParam("productId") Integer productId,
 							@RequestParam("quantity") Integer quantity) {
-		
+		try {
 		Integer customerIdInt = (Integer) session.getAttribute("userId");
-		System.out.print(quantity);
 		if (customerIdInt == null) {
             return "redirect:/login"; // Redirect to login if customer is not logged in
         }
-		cartService.loadCart(customerIdInt, productId, quantity);
-		
+			cartService.loadCart(customerIdInt, productId, quantity);
+		}catch (Exception e){
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+		}
 		return "redirect:/cart.htm";
 	}
 }
