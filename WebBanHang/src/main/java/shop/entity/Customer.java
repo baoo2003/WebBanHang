@@ -1,10 +1,15 @@
 package shop.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -12,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "KHACHHANG")
 public class Customer {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "MAKH")
 	private Integer id;
 	@Column(name = "TEN")
@@ -32,6 +37,12 @@ public class Customer {
 	@OneToOne
 	@JoinColumn(name = "MATK")
 	private Account account;
+	
+	@OneToMany(mappedBy="customer", fetch=FetchType.LAZY)
+	private Collection<Order> orders;
+	
+	@OneToMany(mappedBy="customer", fetch=FetchType.LAZY)
+	private Collection<Cart> carts;
 	
 	public Customer() {
 		this.status = true;
@@ -107,5 +118,21 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Collection<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Collection<Order> orders) {
+		this.orders = orders;
+	}
+
+	public Collection<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(Collection<Cart> carts) {
+		this.carts = carts;
 	}
 }

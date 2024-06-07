@@ -1,12 +1,19 @@
 package shop.entity;
 
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="DONHANG")
 public class Order {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="MADH")
 	private Integer id;
 	
@@ -45,6 +53,18 @@ public class Order {
 	
 	@Column(name="TRANGTHAI")
 	private String status;
+	
+	@Column(name="LYDO_HUY")
+	private String cancelReason;
+	
+	@Column(name="LUUY_GIAO")
+	private String deliveryNote;
+	
+	@OneToMany(mappedBy="order", fetch=FetchType.EAGER)
+	private Collection<OrderDetail> orderDetails;
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Bill bill;
 	
 	public Order() {
 		
@@ -105,5 +125,21 @@ public class Order {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Collection<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(Collection<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
+
+	public Bill getBill() {
+		return bill;
+	}
+
+	public void setBill(Bill bill) {
+		this.bill = bill;
 	}
 }
