@@ -222,8 +222,8 @@
 				                    	Update
 				                    </button>
                                 </form:form>
-                                <form:form action="delete" method="post" modelAttribute="product">
-                                	<button type="submit" class="btn btn-danger w-100 py-8 fs-4 mb-4 rounded-2">
+                                <form:form action="delete-product.htm?id=${param.id}" method="post" modelAttribute="product">
+                                	<button type="submit" onclick="return confirm('Are you sure to delete this product?')" class="btn btn-danger w-100 py-8 fs-4 mb-4 rounded-2">
                                         Delete
                                     </button>
                                 </form:form>

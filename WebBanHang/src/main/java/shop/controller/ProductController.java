@@ -269,4 +269,18 @@ public class ProductController {
 			return "admin/product/detail";
 		}
 	}
+	
+	@RequestMapping(value = "delete-product", method = RequestMethod.POST)
+	public String deleteProduct(
+		ModelMap model,
+		@RequestParam("id") Integer productId
+	) {
+		try {
+			productService.deleteProduct(productId);
+			return "redirect:/manage-product.htm?page=1";
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			return "admin/product/detail";
+		}
+	}
 }

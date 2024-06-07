@@ -313,4 +313,22 @@ public class ProductService {
 			session.close();
 		}
 	}
+	
+	@Transactional
+	public void deleteProduct(Integer productId) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		try {
+			Product product = (Product) session.get(Product.class, productId);
+			session.delete(product);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 }
