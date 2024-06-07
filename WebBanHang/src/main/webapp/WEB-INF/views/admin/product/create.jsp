@@ -109,6 +109,10 @@
         <header class="app-header">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                	<a href="manage-product.htm?page=1">
+	                	<span style="font-size: 20px;">&#x2190;</span>
+	                	Back
+	                </a>
                     <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
