@@ -1,10 +1,15 @@
 package shop.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -13,7 +18,7 @@ import javax.persistence.Table;
 public class Staff {
 	@Id
 	@Column(name = "MANV")
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "TEN")
 	private String firstName;
@@ -33,6 +38,11 @@ public class Staff {
 	@OneToOne
 	@JoinColumn(name = "MATK")
 	private Account account;
+	@OneToMany(mappedBy="staff", fetch=FetchType.LAZY)
+	private Collection<Order> orders;
+	
+	@OneToMany(mappedBy="staff", fetch=FetchType.LAZY)
+	private Collection<Bill> bills;
 	
 	public Staff() {}
 
@@ -107,4 +117,12 @@ public class Staff {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
+	public Collection<Bill> getBills() {
+		return bills;
+	}
+
+	public void setBills(Collection<Bill> bills) {
+		this.bills = bills;
+	}	
 }

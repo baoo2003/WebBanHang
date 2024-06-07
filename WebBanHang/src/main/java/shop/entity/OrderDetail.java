@@ -15,13 +15,13 @@ public class OrderDetail {
 	@EmbeddedId
 	private OrderDetailId id;
 	
-	@MapsId("id")
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("orderId")
     @JoinColumn(name = "MADH")
     private Order order;
 
-    @MapsId("id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("productId")
     @JoinColumn(name = "MASP")
     private Product product;
 	
@@ -34,6 +34,15 @@ public class OrderDetail {
 	public OrderDetail() {
 		
 	}
+	
+	public OrderDetail(Order order, Product product, Integer quantity, Float price) {
+        this.id = new OrderDetailId(order.getId(), product.getId());
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+        this.price=price;
+    }
+	
 	public Integer getQuantity() {
 		return quantity;
 	}
