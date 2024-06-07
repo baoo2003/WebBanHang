@@ -68,19 +68,36 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="home.htm" class="nav-item nav-link">Home</a>
-                            <a href="cart.htm" class="nav-item nav-link">Cart</a>
+                            <a href="cart.htm" class="nav-item nav-link active">Cart</a>
                             <a href="checkout.htm" class="nav-item nav-link">Checkout</a>
                             <a href="contact.htm" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="d-flex m-3 me-0">
-                            <!-- <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button> -->
+                        <div class="d-flex m-3 me-0">                            
                             <a href="#" class="position-relative me-4 my-auto">
-                                <i class="fa fa-shopping-bag fa-2x"></i>
-                                <!-- <span id="quantity-product" class=" position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
+                                <i class="fa fa-shopping-bag fa-2x"></i>                                
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <div class=" nav-item dropdown">
+                            	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                	<i class="fas fa-user fa-2x"></i>
+                            	</a>
+                            	<div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                	<c:choose>
+                        				<c:when test="${empty sessionScope.userId}">
+                        					<a href="login.htm" class="dropdown-item">Login</a>
+		                                	<a href="register.htm" class="dropdown-item">Register</a>
+		                       			</c:when>
+                       			
+		                       			<c:otherwise>
+			                            	<a href="profile.htm" class="dropdown-item">View profile</a>
+			                            	<a href="order.htm" class="dropdown-item">View orders</a>
+											<div class="dropdown-divider"></div>
+											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">
+												<button type="submit" class="dropdown-item text-danger">Logout</button>
+											</form>
+		                       			</c:otherwise>
+                           			</c:choose>                                  
+                                </div>
+                            </div>   
                         </div>
                     </div>
                 </nav>

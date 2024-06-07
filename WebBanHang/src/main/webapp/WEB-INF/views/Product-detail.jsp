@@ -74,9 +74,28 @@
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>                               
                             </a>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
+                            <div class=" nav-item dropdown">
+                            	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                	<i class="fas fa-user fa-2x"></i>
+                            	</a>
+                            	<div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                	<c:choose>
+                        				<c:when test="${empty sessionScope.userId}">
+                        					<a href="login.htm" class="dropdown-item">Login</a>
+		                                	<a href="register.htm" class="dropdown-item">Register</a>
+		                       			</c:when>
+                       			
+		                       			<c:otherwise>
+			                            	<a href="profile.htm" class="dropdown-item">View profile</a>
+			                            	<a href="order.htm" class="dropdown-item">View orders</a>
+											<div class="dropdown-divider"></div>
+											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">
+												<button type="submit" class="dropdown-item text-danger">Logout</button>
+											</form>
+		                       			</c:otherwise>
+                           			</c:choose>                                  
+                                </div>
+                            </div>   
                         </div>
                     </div>
                 </nav>
@@ -118,22 +137,26 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="mb-4">${product.describe}</p>
-                                <!-- <p class="mb-4">Susp endisse ultricies nisi vel quam suscipit. Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish</p> -->
-                                <div class="input-group quantity mb-5" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
+                                <c:if test="${product.quantity >0}">
+	                                <div class="input-group quantity mb-5" style="width: 100px;">
+	                                    <div class="input-group-btn">
+	                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+	                                            <i class="fa fa-minus"></i>
+	                                        </button>
+	                                    </div>
+	                                    <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+	                                    <div class="input-group-btn">
+	                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+	                                            <i class="fa fa-plus"></i>
+	                                        </button>
+	                                    </div>
+	                                </div>
+	                                <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                </c:if>
+                                <c:if test="${product.quantity==0}">
+                                	<p style="color: red;">SOLD OUT</p>
+                                </c:if>
+                            </div>                            
                             <div class="col-lg-12">
                                 <nav>
                                     <div class="nav nav-tabs mb-3">
