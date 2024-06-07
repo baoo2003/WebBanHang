@@ -137,12 +137,12 @@
                                 <form:label path="">Address</form:label>
                                 <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Address" />
                                 <form:errors path="address" cssClass="error" />
-                                <form:label path="">Phone number</form:label>
+                                <label>Phone Number</label>
                                 <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Phone Number" />
                                 <form:errors path="phoneNumber" cssClass="error" />
-                                <form:label path="">Email</form:label>
+                                <label>Email</label>
                                 <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Email" />
-                                <form:label path="">Password</form:label>
+                                <label>Password</label>
                                 <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Password" />
                                 <form:errors path="password" cssClass="error" />
                                 <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Submit</button>
