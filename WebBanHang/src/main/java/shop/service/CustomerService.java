@@ -2,6 +2,7 @@ package shop.service;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -32,5 +33,13 @@ public class CustomerService {
 		} finally {
 			session.close();
 		}
+	}
+	
+	public Customer getCustomerById(Integer customerId) {
+		Session session = factory.openSession();
+		String hql = "FROM Customer c WHERE c.id=:customerId";
+		Query query=session.createQuery(hql);
+		query.setParameter("customerId", customerId);
+		return (Customer) query.uniqueResult();
 	}
 }
