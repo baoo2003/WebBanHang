@@ -88,10 +88,23 @@
                                 	<i class="fas fa-user fa-2x"></i>
                             	</a>
                             	<div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="login.htm" class="dropdown-item">Login</a>
-		                            <a href="register.htm" class="dropdown-item">Register</a>                                   
+                                	<c:choose>
+                        				<c:when test="${empty sessionScope.userId}">
+                        					<a href="login.htm" class="dropdown-item">Login</a>
+		                                	<a href="register.htm" class="dropdown-item">Register</a>
+		                       			</c:when>
+                       			
+		                       			<c:otherwise>
+			                            	<a href="customer-profile.htm" class="dropdown-item">View profile</a>
+			                            	<a href="customer-order.htm" class="dropdown-item">View orders</a>
+											<div class="dropdown-divider"></div>
+											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">
+												<button type="submit" class="dropdown-item text-danger">Logout</button>
+											</form>
+		                       			</c:otherwise>
+                           			</c:choose>                                  
                                 </div>
-                            </div>                                               
+                            </div>                                                 
                         </div>
                     </div>
                 </nav>
@@ -116,36 +129,67 @@
             <div class="container py-5">
                 <div class="p-5 bg-light rounded">
                     <div class="d-flex justify-content-center">
-                        <div class="col-lg-7">
-                            <form:form action="profile.htm" method="post" modelAttribute="profile">
-                            	
-                            	<label>Username</label>
-                                <form:input path="username" type="text" class="w-100 form-control border-0 py-3" placeholder="Enter Your Username" />
-                                <form:errors path="username" cssClass="error" />
-                                <form:label path="">First name</form:label>
-                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your First Name" />
-                                <form:errors path="firstName" cssClass="error" />
-                                <label>Last name</label>
-                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Last Name" />
-                                <form:errors path="lastName" cssClass="error" />
-                                <label>Gender</label>
-                                <form:select path="gender" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Gender">
-                                	<form:option value="0">Female</form:option>
-                                	<form:option value="1">Male</form:option>
-                                </form:select>
-                                <label>Address</label>
-                                <form:label path="">Address</form:label>
-                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Address" />
-                                <form:errors path="address" cssClass="error" />
-                                <label>Phone Number</label>
-                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Phone Number" />
-                                <form:errors path="phoneNumber" cssClass="error" />
-                                <label>Email</label>
-                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Email" />
-                                <label>Password</label>
-                                <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Password" />
-                                <form:errors path="password" cssClass="error" />
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Submit</button>
+                        <div class="col-lg-7">                        	
+                            <form:form action="customer-profile.htm" method="post" modelAttribute="profileDto">                            	
+                                                        	
+                            	<div class="mt-4">
+                            		<label>Username</label>
+                            		<label class="w-100 form-control border-0 py-3 mt-0">${profileDto.username}</label>
+                            		<form:hidden path="username" />                            		
+                            	</div>
+                                                                
+                                <div class="mt-4">
+	                                <label>First name</label>
+	                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your First Name"/>
+	                                <form:errors path="firstName" cssClass="error" />
+                                </div>
+                                
+                                <div class="mt-4">
+	                                <label>Last name</label>
+	                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Last Name"/>
+	                                <form:errors path="lastName" cssClass="error" />
+                                </div>
+                                
+                                <div class="mt-4">                                
+                                <div>Gender</div>
+	                                <c:choose>
+									    <c:when test="${profileDto.gender == true}">
+									        <form:radiobutton path="gender" value="true" label="Male" style="margin-left: 10px;" />
+									        <form:radiobutton path="gender" value="false" label="Female" style="margin-left: 10px;" />
+									    </c:when>
+									    <c:otherwise>
+									        <form:radiobutton path="gender" value="true" label="Male" style="margin-left: 10px;" />
+									        <form:radiobutton path="gender" value="false" label="Female" style="margin-left: 10px;" />
+									    </c:otherwise>
+									</c:choose>
+	                            	                           
+	                            </div>
+	                            
+	                            <div class="mt-4">	                                                          
+	                                <label>Address</label>                                
+	                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Address"/>
+	                                <form:errors path="address" cssClass="error" />
+                                </div>
+                                
+                                <div class="mt-4">
+	                                <label>Phone Number</label>
+	                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Phone Number"/>
+	                                <form:errors path="phoneNumber" cssClass="error" />
+                                </div>
+                                
+                                <div class="mt-4">
+	                                <label>Email</label>
+	                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Email"/>	                                
+                                </div>
+                                
+                                <div class="mt-4">
+	                                <label>Password</label>
+	                                <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Password"/>
+	                                <form:errors path="password" cssClass="error" />
+                                </div>
+                                
+                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Update</button>
+                                
                             </form:form>
                             <br />                            
                         </div>
