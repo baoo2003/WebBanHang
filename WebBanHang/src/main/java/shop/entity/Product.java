@@ -2,6 +2,8 @@ package shop.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,17 +13,18 @@ import javax.persistence.Table;
 @Table(name = "SANPHAM")
 public class Product {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MASP")
 	private Integer id;
 	
 	@Column(name = "TENSP")
 	private String name;
 	
-	@Column(name = "SKU")
+	@Column(name = "SKU", nullable = true)
 	private String sku;
 	
 	@ManyToOne
-	@JoinColumn(name="MATH")
+	@JoinColumn(name="MATH", nullable = true)
 	private Brand brand;
 	
 	@ManyToOne
@@ -33,7 +36,7 @@ public class Product {
 	
 	@Column(name = "XUATXU")
 	private String origin;
-	
+
 	@Column(name = "TRANGTHAI")
 	private Boolean status;
 	
@@ -53,7 +56,8 @@ public class Product {
 	private Integer discount;
 	
 	public Product() {
-		super();
+		//super();
+		this.status = true;
 	}
 	
 	public Product(Integer id, String name, String sku, Brand brand, 
@@ -68,6 +72,30 @@ public class Product {
 		this.origin=origin;
 		this.image=image;
 		this.status = status;
+		this.unit = unit;
+		this.quantity = quantity;
+		this.price = price;
+		this.discount = discount;
+	}
+	
+	public Product(
+		String name,
+		Brand brand, 
+		Category category,
+		String describe,
+		String origin,
+		String image,
+		String unit,
+		Integer quantity,
+		Float price,
+		Integer discount
+	) {
+		this.name = name;
+		this.brand = brand;
+		this.category = category;		
+		this.describe = describe;
+		this.origin = origin;
+		this.image = image;
 		this.unit = unit;
 		this.quantity = quantity;
 		this.price = price;

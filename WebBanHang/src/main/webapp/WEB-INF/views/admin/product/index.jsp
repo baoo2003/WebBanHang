@@ -156,7 +156,7 @@
         					Search
         				</button>
         			</form:form>
-                    <a class=" col-1 m-1 align-items-end btn btn-primary" href="./brands/form">
+                    <a class=" col-1 m-1 align-items-end btn btn-primary" href="create-product.htm">
                         Create
                     </a>
                 </div>

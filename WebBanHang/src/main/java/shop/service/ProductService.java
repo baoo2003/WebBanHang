@@ -2,12 +2,17 @@ package shop.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shop.dto.request.CreateProductDto;
+import shop.entity.Brand;
 import shop.entity.Category;
 import shop.entity.Product;
 
@@ -125,13 +130,6 @@ public class ProductService {
 			}
 		}
 		
-		return query.list();
-	}
-	
-	public List<Category> getCategories() {
-		Session session = factory.openSession();
-		String hql = "FROM Category";
-		Query query = session.createQuery(hql);
 		return query.list();
 	}
 	
@@ -253,5 +251,34 @@ public class ProductService {
 		Query query=session.createQuery(hql);
 		query.setParameter("categoryId", categoryId);
 		return query.list();
+	}
+	
+	@Transactional
+	public void addProduct(CreateProductDto createProduct, Brand brand, Category category, String imagePath) {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		Product product = new Product();
+		product.setName(createProduct.getName());
+		product.setBrand(brand);
+		product.setCategory(category);
+		product.setDescribe(createProduct.getDescription());
+		product.setOrigin(createProduct.getOrigin());
+		product.setImage(imagePath);
+		product.setUnit(createProduct.getUnit());
+		product.setQuantity(createProduct.getQuantity());
+		product.setPrice(createProduct.getPrice());
+		product.setDiscount(createProduct.getDiscount());
+		
+		try {
+			session.save(product);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
 	}
 }
