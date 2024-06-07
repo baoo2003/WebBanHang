@@ -288,7 +288,13 @@
                                 </div>
                             </div>                                                                             						                          
                             <div class="col-lg-9">
-                                <div class="row g-4 justify-content-center">                                	
+                                <div class="row g-4 justify-content-center">
+                                	<span class="d-flex justify-content-center">
+										<p style="color: red;">
+								<c:if test="${not empty errorMessage}">${errorMessage} </c:if>
+							</p>
+						</span>
+                                                                	
                                 	<c:forEach var="product" items="${products}">
 										<div class="col-md-6 col-lg-6 col-xl-4" onclick="window.location.href='product-detail.htm?productId=${product.id}';" style="cursor: pointer;">
 	                                        <div class="rounded position-relative fruite-item border border-secondary" style="bottom: 0px;">

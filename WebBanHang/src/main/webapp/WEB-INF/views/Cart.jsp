@@ -117,6 +117,11 @@
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <div class="table-responsive">
+                <span class="d-flex justify-content-center">
+							<p style="color: red;">
+								<c:if test="${not empty errorMessage}">${errorMessage} </c:if>
+							</p>
+						</span>
                     <table class="table">
                         <thead>
                           <tr>

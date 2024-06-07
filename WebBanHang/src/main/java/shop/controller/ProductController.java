@@ -25,6 +25,7 @@ public class ProductController {
 						@RequestParam(value="startPage", defaultValue="1", required=false) Long startPage, 					
 						@RequestParam(value="filterByPrice", defaultValue="0", required=false) Integer filterId, 
 						@RequestParam(value="keyWord", defaultValue="", required=false) String keyWord) {
+		
 		Long endPage;
 		Long numRecord=productService.countRecord(categoryId, filterId, keyWord);
 		if(pageNumber<startPage) pageNumber=startPage;
