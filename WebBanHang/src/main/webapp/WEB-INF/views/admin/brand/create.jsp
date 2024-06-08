@@ -158,8 +158,8 @@
         		</div>
         		<form:form action="manage-brand-create.htm" method="post" modelAttribute="brand">
                     <div class="mb-3">
-	                    <form:label path="name" for="productName" class="form-label">Name</form:label>
-	                    <form:input path="name" class="form-control" id="productName" />
+	                    <form:label path="name" for="brandName" class="form-label">Name</form:label>
+	                    <form:input path="name" class="form-control" id="brandName" />
 	                    <form:errors path="name" cssClass="error" />
                     </div>                                      
                     

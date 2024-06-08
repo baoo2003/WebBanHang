@@ -6,8 +6,7 @@ $(function () {
   // =====================================
   var chart = {
     series: [
-      { name: "Earnings this month:", data: [355, 390, 300, 350, 390, 180, 355, 390] },
-      { name: "Expense this month:", data: [280, 250, 325, 215, 250, 310, 280, 250] },
+      {name: "Total Sales", data: salesData },
     ],
  	
     chart: {
@@ -21,7 +20,7 @@ $(function () {
     },
 
 
-    colors: ["#5D87FF", "#49BEFF"],
+    colors: ["#5D87FF"],
 
 
     plotOptions: {
@@ -57,7 +56,7 @@ $(function () {
 
     xaxis: {
       type: "category",
-      categories: ["16/08", "17/08", "18/08", "19/08", "20/08", "21/08", "22/08", "23/08"],
+      categories: categories,
       labels: {
         style: { cssClass: "grey--text lighten-2--text fill-color" },
       },
@@ -67,7 +66,7 @@ $(function () {
     yaxis: {
       show: true,
       min: 0,
-      max: 400,
+      max: maxTotal,
       tickAmount: 4,
       labels: {
         style: {
@@ -110,8 +109,8 @@ $(function () {
   // =====================================
   var breakup = {
     color: "#adb5bd",
-    series: [38, 40, 25],
-    labels: ["2022", "2021", "2020"],
+    series: [currentYearTotal, previousYearToTal],
+    labels: [currentYear , currentYear-1],
     chart: {
       width: 180,
       type: "donut",
@@ -138,7 +137,7 @@ $(function () {
     legend: {
       show: false,
     },
-    colors: ["#5D87FF", "#ecf2ff", "#F9F9FD"],
+    colors: ["#5D87FF", "#ecf2ff"],
 
     responsive: [
       {
@@ -180,7 +179,7 @@ $(function () {
       {
         name: "Earnings",
         color: "#49BEFF",
-        data: [25, 66, 20, 40, 12, 58, 20],
+        data: salesData,
       },
     ],
     stroke: {

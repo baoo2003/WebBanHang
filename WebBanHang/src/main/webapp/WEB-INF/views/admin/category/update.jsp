@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+	<meta charset="UTF-8">
+	<title>Category ${category.name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Brands</title>
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/images/logos/favicon.png" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/styles.min.css" />" />
-    <base href="${pageContext.servletContext.contextPath}/">
     
     <style>
 		.error {
@@ -20,10 +20,11 @@
 	</style>
 </head>
 <body>
+
 <!--  Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
      data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
+     <!-- Sidebar Start -->
     <aside class="left-sidebar">
         <!-- Sidebar scroll-->
         <div>
@@ -63,7 +64,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
+                        <a class="sidebar-link activate" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
@@ -81,6 +82,9 @@
                     
                     <div class="sidebar-item" style="position: absolute; bottom: 10px">
                     	<li class="sidebar-item">
+	                    	<form action="${pageContext.request.contextPath}/logout.htm" >
+	                    	
+	                    	</form>
 	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/change-password.htm" aria-expanded="false">
 	                            <span>
 	                                <i class="ti ti-alert-circle"></i>
@@ -89,7 +93,7 @@
 	                        </a>
 	                    </li>
 	                    <li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/admin-logout.htm" method="post">
+	                    	<form action="${pageContext.request.contextPath}/logout.htm" method="post">
 	                    		<button class="sidebar-link btn" aria-expanded="false">
 		                            <span>
 		                                <i class="ti ti-login"></i>
@@ -106,13 +110,17 @@
         <!-- End Sidebar scroll-->
     </aside>
     <!--  Sidebar End -->
-
+    
     <!--  Main wrapper -->
     <div class="body-wrapper">
-        <!--  Header Start -->
+    	<!--  Header Start -->
         <header class="app-header">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+	                <a href="manage-category.htm">
+	                	<span style="font-size: 20px;">&#x2190;</span>
+	                	Back
+	                </a>
                     <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
@@ -133,7 +141,7 @@
                                         <i class="ti ti-list-check fs-6"></i>
                                         <p class="mb-0 fs-3">My Task</p>
                                     </a>
-                                    <a href="" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                 </div>
                             </div>
                         </li>
@@ -142,71 +150,36 @@
             </nav>
         </header>
         <!--  Header End -->
-
+        
         <div class="container-fluid">
-            <div class="card-body p-4">
-                <div class="row justify-content-around">
-                    <h5 class="col align-items-start card-title fw-semibold mb-4">All Brands</h5>
-                    <a class=" col-1 m-1 align-items-end btn btn-primary" href="manage-brand-create.htm">
-                        Create
-                    </a>
-                </div>
-                <div class="d-flex justify-content-center">
+        	<div class="card-body p-4">
+        		<div class="d-flex justify-content-center">
+        			<h3>Update</h3>
+        		</div>
+        		<div class="d-flex justify-content-center">
         			<span class="error">${message}</span>
         		</div>
-                <div class="table-responsive">
-                    <table class="table text-nowrap mb-0 align-middle">
-                        <thead class="text-dark fs-4">
-                            <tr>
-                                <th class="border-bottom-0 w-25">
-                                    <h6 class="fw-semibold mb-0">Id</h6>
-                                </th>
-                                <th class="border-bottom-0 w-25">
-                                    <h6 class="fw-semibold mb-0">Name</h6>
-                                </th>                                
-                                <th class="border-bottom-0 w-25">
-                                    <h6 class="fw-semibold mb-0 text-center">Action</h6>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>                       	                           
-                            <c:forEach var="brand" items="${brands}">
-                                <tr
-                                        onmouseover="this.style.backgroundColor='rgba(93, 135, 255, 0.1)'; this.style.color='#5D87FF'"
-                                        onmouseout="this.style.backgroundColor=''; this.style.color=''"
-                                        ondblclick="navigateTo('manage-brand-update.htm?brandId=${brand.id}')"
-                                >
-                                    <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0">${brand.id}</h6>
-                                    </td>
-                                    <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal">${brand.name}</p>
-                                    </td>                                                                      
-                                    <td class="border-bottom-0 d-flex justify-content-center align-items-center">
-                                    	<a href="manage-brand-update.htm?brandId=${brand.id}" class="btn btn-secondary me-2">
-                                            Update
-                                        </a> 
-                                    	<form action="manage-brand-delete.htm?brandId=${brand.id}" method="post" class="mb-0">
-		                                	<button type="submit" onclick="return confirm('Are you sure to delete this brand?')" class="btn btn-secondary">
-		                                        Delete
-		                                    </button>
-		                                </form>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        		<form:form action="manage-category-update.htm?categoryId=${category.id}" method="post" modelAttribute="category">
+                	<div class="mb-3">
+                        <label class="form-label">Id: ${category.id}</label>
+                    	<form:hidden path="id"/>	
+                    </div> 
+                         	                               
+                    <div class="mb-3">
+		           		<form:label path="name" for="categoryName" class="form-label">Name</form:label>
+		                <form:input path="name" class="form-control" id="categoryName" />
+		                <form:errors path="name" cssClass="error" />
+                 	</div>					                    			                    				                 				                    				                  				                    				                   
+                 	<div class="d-flex">
+                 		<button type="submit" class="btn btn-primary mx-auto px-4 py-8 fs-4 mb-4 rounded-2">
+                  			Update
+                  		</button>
+                 	</div>				                    
+                 </form:form>            		
+        	</div>
         </div>
     </div>
 </div>
-
-<script>
-    function navigateTo(url) {
-        window.location.href = url;
-    }
-</script>
 
 <script src="<c:url value="/resources/libs/jquery/dist/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js" />"></script>
