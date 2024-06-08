@@ -67,7 +67,7 @@ public class BrandController {
 			updateBrand.setName(null);
 			errors.rejectValue("name", "brand", "This field is required");
 		}
-		if (errors.hasErrors()) {			
+		if (errors.hasErrors()) {				
 			return "admin/brand/update";
 		}
 		

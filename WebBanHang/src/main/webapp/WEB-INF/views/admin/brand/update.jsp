@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Brand ${brand.id}</title>
+	<title>Brand ${brand.name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/images/logos/favicon.png" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/styles.min.css" />" />
@@ -154,38 +154,28 @@
         <div class="container-fluid">
         	<div class="card-body p-4">
         		<div class="d-flex justify-content-center">
-        			<h3>Update for ${brand.id}</h3>
+        			<h3>Update</h3>
         		</div>
         		<div class="d-flex justify-content-center">
         			<span class="error">${message}</span>
         		</div>
-        		<div class="row g-4">
-        			<div class="col-lg-12">
-                        <div class="row g-4">
-                            <div class="col-lg-4">                                
-                            </div>
-                            <div class="col-lg-8">
-                                <form:form action="manage-brand-update.htm?brandId=${brand.id}" method="post" modelAttribute="brand">
-                                	<div class="mb-3">
-                                		<label class="form-label">Id: ${brand.id}</label>
-                                		<form:hidden path="id"/>	
-                                	</div> 
+        		<form:form action="manage-brand-update.htm?brandId=${brand.id}" method="post" modelAttribute="brand">
+                	<div class="mb-3">
+                    	<label class="form-label">Id: ${brand.id}</label>
+                        <form:hidden path="id"/>	
+                    </div> 
                                 	                               
-                                	<div class="mb-3">
-					                    <form:label path="name" for="brandName" class="form-label">Name</form:label>
-					                    <form:input path="name" class="form-control" id="brandName" />
-					                    <form:errors path="name" cssClass="error" />
-				                    </div>					                    			                    				                 				                    				                  				                    				                   
-				                    <div class="d-flex">
-				                    	<button type="submit" class="btn btn-primary mx-auto px-4 py-8 fs-4 mb-4 rounded-2">
-					                    	Update
-					                    </button>
-				                    </div>				                    
-                                </form:form>                                
-                            </div>
-                        </div>
-                    </div>
-        		</div>
+                    <div class="mb-3">
+					    <form:label path="name" for="brandName" class="form-label">Name</form:label>
+					   	<form:input path="name" class="form-control" id="brandName" />
+						<form:errors path="name" cssClass="error" />
+				   	</div>					                    			                    				                 				                    				                  				                    				                   
+					<div class="d-flex">
+				   		<button type="submit" class="btn btn-primary mx-auto px-4 py-8 fs-4 mb-4 rounded-2">
+					 		Update
+					 	</button>
+				 	</div>				                    
+                	</form:form>        		
         	</div>
         </div>
     </div>

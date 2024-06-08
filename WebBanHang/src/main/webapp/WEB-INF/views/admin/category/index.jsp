@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Brands</title>
+    <title>Categories</title>
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/images/logos/favicon.png" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/styles.min.css" />" />
     <base href="${pageContext.servletContext.contextPath}/">
@@ -149,8 +149,8 @@
         <div class="container-fluid">
             <div class="card-body p-4">
                 <div class="row justify-content-around">
-                    <h5 class="col align-items-start card-title fw-semibold mb-4">All Brands</h5>
-                    <a class=" col-1 m-1 align-items-end btn btn-primary" href="manage-brand-create.htm">
+                    <h5 class="col align-items-start card-title fw-semibold mb-4">All Categories</h5>
+                    <a class=" col-1 m-1 align-items-end btn btn-primary" href="manage-category-create.htm">
                         Create
                     </a>
                 </div>
@@ -167,30 +167,30 @@
                                 <th class="border-bottom-0 w-25">
                                     <h6 class="fw-semibold mb-0">Name</h6>
                                 </th>                                
-                                <th class="border-bottom-0 w-25">
-                                    <h6 class="fw-semibold mb-0 text-center">Action</h6>
+                                <th class="border-bottom-0 w-25 text-center">
+                                    <h6 class="fw-semibold mb-0">Action</h6>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>                       	                           
-                            <c:forEach var="brand" items="${brands}">
+                            <c:forEach var="category" items="${categories}">
                                 <tr
                                         onmouseover="this.style.backgroundColor='rgba(93, 135, 255, 0.1)'; this.style.color='#5D87FF'"
                                         onmouseout="this.style.backgroundColor=''; this.style.color=''"
-                                        ondblclick="navigateTo('manage-brand-update.htm?brandId=${brand.id}')"
+                                        ondblclick="navigateTo('manage-category-update.htm?categoryId=${category.id}')"
                                 >
                                     <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0">${brand.id}</h6>
+                                        <h6 class="fw-semibold mb-0">${category.id}</h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal">${brand.name}</p>
-                                    </td>                                                                      
+                                        <p class="mb-0 fw-normal">${category.name}</p>
+                                    </td>                                                                     
                                     <td class="border-bottom-0 d-flex justify-content-center align-items-center">
-                                    	<a href="manage-brand-update.htm?brandId=${brand.id}" class="btn btn-secondary me-2">
+                                    	<a href="manage-category-update.htm?categoryId=${category.id}" class="btn btn-secondary me-2">
                                             Update
-                                        </a> 
-                                    	<form action="manage-brand-delete.htm?brandId=${brand.id}" method="post" class="mb-0">
-		                                	<button type="submit" onclick="return confirm('Are you sure to delete this brand?')" class="btn btn-secondary">
+                                        </a>
+                                    	<form action="manage-category-delete.htm?categoryId=${category.id}" method="post" class="m-0">
+		                                	<button type="submit" onclick="return confirm('Are you sure to delete this category?')" class="btn btn-secondary">
 		                                        Delete
 		                                    </button>
 		                                </form>
