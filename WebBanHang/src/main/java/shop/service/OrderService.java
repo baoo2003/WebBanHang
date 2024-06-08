@@ -3,7 +3,6 @@ package shop.service;
 import java.util.List;
 import java.util.Date;
 
-
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -30,19 +29,34 @@ public class OrderService {
 
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private CustomerService customerService;
 
+	@SuppressWarnings("deprecation")
 	@Transactional
 	public void createOrder(OrderDto orderDto, Integer customerId) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			List<Object[]> cartDetails = cartService.getCartAndProductDetailsByCustomer(customerId);
-			Integer timestamp = (int) (new Date().getTime() / 1000);
+			Customer customer = customerService.getCustomerById(customerId);
 			Order order = new Order();
-			order.setId(timestamp);
-//			order.setAddress()
 			
-			
+			Date now = new Date();
+
+			order.setFullname(orderDto.getFirstName() + " " + orderDto.getLastName());
+			;
+			order.setPhoneNumber(orderDto.getPhoneNumber());
+			order.setAddress(orderDto.getAddress());
+			order.setDeliveryNote(orderDto.getNote());
+			order.setCustomer(customer);
+			order.setOrderTime(now);
+			now.setDate(7);
+			order.setDeliveryTime(now);
+			order.setDeliveryNote(orderDto.getNote());
+			order.setStatus("PLACED");
+
 			session.save(order);
 
 			transaction.commit();

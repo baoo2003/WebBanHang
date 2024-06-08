@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.dto.request.OrderDto;
 import shop.dto.request.ProfileDto;
@@ -33,13 +36,13 @@ public class CheckoutController {
 	@RequestMapping("/checkout")
 	public String index(ModelMap model, HttpSession session) {
 		Integer customerIdInt = (Integer) session.getAttribute("userId");
-		
+
 		if (customerIdInt == null) {
 			return "redirect:/login.htm";
 		}
 
-		Customer customer= customerService.getCustomerById((Integer) session.getAttribute("userId"));	
-		ProfileDto profileDto=new ProfileDto(customer);
+		Customer customer = customerService.getCustomerById((Integer) session.getAttribute("userId"));
+		ProfileDto profileDto = new ProfileDto(customer);
 		model.addAttribute("profileDto", profileDto);
 
 		List<Object[]> cartDetails = cartService.getCartAndProductDetailsByCustomer(customerIdInt);
@@ -64,19 +67,39 @@ public class CheckoutController {
 		return "Checkout";
 	}
 
-	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String createOrder(ModelMap model, HttpSession session,
-			BindingResult errors) {
+	@RequestMapping(value = "checkout", method = RequestMethod.POST)
+	public String createOrder(
+			HttpSession session, 
+			ModelMap model, 
+			RedirectAttributes redirectAttributes,
+			@RequestParam("firstName") String firstName, 
+			@RequestParam("lastName") String lastName,
+			@RequestParam("email") String email,
+			@RequestParam("address") String address,
+			@RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam("shipping") String shipping,
+			@RequestParam("payment") String payment,
+			@RequestParam("note") String note
+			) {
 
 		Integer customerId = (Integer) session.getAttribute("userId");
 		try {
+
 			OrderDto orderDto = new OrderDto();
-			
-			orderService.createOrder(orderDto,customerId);
-			return "customer/order";
+			orderDto.setFirstName(firstName);
+			orderDto.setLastName(lastName);
+			orderDto.setEmail(email);
+			orderDto.setAddress(address);
+			orderDto.setPhoneNumber(phoneNumber);
+			orderDto.setShipping(shipping);
+			orderDto.setPayment(payment);
+			orderDto.setNote(note);
+
+			orderService.createOrder(orderDto, customerId);
+			return "Profile";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
-			return "cart";
+			return "Cart";
 		}
 
 	}

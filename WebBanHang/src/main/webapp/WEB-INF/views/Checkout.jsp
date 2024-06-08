@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="utf-8" />
 <title>Green Valley - Checkout</title>
@@ -85,8 +86,9 @@
 		</div>
 		<div class="container px-0">
 			<nav class="navbar navbar-light bg-white navbar-expand-xl">
-				<a href="home.htm" class="navbar-brand"><h1
-						class="text-primary display-6">Green Valley</h1></a>
+				<a href="home.htm" class="navbar-brand">
+					<h1 class="text-primary display-6">Green Valley</h1>
+				</a>
 				<button class="navbar-toggler py-2 px-3" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
 					<span class="fa fa-bars text-primary"></span>
@@ -146,7 +148,7 @@
 	<div class="container-fluid py-5">
 		<div class="container py-5">
 			<h1 class="mb-4">Billing details</h1>
-			<form action="#" >
+			<form action="checkout.htm" method="post">
 				<div class="row g-5">
 					<div class="col-md-12 col-lg-6 col-xl-7">
 						<div class="row">
@@ -154,34 +156,36 @@
 								<div class="form-item w-100">
 									<label class="form-label my-3">First Name<sup>*</sup>
 									</label> <input type="text" class="form-control" required
-										name="firstName" maxlength="50" />
+										name="firstName" maxlength="50"
+										value="${profileDto.firstName}" />
 								</div>
 							</div>
 							<div class="col-md-12 col-lg-6">
 								<div class="form-item w-100">
 									<label class="form-label my-3">Last Name<sup>*</sup></label> <input
 										type="text" class="form-control" required name="lastName"
-										maxlength="50" />
+										maxlength="50" value="${profileDto.lastName}" />
 								</div>
 							</div>
 						</div>
 						<div class="form-item">
 							<label class="form-label my-3">Email Address</label> <input
-								type="email" class="form-control" name="email" />
+								type="email" class="form-control" name="email"
+								value="${profileDto.email}" />
 						</div>
 						<div class="form-item">
 							<label class="form-label my-3">Mobile<sup>*</sup></label> <input
-								type="tel" class="form-control" required name="phone"
-								maxlength="1" />
+								type="tel" class="form-control" required name="phoneNumber"
+								maxlength="1" value="${profileDto.phoneNumber}" />
 						</div>
 						<div class="form-item">
 							<label class="form-label my-3">Address <sup>*</sup></label> <input
 								type="text" class="form-control"
 								placeholder="House Number Street Name" required name="address"
-								maxlength="200" />
+								maxlength="200" value="${profileDto.address}" />
 						</div>
 						<div class="form-item my-3">
-							<textarea name="text" class="form-control" spellcheck="false"
+							<textarea name="note" class="form-control" spellcheck="false"
 								cols="30" rows="4" placeholder="Oreder Notes" maxlength="200"></textarea>
 						</div>
 					</div>
@@ -250,7 +254,7 @@
 											<div class="form-check text-start">
 												<input type="radio"
 													class="form-check-input bg-primary border-0"
-													id="Shipping-1" name="shipping-cod" value="0" required
+													id="Shipping-1" name="shipping" value="0" required
 													onchange="updateTotalPrice()" /> <label
 													class="form-check-label" for="Shipping-1">Free
 													Shipping</label>
@@ -258,7 +262,7 @@
 											<div class="form-check text-start">
 												<input type="radio"
 													class="form-check-input bg-primary border-0"
-													id="Shipping-2" name="shipping-cod" value="15" required
+													id="Shipping-2" name="shipping" value="15" required
 													onchange="updateTotalPrice()" /> <label
 													class="form-check-label" for="Shipping-2">Flat
 													rate: $15.00</label>
@@ -266,7 +270,7 @@
 											<div class="form-check text-start">
 												<input type="radio"
 													class="form-check-input bg-primary border-0"
-													id="Shipping-3" name="shipping-cod" value="8" required
+													id="Shipping-3" name="shipping" value="8" required
 													onchange="updateTotalPrice()" /> <label
 													class="form-check-label" for="Shipping-3">Local
 													Pickup: $8.00</label>
@@ -434,4 +438,5 @@
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
 </body>
+
 </html>
