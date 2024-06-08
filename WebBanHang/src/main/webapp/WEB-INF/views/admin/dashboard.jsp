@@ -369,7 +369,7 @@
 <script>
     var salesData = [];
     var categories = [];
-	var maxTotal = ${maxTotal+20};
+	var maxTotal = ${maxTotal};
 	<c:forEach var="dto" items="${salesOverviewDTOs}">
     salesData.push(${dto.total});
     categories.push('${dto.month}/${dto.year}');
