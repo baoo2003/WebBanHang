@@ -158,4 +158,18 @@ public class SaleOverService {
             session.close();
         }
    }
+    
+    public Integer totalOrder() {
+      	 Session session = sessionFactory.openSession();
+      	 try {
+      		 String hql = "SELECT COUNT(o) FROM Order o";
+      		 Query query = session.createQuery(hql);
+      		 Long count = (Long) query.uniqueResult();
+      		 return count.intValue();
+      	 }catch (Exception e) {
+               throw e;
+           } finally {
+               session.close();
+           }
+      }
 }
