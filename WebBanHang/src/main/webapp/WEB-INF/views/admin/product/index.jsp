@@ -41,11 +41,11 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
+                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-brand.htm" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
-                            <span class="hide-menu">Product</span>
+                            <span class="hide-menu">Brand</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -56,6 +56,14 @@
                             <span class="hide-menu">Category</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-article"></i>
+                            </span>
+                            <span class="hide-menu">Product</span>
+                        </a>
+                    </li>                    
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-order.htm" aria-expanded="false">
                             <span>
