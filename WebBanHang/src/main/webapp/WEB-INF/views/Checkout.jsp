@@ -37,22 +37,6 @@
 
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet" />
-<script>
-	function updateTotalPrice() {
-		var shippingOptions = document.getElementsByName('shipping-cod');
-		var shippingCost = 0;
-		for (var i = 0; i < shippingOptions.length; i++) {
-			if (shippingOptions[i].checked) {
-				shippingCost = parseFloat(shippingOptions[i].value);
-				break;
-			}
-		}
-		var subTotal = parseFloat(document.getElementById('subTotal').innerText);
-		var total = subTotal + shippingCost;
-		document.getElementById('totalPrice').innerText = '$'
-				+ total.toFixed(2);
-	}
-</script>
 </head>
 
 <body>
@@ -437,6 +421,23 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
+
+	<script>
+		function updateTotalPrice() {
+			var shippingOptions = document.getElementsByName('shipping');
+			var shippingCost = 0;
+			for (var i = 0; i < shippingOptions.length; i++) {
+				if (shippingOptions[i].checked) {
+					shippingCost = parseFloat(shippingOptions[i].value);
+					break;
+				}
+			}
+			var subTotal = parseInt(document.getElementById('subTotal').innerText);
+			var total = subTotal + shippingCost;
+			document.getElementById('totalPrice').innerText = '$'
+					+ total.toFixed(2);
+		}
+	</script>
 </body>
 
 </html>
