@@ -15,12 +15,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name="HOADON")
 public class Bill {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@OneToOne
 	@JoinColumn(name="MADH")
 	private Order order;
+	
 	@ManyToOne
 	@JoinColumn(name="MANV")
 	private Staff staff;

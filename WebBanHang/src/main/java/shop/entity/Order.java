@@ -142,4 +142,12 @@ public class Order {
 	public void setBill(Bill bill) {
 		this.bill = bill;
 	}
+
+	public String getDeliveryNote() {
+		return deliveryNote;
+	}
+
+	public void setDeliveryNote(String deliveryNote) {
+		this.deliveryNote = deliveryNote;
+	}
 }

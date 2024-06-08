@@ -28,7 +28,7 @@ public class OrderDetail {
 	@Column(name="SOLUONG")
 	private Integer quantity;
 	
-	@Column(name="DONGIA")
+	@Column(name="GIA")
 	private Float price;
 	
 	public OrderDetail() {
@@ -37,8 +37,8 @@ public class OrderDetail {
 	
 	public OrderDetail(Order order, Product product, Integer quantity, Float price) {
         this.id = new OrderDetailId(order.getId(), product.getId());
-        this.order = order;
-        this.product = product;
+        this.setOrder(order);
+        this.setProduct(product);
         this.quantity = quantity;
         this.price=price;
     }
@@ -60,6 +60,22 @@ public class OrderDetail {
 	}
 	public void setId(OrderDetailId id) {
 		this.id = id;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 }
