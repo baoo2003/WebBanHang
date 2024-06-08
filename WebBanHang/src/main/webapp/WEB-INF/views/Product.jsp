@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
 <!DOCTYPE html>
@@ -31,6 +32,12 @@
         
 		<link href="css/style.css" rel="stylesheet">
 		
+		<style>
+			.error {
+				color: red;
+				font-style: italic;
+			}
+		</style>
 		<script type="text/javascript">
 		function appendParam(paramName, paramValue) {
 		    var currentUrl = window.location.href;
@@ -383,9 +390,14 @@
                             </a>
                         </div>
                         <div class="col-lg-6">
+                        
                             <div class="position-relative mx-auto">
-                                <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
+                            <form action = "sendMail.htm" method = "post">
+                       			<input name = "emailReceiver" class = "form-control border-0 w-100 py-3 px-4 rounded-pill" type = "text" placeholder="Your Email" /> 
+                               
+          
                                 <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                            </form>
                             </div>
                         </div>
                         <div class="col-lg-3">
