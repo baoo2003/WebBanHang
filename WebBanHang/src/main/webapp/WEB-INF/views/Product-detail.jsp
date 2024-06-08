@@ -67,11 +67,10 @@
                         <div class="navbar-nav mx-auto">
                             <a href="home.htm" class="nav-item nav-link active">Home</a>
                            	<a href="cart.htm" class="nav-item nav-link">Cart</a>
-                            <a href="checkout.htm" class="nav-item nav-link">Checkout</a>
                             <a href="contact.htm" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">                            
-                            <a href="#" class="position-relative me-4 my-auto">
+                            <a href="cart.htm" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>                               
                             </a>
                             <div class=" nav-item dropdown">
@@ -86,7 +85,7 @@
 		                       			</c:when>
                        			
 		                       			<c:otherwise>
-			                            	<a href="customer-profile.htm" class="dropdown-item">View profile</a>
+                                           			                            	<a href="customer-profile.htm" class="dropdown-item">View profile</a>
 			                            	<a href="customer-order.htm" class="dropdown-item">View orders</a>
 											<div class="dropdown-divider"></div>
 											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">

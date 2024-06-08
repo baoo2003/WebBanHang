@@ -12,15 +12,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import shop.entity.Order;
+
 @Entity
 @Table(name="HOADON")
 public class Bill {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@OneToOne
 	@JoinColumn(name="MADH")
 	private Order order;
+	
 	@ManyToOne
 	@JoinColumn(name="MANV")
 	private Staff staff;

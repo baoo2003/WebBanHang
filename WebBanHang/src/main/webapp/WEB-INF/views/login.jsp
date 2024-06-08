@@ -74,7 +74,6 @@
                         <div class="navbar-nav mx-auto">
                             <a href="home.htm" class="nav-item nav-link">Home</a>
                             <a href="cart.htm" class="nav-item nav-link">Cart</a>
-                            <a href="checkout.htm" class="nav-item nav-link">Checkout</a>
                             <a href="contact.htm" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
