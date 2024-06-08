@@ -179,7 +179,7 @@ $(function () {
       {
         name: "Earnings",
         color: "#49BEFF",
-        data: [25, 66, 20, 40, 12, 58, 20],
+        data: salesData,
       },
     ],
     stroke: {
