@@ -188,7 +188,9 @@
 	                                <form:errors path="password" cssClass="error" />
                                 </div>
                                 
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Update</button>
+                                <div class="d-flex">
+                                	<button class="mx-auto px-4 btn border-secondary py-3 bg-white text-primary mt-4" type="submit">Update</button>
+                                </div>                               
                                 
                             </form:form>
                             <br />                            
