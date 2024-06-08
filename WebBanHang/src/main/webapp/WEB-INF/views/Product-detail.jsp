@@ -80,7 +80,7 @@
                             	</a>
                             	<div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 	<c:choose>
-                        				<c:when test="${empty sessionScope.userId}">
+                        				<c:when test="${empty sessionScope.customerId}">
                         					<a href="login.htm" class="dropdown-item">Login</a>
 		                                	<a href="register.htm" class="dropdown-item">Register</a>
 		                       			</c:when>
