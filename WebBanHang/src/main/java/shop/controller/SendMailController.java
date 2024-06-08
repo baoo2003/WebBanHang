@@ -26,7 +26,7 @@ public class SendMailController {
 	@RequestMapping(value = "/sendMail", method = RequestMethod.POST)
 	public String sendMail(
 			 @RequestParam("emailReceiver") String emailReceiver
-			) {
+			) throws Exception {
 			
 			
 			try {
