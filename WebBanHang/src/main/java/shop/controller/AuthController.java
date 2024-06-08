@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import shop.dto.request.LoginDto;
 import shop.dto.request.RegisterDto;
-import shop.dto.response.LoginResponse;
 import shop.service.AuthService;
 import shop.service.CustomerService;
 
@@ -55,30 +54,18 @@ public class AuthController {
 		}
 		
 		if (errors.hasErrors()) {
-			model.addAttribute("message","Please correct the following errors!");
 			return "login";
 		}
 		
-		LoginResponse loginResponse = new LoginResponse();
+		Integer customerId;
 		try {
-			loginResponse = authService.login(loginDto);
+			customerId = authService.loginForCustomer(loginDto);
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
 			return "login";
 		}
 		
-		if (loginResponse.getUserId() == null) {
-			model.addAttribute("message", "Username not found");
-			return "login";
-		}
-		
-		session.setAttribute("userId", loginResponse.getUserId());
-		session.setAttribute("roleId", loginResponse.getRoleId());
-		
-		if (!loginResponse.getRoleId().equalsIgnoreCase("KH")) {
-			model.addAttribute("message", "You do not have permission to login!");
-			return "login";
-		}
+		session.setAttribute("customerId", customerId);
 		return "redirect:/home.htm";
 	}
 	
@@ -107,26 +94,15 @@ public class AuthController {
 			return "admin/login";
 		}
 		
-		LoginResponse loginResponse = new LoginResponse();
+		Integer staffId;
 		try {
-			loginResponse = authService.login(loginDto);
+			staffId = authService.loginForAdmin(loginDto);
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
 			return "admin/login";
 		}
 		
-		if (loginResponse.getUserId() == null) {
-			model.addAttribute("message", "Username not found");
-			return "admin/login";
-		}
-		
-		session.setAttribute("userId", loginResponse.getUserId());
-		session.setAttribute("roleId", loginResponse.getRoleId());
-		
-		if (!(loginResponse.getRoleId().equalsIgnoreCase("QL") || loginResponse.getRoleId().equalsIgnoreCase("NV"))) {
-			model.addAttribute("message", "You do not have permission to login!");
-			return "admin/login";
-		}
+		session.setAttribute("staffId", staffId);
 		return "redirect:/admin.htm";
 	}
 	
@@ -188,15 +164,15 @@ public class AuthController {
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
-		String roleId = (String) session.getAttribute("roleId");
+		session.removeAttribute("customerId");
 		
-		session.removeAttribute("userId");
-		session.removeAttribute("roleId");
+		return "redirect:/home.htm";
+	}
+	
+	@RequestMapping(value = "/admin-logout", method = RequestMethod.POST)
+	public String logoutForAdmin(HttpSession session) {
+		session.removeAttribute("staffId");
 		
-		if (roleId.equalsIgnoreCase("KH")) {
-			return "redirect:/home.htm";
-		} else {
-			return "redirect:/admin-login.htm";
-		}
+		return "redirect:/admin-login.htm";
 	}
 }

@@ -48,11 +48,11 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link activate" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
+                        <a class="sidebar-link activate" href="${pageContext.request.contextPath}/manage-brand.htm?page=1" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
-                            <span class="hide-menu">Product</span>
+                            <span class="hide-menu">Brand</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -61,6 +61,14 @@
                                 <i class="ti ti-article"></i>
                             </span>
                             <span class="hide-menu">Category</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link activate" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-article"></i>
+                            </span>
+                            <span class="hide-menu">Product</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -74,9 +82,6 @@
                     
                     <div class="sidebar-item" style="position: absolute; bottom: 10px">
                     	<li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" >
-	                    	
-	                    	</form>
 	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/change-password.htm" aria-expanded="false">
 	                            <span>
 	                                <i class="ti ti-alert-circle"></i>
@@ -85,7 +90,7 @@
 	                        </a>
 	                    </li>
 	                    <li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" method="post">
+	                    	<form action="${pageContext.request.contextPath}/admin-logout.htm" method="post">
 	                    		<button class="sidebar-link btn" aria-expanded="false">
 		                            <span>
 		                                <i class="ti ti-login"></i>
@@ -148,7 +153,7 @@
         			<span class="error">${message}</span>
         		</div>
         		<div class="col-lg-12">
-	                <form:form action="change-password.htm?id=${sessionScope.userId}" method="post" modelAttribute="changePassword">
+	                <form:form action="change-password.htm?id=${sessionScope.staffId}" method="post" modelAttribute="changePassword">
 	                	<div class="mb-3">
 			                <form:label path="oldPassword" for="oldPassword" class="form-label">Old password</form:label>
 			                <form:input path="oldPassword" type="password" class="form-control" id="oldPassword" />

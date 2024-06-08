@@ -15,9 +15,9 @@ public class SecurityAdminInterceptor extends HandlerInterceptorAdapter {
 	) throws Exception {
 		HttpSession session = request.getSession();
 		
-		String roleId = (String) session.getAttribute("roleId");
+		Integer staffId = (Integer) session.getAttribute("staffId");
 		
-		if (roleId == null || !(roleId.equalsIgnoreCase("QL") || roleId.equalsIgnoreCase("NV"))) {
+		if (staffId == null) {
 			session.setAttribute("loginMessage", "Please log in to continue");
 			response.sendRedirect(request.getContextPath() + "/admin-login.htm");
 			return false;

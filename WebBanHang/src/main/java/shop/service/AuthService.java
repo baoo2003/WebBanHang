@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import shop.dto.request.LoginDto;
 import shop.dto.request.RegisterDto;
-import shop.dto.response.LoginResponse;
 import shop.entity.Account;
 import shop.entity.Customer;
 import shop.entity.Role;
@@ -22,31 +21,36 @@ public class AuthService {
 	@Autowired
 	SessionFactory factory;
 	
-	public LoginResponse login(LoginDto loginDto) throws Exception {
+	public Integer loginForCustomer(LoginDto login) throws Exception {
 		Session session = factory.openSession();
-		String hql = "FROM Account WHERE username = :username AND password = :password";
+		String roleId = getRoleId(session, login.getUsername(), login.getPassword());
+		
+		if (!roleId.equalsIgnoreCase("KH")) {
+			throw new Exception("You do not have permission to login!");
+		}
+		
+		String hql = "SELECT c.id FROM Customer c JOIN c.account a WHERE a.username = :username";
 		Query query = session.createQuery(hql);
-	    query
-	    	.setParameter("username", loginDto.getUsername())
-	    	.setParameter("password", loginDto.getPassword());
-	    
-	    LoginResponse loginResponse = new LoginResponse();
-	    Account account = (Account) query.uniqueResult();
-	    
-	    if (account == null) {
-	    	throw new Exception("Wrong username or password");
-	    }
-	    
-	    if (account.getRole().getId().equalsIgnoreCase("KH")) {
-	    	Integer customerId = loginForCustomer(session, loginDto.getUsername());
-	    	loginResponse.setUserId(customerId);
-	    } else {
-	    	Integer staffId = loginForAdmin(session, loginDto.getUsername());
-	    	loginResponse.setUserId(staffId);
-	    }
-    	loginResponse.setRoleId(account.getRole().getId());
-	    
-		return loginResponse;
+		query.setParameter("username", login.getUsername());
+		
+		Integer customerId = (Integer) query.uniqueResult();
+		return customerId;
+	}
+	
+	public Integer loginForAdmin(LoginDto login) throws Exception {
+		Session session = factory.openSession();
+		String roleId = getRoleId(session, login.getUsername(), login.getPassword());
+		
+		if (!(roleId.equalsIgnoreCase("QL") || roleId.equalsIgnoreCase("NV"))) {
+			throw new Exception("You do not have permission to login!");
+		}
+		
+		String hql = "SELECT s.id FROM Staff s JOIN s.account a WHERE a.username = :username";
+		Query query = session.createQuery(hql);
+		query.setParameter("username", login.getUsername());
+		
+		Integer staffId = (Integer) query.uniqueResult();
+		return staffId;
 	}
 	
 	@Transactional
@@ -85,21 +89,18 @@ public class AuthService {
 		}
 	}
 	
-	private Integer loginForCustomer(Session session, String username) {
-		String hql = "SELECT c.id FROM Customer c JOIN c.account a WHERE a.username = :username";
+	private String getRoleId(Session session, String username, String password) throws Exception {
+		String hql = "FROM Account WHERE username = :username AND password = :password";
 		Query query = session.createQuery(hql);
-		query.setParameter("username", username);
-		
-		Integer customerId = (Integer) query.uniqueResult();
-		return customerId;
-	}
-	
-	private Integer loginForAdmin(Session session, String username) {
-		String hql = "SELECT s.id FROM Staff s JOIN s.account a WHERE a.username = :username";
-		Query query = session.createQuery(hql);
-		query.setParameter("username", username);
-		
-		Integer staffId = (Integer) query.uniqueResult();
-		return staffId;
+	    query
+	    	.setParameter("username", username)
+	    	.setParameter("password", password);
+	    
+	    Account account = (Account) query.uniqueResult();
+	    
+	    if (account == null) {
+	    	throw new Exception("Wrong username or password");
+	    }
+	    return account.getRole().getId();
 	}
 }

@@ -74,9 +74,6 @@
                     
                     <div class="sidebar-item" style="position: absolute; bottom: 10px">
                     	<li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" >
-	                    	
-	                    	</form>
 	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/change-password.htm" aria-expanded="false">
 	                            <span>
 	                                <i class="ti ti-alert-circle"></i>
@@ -85,7 +82,7 @@
 	                        </a>
 	                    </li>
 	                    <li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" method="post">
+	                    	<form action="${pageContext.request.contextPath}/admin-logout.htm" method="post">
 	                    		<button class="sidebar-link btn" aria-expanded="false">
 		                            <span>
 		                                <i class="ti ti-login"></i>
