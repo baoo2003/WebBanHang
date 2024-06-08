@@ -12,9 +12,8 @@ public class SendMailService {
 	@Autowired
 	JavaMailSender mailer;
 	
-	public Boolean sendMail(String to, String subject, String body ) {
+	public void sendMail(String from, String to, String subject, String body) throws Exception {
 		try {
-			String from = "pqt758837@gmail.com";
 			MimeMessage mail = mailer.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail);
 			helper.setFrom(from, from);
@@ -25,10 +24,9 @@ public class SendMailService {
 			String formattedBody = body.replace("\n", "<br>");
 	        helper.setText(formattedBody, true);
 			mailer.send(mail);
-			return true;
 		} catch (Exception e) {
-			System.out.println("Lỗi: " + e.getMessage());
-			return false;
+			e.printStackTrace();
+			throw e;
 		}
 	}
 }

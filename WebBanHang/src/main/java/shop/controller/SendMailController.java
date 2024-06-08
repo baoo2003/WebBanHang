@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shop.entity.Product;
 import shop.service.ProductService;
 import shop.service.SendMailService;
+import shop.utils.Const;
 
 @Controller
 public class SendMailController {
@@ -31,6 +32,7 @@ public class SendMailController {
 			try {
 				String subject = "Information products of Green Valley";
 				String body = "Top 5 best selling products of Green Valley \n";
+        
 				List<Product> products = productService.get5Product();
 				int i = 1;
 				for(Product p : products) {
@@ -38,11 +40,10 @@ public class SendMailController {
 					body = body + i + ". " + p.getName() + " - Price: $" + p.getPrice() + "\n";
 					i++;
 				} 
-				sendMailService.sendMail(emailReceiver, subject, body);
-				
+				sendMailService.sendMail(Const.EMAIL_ADMIN, emailReceiver, subject, body);
 			}
 			catch(Exception e) {
-				e.printStackTrace();
+			  e.printStackTrace();
 	            throw e;
 			}			
 	
