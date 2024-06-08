@@ -222,14 +222,18 @@
 					                    <form:errors path="discount" cssClass="error" />
 				                    </div>
 				                    
-				                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
-				                    	Update
-				                    </button>
+				                    <div class="d-flex">
+				                    	<button type="submit" class="btn btn-primary mx-auto py-8 fs-4 mb-4 rounded-2">
+					                    	Update
+					                    </button>
+				                    </div>
                                 </form:form>
                                 <form:form action="delete-product.htm?id=${param.id}" method="post" modelAttribute="product">
-                                	<button type="submit" onclick="return confirm('Are you sure to delete this product?')" class="btn btn-danger w-100 py-8 fs-4 mb-4 rounded-2">
-                                        Delete
-                                    </button>
+                                    <div class="d-flex">
+				                    	<button type="submit" onclick="return confirm('Are you sure to delete this product?')" class="btn btn-danger mx-auto py-8 fs-4 mb-4 rounded-2">
+	                                        Delete
+	                                    </button>
+				                    </div>
                                 </form:form>
                             </div>
                         </div>

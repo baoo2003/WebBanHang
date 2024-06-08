@@ -7,7 +7,12 @@
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
-			<mvc:mapping path=""/>
+			<mvc:mapping path="/admin.htm"/>
+			<mvc:mapping path="/manage-brand.htm"/>
+			<mvc:mapping path="/manage-category.htm"/>
+			<mvc:mapping path="/manage-product.htm"/>
+			<mvc:mapping path="/manage-order.htm"/>
+			<mvc:mapping path="/change-password.htm"/>
 			<bean class="shop.interceptor.SecurityAdminInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

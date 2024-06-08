@@ -68,18 +68,66 @@ public class AuthController {
 		}
 		
 		if (loginResponse.getUserId() == null) {
+			model.addAttribute("message", "Username not found");
 			return "login";
 		}
 		
 		session.setAttribute("userId", loginResponse.getUserId());
 		session.setAttribute("roleId", loginResponse.getRoleId());
 		
-		if (loginResponse.getRoleId().equalsIgnoreCase("KH")) {
-			return "redirect:/home.htm";
-		} else {
-			// TODO: redirect to admin page
-			return "redirect:/404.htm";
+		if (!loginResponse.getRoleId().equalsIgnoreCase("KH")) {
+			model.addAttribute("message", "You do not have permission to login!");
+			return "login";
 		}
+		return "redirect:/home.htm";
+	}
+	
+	@RequestMapping("/admin-login")
+	public String adminLogin(ModelMap model) {
+		model.addAttribute("login", new LoginDto());
+		return "admin/login";
+	}
+	
+	@RequestMapping(value = "/admin-login", method = RequestMethod.POST)
+	public String adminLogin(
+		ModelMap model,
+		HttpSession session,
+		@ModelAttribute("login") LoginDto loginDto,
+		BindingResult errors
+	) {
+		if (loginDto.getUsername().isBlank()) {
+			loginDto.setUsername(null);
+			errors.rejectValue("username", "login", "This field is required");			
+		}
+		if (loginDto.getPassword().isBlank()) {
+			loginDto.setPassword(null);
+			errors.rejectValue("password", "login", "This field is required");			
+		}
+		if (errors.hasErrors()) {
+			return "admin/login";
+		}
+		
+		LoginResponse loginResponse = new LoginResponse();
+		try {
+			loginResponse = authService.login(loginDto);
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			return "admin/login";
+		}
+		
+		if (loginResponse.getUserId() == null) {
+			model.addAttribute("message", "Username not found");
+			return "admin/login";
+		}
+		
+		session.setAttribute("userId", loginResponse.getUserId());
+		session.setAttribute("roleId", loginResponse.getRoleId());
+		
+		if (!(loginResponse.getRoleId().equalsIgnoreCase("QL") || loginResponse.getRoleId().equalsIgnoreCase("NV"))) {
+			model.addAttribute("message", "You do not have permission to login!");
+			return "admin/login";
+		}
+		return "redirect:/admin.htm";
 	}
 	
 	@RequestMapping("/register")
@@ -140,9 +188,15 @@ public class AuthController {
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
+		String roleId = (String) session.getAttribute("roleId");
+		
 		session.removeAttribute("userId");
 		session.removeAttribute("roleId");
-
-		return "redirect:/home.htm";
+		
+		if (roleId.equalsIgnoreCase("KH")) {
+			return "redirect:/home.htm";
+		} else {
+			return "redirect:/admin-login.htm";
+		}
 	}
 }

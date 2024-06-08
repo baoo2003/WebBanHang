@@ -210,9 +210,11 @@
 	                    <form:errors path="discount" cssClass="error" />
                     </div>
                     
-                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
-                    	Submit
-                    </button>
+                    <div class="d-flex">
+	                    <button type="submit" class="btn btn-primary py-8 fs-4 mb-4 mx-auto rounded-2" style="width:fit-content;">
+	                    	Submit
+	                    </button>
+                    </div>
                   </form:form>
         	</div>
         </div>
