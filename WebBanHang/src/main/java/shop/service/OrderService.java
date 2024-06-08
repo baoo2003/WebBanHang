@@ -1,7 +1,9 @@
 package shop.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.transaction.Transactional;
 
@@ -33,7 +35,7 @@ public class OrderService {
 	@Autowired
 	private CustomerService customerService;
 
-	@SuppressWarnings("deprecation")
+	
 	@Transactional
 	public void createOrder(OrderDto orderDto, Integer customerId) {
 		Session session = sessionFactory.openSession();
@@ -56,10 +58,33 @@ public class OrderService {
 			order.setDeliveryTime(now);
 			order.setDeliveryNote(orderDto.getNote());
 			order.setStatus("PLACED");
-
+			
 			session.save(order);
+			
 
+			for (Object[] detail : cartDetails) {
+				Integer productId = (Integer) detail[1];
+				Integer quantity = (Integer) detail[2];
+				Float price = (Float) detail[4];
+				
+				OrderDetailId orderDetailId = new OrderDetailId(order.getId(), productId);
+				OrderDetail orderDetail = new OrderDetail();
+				
+				Product product = new Product();
+				
+				product.setId(productId);
+				
+				orderDetail.setId(orderDetailId);
+				orderDetail.setOrder(order);
+				orderDetail.setPrice(price);
+				orderDetail.setProduct(product);
+				orderDetail.setQuantity(quantity);
+				session.save(orderDetail);
+	        }
+			
 			transaction.commit();
+
+			cartService.deleteCartByCustomerId(customerId);
 		} catch (Exception e) {
 			transaction.rollback();
 			throw e;

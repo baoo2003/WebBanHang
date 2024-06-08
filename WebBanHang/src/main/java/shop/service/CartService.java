@@ -99,6 +99,26 @@ public class CartService {
 	    }
 	}
 	
+	public void deleteCartByCustomerId(Integer customerId) {
+		Session session = sessionFactory.openSession();
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        String hql = "DELETE FROM Cart c WHERE c.customer.id = :customerId";
+            Query query = session.createQuery(hql);
+            query.setParameter("customerId", customerId);
+            query.executeUpdate();
+	        tx.commit();
+	       
+	    } catch (Exception e) {
+	        if (tx != null) tx.rollback();
+	        throw e;  
+	    } finally {
+	        session.close();
+	    }
+	}
+	
+	
 	public void loadCart(Integer customerId, Integer productId, Integer quantity) {
 	    Session session = sessionFactory.openSession();
 	    Transaction tx = null;
