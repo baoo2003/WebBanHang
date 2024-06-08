@@ -94,8 +94,7 @@
 						<a
 						  href="#"
 						  class="my-auto nav-link dropdown-toggle"
-						  data-bs-toggle="dropdown"
-						>
+						  data-bs-toggle="dropdown">
 						  <i class="fas fa-user fa-2x"></i>
 						</a>
 						<div class="dropdown-menu m-0 bg-secondary rounded-0">
@@ -106,11 +105,8 @@
 							</c:when>
 		
 							<c:otherwise>
-							  							  <a href="customer-profile.htm" class="dropdown-item"
-								>View profile</a
-							  >
-							  <a href="customer-order.htm" class="dropdown-item"
-								>View orders</a
+								<a href="customer-profile.htm" class="dropdown-item">View profile</a>
+							  <a href="customer-order.htm" class="dropdown-item">View orders</a
 							  >
 							  <div class="dropdown-divider"></div>
 							  <form

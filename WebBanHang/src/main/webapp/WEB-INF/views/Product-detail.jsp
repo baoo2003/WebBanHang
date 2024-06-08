@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +86,7 @@
 		                       			</c:when>
                        			
 		                       			<c:otherwise>
-                                           			                            	<a href="customer-profile.htm" class="dropdown-item">View profile</a>
+                                          	<a href="customer-profile.htm" class="dropdown-item">View profile</a>
 			                            	<a href="customer-order.htm" class="dropdown-item">View orders</a>
 											<div class="dropdown-divider"></div>
 											<form id="logout-form" action="${pageContext.request.contextPath}/logout.htm" method="post">
@@ -130,29 +131,9 @@
                                 <h4 class="fw-bold mb-3">${product.name}</h4>
                                 <p class="mb-3">Category: ${product.category.name}</p>                                                                
                                 <c:if test="${product.discount == 0}"><h5 class="fw-bold mb-3">${product.price} $</h5></c:if>
-                                <c:if test="${product.discount != 0}"><h5 class="fw-bold mb-3">${product.price*(1-(product.discount/100.0))} $ <span class="text-danger text-decoration-line-through">${product.price}</span></h5></c:if>
-                                <div class="d-flex mb-4">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
+                                <c:if test="${product.discount != 0}"><h5 class="fw-bold mb-3">${product.price*(1-(product.discount/100.0))} $ <span class="text-danger text-decoration-line-through">${product.price}</span></h5></c:if>                                
                                 <p class="mb-4">${product.describe}</p>
-                                <c:if test="${product.quantity >0}">
-	                                <div class="input-group quantity mb-5" style="width: 100px;">
-	                                    <div class="input-group-btn">
-	                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-	                                            <i class="fa fa-minus"></i>
-	                                        </button>
-	                                    </div>
-	                                    <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-	                                    <div class="input-group-btn">
-	                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-	                                            <i class="fa fa-plus"></i>
-	                                        </button>
-	                                    </div>
-	                                </div>
+                                <c:if test="${product.quantity >0}">	                                
 	                                <form action="addToCart.htm" method = "post">
 	                                <input type="hidden" name="productId" value="${product.id}"/>
 	                                <button type = "submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
@@ -217,6 +198,14 @@
                                                             <p class="mb-0">${product.quantity} ${product.unit}</p>
                                                         </div>
                                                     </div>
+                                                    <div class="row text-center align-items-center justify-content-center py-2">
+                                                        <div class="col-6">
+                                                            <p class="mb-0">Brand</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="mb-0">${product.brand.name}</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -242,18 +231,26 @@
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
                     	<c:forEach var="product" items="${relatedProducts}">
-                    		<div class="border border-primary rounded position-relative vesitable-item">
+                    		<div class="border border-primary rounded position-relative vesitable-item" onclick="window.location.href='product-detail.htm?productId=${product.id}';" style="cursor: pointer;">
 	                            <div class="vesitable-img">
 	                                <img src="${product.image}" class="img-fluid w-100 rounded-top" alt="">
 	                            </div>
 	                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${product.category.name}</div>
 	                            <div class="p-4 pb-0 rounded-bottom">
 	                                <h4>${product.name}</h4>
-	                                <p>${product.describe}</p>
+	                                <p>
+										<c:choose>
+										<c:when test="${fn:length(product.describe) > 100}">
+											${fn:substring(product.describe, 0, 100)}...
+									    </c:when>
+										<c:otherwise>
+									       	${product.describe}
+									 	</c:otherwise>
+										</c:choose>
+									</p>
 	                                <div class="d-flex justify-content-between flex-lg-wrap">
 	                                    <c:if test="${product.discount == 0}"><p class="text-dark fs-5 fw-bold">$${product.price} / ${product.unit}</p></c:if>
-	                                    <c:if test="${product.discount != 0}"><p class="text-dark fs-5 fw-bold">$${product.price*(1-(product.discount/100.0))} <span class="text-danger text-decoration-line-through">${product.price}</span>  / ${product.unit}</p></c:if>
-	                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+	                                    <c:if test="${product.discount != 0}"><p class="text-dark fs-5 fw-bold">$${product.price*(1-(product.discount/100.0))} <span class="text-danger text-decoration-line-through">${product.price}</span>  / ${product.unit}</p></c:if>	                                    
 	                                </div>
 	                            </div>
 	                        </div>
