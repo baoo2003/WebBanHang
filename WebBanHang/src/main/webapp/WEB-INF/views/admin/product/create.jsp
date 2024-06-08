@@ -17,6 +17,10 @@
 			color: red;
 			font-style: italic;
 		}
+		 textarea {
+	overflow: hidden;
+	resize: none;
+}
 	</style>
 </head>
 <body>
@@ -175,7 +179,7 @@
                     
                     <div class="mb-3">
 	                    <form:label path="description" for="productDescription" class="form-label">Description</form:label>
-	                    <form:textarea path="description" class="form-control" id="productDescription" />
+	                    <form:textarea path="description" class="form-control textarea-auto" id="productDescription" />
 	                    <form:errors path="description" cssClass="error" />
                     </div>
                     
@@ -233,6 +237,22 @@
 <script src="<c:url value="/resources/libs/apexcharts/dist/apexcharts.min.js" />"></script>
 <script src="<c:url value="/resources/libs/simplebar/dist/simplebar.js" />"></script>
 <script src="<c:url value="/resources/js/dashboard.js" />"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const textareas = document.querySelectorAll('.textarea-auto');
 
+    function adjustHeight(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    textareas.forEach(textarea => {
+        adjustHeight(textarea); // Adjust on load
+        textarea.addEventListener('input', function() {
+            adjustHeight(textarea);
+        });
+    });
+});
+</script>
 </body>
 </html>
