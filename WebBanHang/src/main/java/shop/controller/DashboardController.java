@@ -45,12 +45,14 @@ public class DashboardController {
         YearBreakDto yearBreakDto = saleOverService.getYearBreak();
         Integer totalCustomer = saleOverService.totalCustomer();
         Integer totalProduct = saleOverService.totalProduct();
+        Integer totalOrder = saleOverService.totalOrder();
         
         model.addAttribute("yearBreakDto",yearBreakDto);		
 		model.addAttribute("salesOverviewDTOs",salesOverviewDTOs);
 		model.addAttribute("maxTotal",maxTotal);
 		model.addAttribute("totalCustomer",totalCustomer);
 		model.addAttribute("totalProduct",totalProduct);
+		model.addAttribute("totalOrder",totalOrder);
 		return "admin/dashboard";
 	}
 }
