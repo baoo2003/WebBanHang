@@ -119,7 +119,9 @@
                                 <form:errors path="username" cssClass="error" />
                                 <form:input path="password" type="password" class="w-100 form-control border-0 py-3 mt-4" placeholder="Enter Your Password" />
                                 <form:errors path="password" cssClass="error" />
-                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary mt-4" type="submit">Submit</button>
+                                <div class="d-flex">
+                                	<button class="mx-auto px-4 btn border-secondary py-3 bg-white text-primary mt-4" type="submit">Submit</button>
+                                </div>                                
                             </form:form>
                             <br />
                             <span class="d-flex justify-content-center">

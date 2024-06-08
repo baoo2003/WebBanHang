@@ -60,6 +60,7 @@ public class CartController {
 		try {
 		Integer customerIdInt = (Integer) session.getAttribute("userId");
 		if (customerIdInt == null) {
+			redirectAttributes.addFlashAttribute("message", "Please login to continue!");
             return "redirect:/login.htm"; 
         }
 		cartService.addToCart(customerIdInt, productId, 1);
