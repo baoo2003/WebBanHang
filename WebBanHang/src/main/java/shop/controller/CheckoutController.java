@@ -96,7 +96,7 @@ public class CheckoutController {
 			orderDto.setNote(note);
 
 			orderService.createOrder(orderDto, customerId);
-			return "redirect:/customer-profile.htm";
+			return "redirect:/customer-order.htm";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
 			return "redirect:/cart.htm";
