@@ -1,37 +1,20 @@
 package shop.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import shop.entity.Customer;
 
 public class OrderDto {
-	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
 	private String firstName;
 	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
 	private String lastName;
 	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
 	private String address;
 	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
 	private String phoneNumber;
 	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
 	private String email;
-	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
+
 	private String shipping;
 	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
 	private String payment;
 	
 	private String note;
