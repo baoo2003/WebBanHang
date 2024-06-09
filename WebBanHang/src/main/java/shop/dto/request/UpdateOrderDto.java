@@ -4,6 +4,8 @@ public class UpdateOrderDto {
 	private Integer id;
 	private String status;
 	
+	public UpdateOrderDto() {}
+	
 	public UpdateOrderDto(Integer id, String status) {
 		this.id=id;
 		this.status=status;

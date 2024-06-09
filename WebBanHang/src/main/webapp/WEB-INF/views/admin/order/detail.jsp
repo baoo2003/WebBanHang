@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage Order</title>
+	<meta charset="UTF-8">
+	<title>Manage Order ${order.id}</title>
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/images/logos/favicon.png" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/styles.min.css" />" />
     <base href="${pageContext.servletContext.contextPath}/">
@@ -20,6 +20,7 @@
 	</style>
 </head>
 <body>
+
 <!--  Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
      data-sidebar-position="fixed" data-header-position="fixed">
@@ -237,12 +238,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function navigateTo(url) {
-        window.location.href = url;
-    }
-</script>
 
 <script src="<c:url value="/resources/libs/jquery/dist/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js" />"></script>

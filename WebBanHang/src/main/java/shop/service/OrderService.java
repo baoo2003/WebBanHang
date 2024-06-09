@@ -183,4 +183,12 @@ public class OrderService {
 		Query query = session.createQuery(hql);
 		return query.list();
 	}
+	
+	public Order findById(Integer id) {
+		Session session = sessionFactory.openSession();
+		String hql = "FROM Order WHERE id = :id";
+		Query query = session.createQuery(hql);	
+		query.setParameter("id", id);
+		return (Order) query.uniqueResult();
+	}
 }

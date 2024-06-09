@@ -1,6 +1,8 @@
 package shop.controller;
 
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,10 +71,25 @@ public class OrderController {
 	
 	@RequestMapping("/manage-order")
 	public String index2(ModelMap model, HttpSession session) {
-//		List<Map<String, Object>> orders = orderService.getOrders(Optional.empty(), Optional.empty(),
-//				Optional.empty());
-		
 		model.addAttribute("orders", orderService.getAllOrders());
+		model.addAttribute("updateOrder", new UpdateOrderDto());
 		return "admin/order/index";
-	}		
+	}
+	
+	@RequestMapping(value = "/update-status", method = RequestMethod.POST)
+	public String updateStatus(
+		ModelMap model,
+		@ModelAttribute("updateOrder") UpdateOrderDto updateOrder
+	) {
+		orderService.updateOrder(updateOrder);
+		
+		return "redirect:/manage-order.htm";
+	}
+	
+	@RequestMapping("/manage-order-detail")
+	public String viewDetail(ModelMap model, @RequestParam("id") Integer orderId) {
+		Order order = orderService.findById(orderId);
+		model.addAttribute("order", order);
+		return "admin/order/detail";
+	}
 }
