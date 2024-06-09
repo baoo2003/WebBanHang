@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.dto.request.OrderDto;
+import shop.dto.request.UpdateOrderDto;
 import shop.dto.request.UpdateProductDto;
 import shop.entity.Brand;
 import shop.entity.Cart;
@@ -126,15 +127,16 @@ public class OrderService {
 			
 			List<OrderDetail> orderDetails = productQuery.list();
 			
-			List<Product> productList = new ArrayList<>();
-			
-			for (OrderDetail orderDetail : orderDetails) {
-				Product product = (Product) session.get(Product.class, orderDetail.getProduct().getId());
-				productList.add(product);
-			}
+			/*
+			 * List<Product> productList = new ArrayList<>();
+			 * 
+			 * for (OrderDetail orderDetail : orderDetails) { Product product = (Product)
+			 * session.get(Product.class, orderDetail.getProduct().getId());
+			 * productList.add(product); }
+			 */
 			
 			cartMap.put("id", detail[0]);
-			cartMap.put("products", productList);
+			/* cartMap.put("products", productList); */
 			cartMap.put("fullname", detail[2]);
 			cartMap.put("phoneNumber", detail[3]);
 			cartMap.put("address", detail[4]);
@@ -149,13 +151,13 @@ public class OrderService {
 	}
 
 	@Transactional
-	public void updateOrder(int OrderId, OrderDto orderDto) {
+	public void updateOrder(UpdateOrderDto orderDto) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
 		try {
-			Order order = (Order) session.get(Order.class, OrderId);
-
+			Order order = (Order) session.get(Order.class, orderDto.getId());
+			order.setStatus(orderDto.getStatus());
 			session.update(order);
 			transaction.commit();
 		} catch (Exception e) {
@@ -165,5 +167,12 @@ public class OrderService {
 		} finally {
 			session.close();
 		}
+	}
+	
+	public List<Order> getAllOrders(){
+		Session session = sessionFactory.openSession();
+		String hql = "FROM Order o";
+		Query query = session.createQuery(hql);		
+		return query.list();
 	}
 }

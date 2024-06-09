@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,13 +40,14 @@ public class Order {
 	@Column(name="DIACHI")
 	private String address;
 	
-	@DateTimeFormat(pattern="dd/MM/yyyy")
-	@Column(name="TG_HENGIAO")
-	private Date deliveryTime;
 	
 	@DateTimeFormat(pattern="dd/MM/yyyy")
-	@Column(name="TG_DAT")
-	private Date orderTime;
+	@Column(name="TG_HENGIAO") 
+	private Date deliveryTime;
+	 
+	@DateTimeFormat(pattern="dd/MM/yyyy") 
+	@Column(name="TG_DAT") 
+	private Date orderTime; 
 	
 	@ManyToOne
 	@JoinColumn(name="MANV")
@@ -60,10 +62,11 @@ public class Order {
 	@Column(name="LUUY_GIAO")
 	private String deliveryNote;
 	
-	@OneToMany(mappedBy="order", fetch=FetchType.EAGER)
+	
+	@OneToMany(mappedBy="order", fetch=FetchType.EAGER) 
 	private Collection<OrderDetail> orderDetails;
 	
-	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)	
 	private Bill bill;
 	
 	public Integer getId() {
@@ -145,5 +148,12 @@ public class Order {
 
 	public void setDeliveryNote(String deliveryNote) {
 		this.deliveryNote = deliveryNote;
+	}
+	
+	public String getCancelReason() {
+		return cancelReason;
+	}
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
 	}
 }

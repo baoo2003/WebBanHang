@@ -3,6 +3,8 @@ package shop.dto.request;
 import shop.entity.Customer;
 
 public class OrderDto {
+	private Integer id;
+	
 	private String firstName;
 	
 	private String lastName;
@@ -91,5 +93,13 @@ public class OrderDto {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
