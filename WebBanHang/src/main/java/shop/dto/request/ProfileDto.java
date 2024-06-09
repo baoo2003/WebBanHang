@@ -32,15 +32,10 @@ public class ProfileDto {
 	@NotEmpty(message="Must not be empty!")
 	private String email;
 	
-	@NotBlank(message="Must not be left blank!")
-	@NotEmpty(message="Must not be empty!")
-	private String password;
-	
 	public ProfileDto() {}
 	
 	public ProfileDto(Customer c) {
 		this.username=c.getAccount().getUsername();
-		this.password=c.getAccount().getPassword();
 		this.firstName=c.getFirstName();
 		this.lastName=c.getLastName();
 		this.gender=c.getGender();
@@ -95,14 +90,6 @@ public class ProfileDto {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getUsername() {
