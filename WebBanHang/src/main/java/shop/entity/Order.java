@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="DONHANG")
+@Table(name = "DONHANG")
 public class Order {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
