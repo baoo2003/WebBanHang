@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.dto.request.UpdateOrderDto;
 import shop.entity.Notification;
 import shop.entity.Order;
+import shop.entity.OrderDetail;
 import shop.service.NotificationService;
 import shop.service.OrderService;
 
@@ -70,9 +71,18 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/manage-order")
-	public String index2(ModelMap model, HttpSession session) {
-		model.addAttribute("orders", orderService.getAllOrders());
+	public String index2(
+		ModelMap model,
+		HttpSession session,
+		@RequestParam(value = "status", defaultValue = "", required = false) String status
+	) {
+		List<String> orderStatus = Arrays.asList("Placed", "Confirmed", "Delivering", "Delivered", "Canceled");
+		if (status.equals("")) {
+			status = null;
+		}
+		model.addAttribute("orders", orderService.getAllOrders(status));
 		model.addAttribute("updateOrder", new UpdateOrderDto());
+		model.addAttribute("orderStatus", orderStatus);
 		return "admin/order/index";
 	}
 	
@@ -89,7 +99,9 @@ public class OrderController {
 	@RequestMapping("/manage-order-detail")
 	public String viewDetail(ModelMap model, @RequestParam("id") Integer orderId) {
 		Order order = orderService.findById(orderId);
+		List<OrderDetail> orderDetails = orderService.getOrderDetailsByOrderId(orderId);
 		model.addAttribute("order", order);
+		model.addAttribute("orderDetails", orderDetails);
 		return "admin/order/detail";
 	}
 }

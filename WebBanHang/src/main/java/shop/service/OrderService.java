@@ -177,10 +177,16 @@ public class OrderService {
 		}
 	}
 
-	public List<Order> getAllOrders() {
+	public List<Order> getAllOrders(String status) {
 		Session session = sessionFactory.openSession();
 		String hql = "FROM Order o";
+		if (status != null) {
+			hql += " WHERE status = :status";
+		}
 		Query query = session.createQuery(hql);
+		if (status != null) {
+			query.setParameter("status", status);
+		}
 		return query.list();
 	}
 	
@@ -191,4 +197,16 @@ public class OrderService {
 		query.setParameter("id", id);
 		return (Order) query.uniqueResult();
 	}
+	
+	public List<OrderDetail> getOrderDetailsByOrderId(Integer orderId) {
+		Session session = sessionFactory.openSession();
+		String hql = "FROM OrderDetail WHERE order.id = :orderId";
+		Query query = session.createQuery(hql);
+		query.setParameter("orderId", orderId);
+		List<OrderDetail> orderDetails = query.list();
+		
+		return orderDetails;
+	}
+	
+	
 }

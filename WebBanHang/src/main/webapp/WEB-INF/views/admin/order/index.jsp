@@ -148,12 +148,17 @@
                 <div class="row justify-content-around">
                     <h5 class="col align-items-start card-title fw-semibold mb-4">All Orders</h5>
                     <div class="row justify-content-between mb-2">
-<%--                     <form action="manage-order.htm" class="d-flex w-auto gap-1"> --%>
-<%--         				<input name="filter" value="${filter}" class="form-control w-auto" placeholder="Enter keyword"/>   			 --%>
-<!--         				<button type="submit" class="btn btn-outline-primary"> -->
-<!--         					Search -->
-<!--         				</button>        				 -->
-<%--         			</form> --%>
+                    <form action="manage-order.htm" class="d-flex w-auto gap-1" id="orderForm">
+        				<select name="status" class="form-control" id="formStatus">
+        					<option value="" class="form-control">All</option>
+        					<c:forEach items="${orderStatus}" var="status">
+        						<option value="${status}" class="form-control">${status}</option>
+        					</c:forEach>
+						</select>
+						<button type="submit" class="btn btn-outline-primary">
+							Search
+						</button>
+        			</form>
                     
                     </div>
                 </div>
@@ -188,7 +193,7 @@
 	                                <tr
 	                                        onmouseover="this.style.backgroundColor='rgba(93, 135, 255, 0.1)'; this.style.color='#5D87FF'"
 	                                        onmouseout="this.style.backgroundColor=''; this.style.color=''"
-	                                        ondblclick="navigateTo('manage-order-update.htm?orderId=${order.id}')"
+	                                        ondblclick="navigateTo('manage-order-detail.htm?id=${order.id}')"
 	                                >
 	                                    <td class="border-bottom-0">
 	                                        <h6 class="fw-semibold mb-0">${order.id}</h6>
@@ -242,6 +247,32 @@
     function navigateTo(url) {
         window.location.href = url;
     }
+</script>
+
+<script>
+	function getQueryParams() {
+	    const params = {};
+	    window.location.search.substring(1).split("&").forEach(function(part) {
+	        const item = part.split("=");
+	        params[item[0]] = decodeURIComponent(item[1]);
+	    });
+	    return params;
+	}
+	
+	document.addEventListener("DOMContentLoaded", function() {
+	    const params = getQueryParams();
+	    if (params.status) {
+	        const selectedStatus = document.getElementById("formStatus");
+	        selectedStatus.value = params.status;
+	    }
+	});
+	
+	document.getElementById('orderForm').addEventListener('submit', function(event) {
+        const selectedStatus = document.getElementById("formStatus");
+        if (selectedStatus.value === "") {
+            selectedStatus.name = "";
+        }
+    });
 </script>
 
 <script src="<c:url value="/resources/libs/jquery/dist/jquery.min.js" />"></script>
