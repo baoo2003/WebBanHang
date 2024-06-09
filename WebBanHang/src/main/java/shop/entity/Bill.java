@@ -34,7 +34,7 @@ public class Bill {
 	private Date createTime;
 	
 	@Column(name="TONGTIEN")
-	private Float totalPrice;
+	private Double totalPrice;
 
 	public Bill() {
 		
@@ -63,10 +63,10 @@ public class Bill {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Float getTotalPrice() {
+	public Double getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(Float totalPrice) {
+	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 }
