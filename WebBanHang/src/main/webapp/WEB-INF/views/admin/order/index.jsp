@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <head>
@@ -149,7 +150,7 @@
         <div class="container-fluid">
             <div class="card-body p-4">
                 <div class="row justify-content-around">
-                    <h5 class="col align-items-start card-title fw-semibold mb-4">All Categories</h5>
+                    <h5 class="col align-items-start card-title fw-semibold mb-4">All Orders</h5>
                     <div class="row justify-content-between mb-2">
 <%--                     <form action="manage-order.htm" class="d-flex w-auto gap-1"> --%>
 <%--         				<input name="filter" value="${filter}" class="form-control w-auto" placeholder="Enter keyword"/>   			 --%>
@@ -172,7 +173,13 @@
                                 </th>
                                 <th class="border-bottom-0 w-25">
                                     <h6 class="fw-semibold mb-0">Full Name</h6>
-                                </th>                                
+                                </th> 
+                                <th class="border-bottom-0 w-25">
+                                    <h6 class="fw-semibold mb-0">Phone Number</h6>
+                                </th>
+                                <th class="border-bottom-0 w-25">
+                                    <h6 class="fw-semibold mb-0">Status</h6>
+                                </th>                                         
                                 <th class="border-bottom-0 w-25 text-center">
                                     <h6 class="fw-semibold mb-0">Action</h6>
                                 </th>
@@ -180,28 +187,52 @@
                         </thead>
                         <tbody>                       	                           
                             <c:forEach var="order" items="${orders}">
-                                <tr
-                                        onmouseover="this.style.backgroundColor='rgba(93, 135, 255, 0.1)'; this.style.color='#5D87FF'"
-                                        onmouseout="this.style.backgroundColor=''; this.style.color=''"
-                                        ondblclick="navigateTo('manage-order-update.htm?orderId=${order.id}')"
-                                >
-                                    <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0">${order.id}</h6>
-                                    </td>
-                                    <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal">${order.fullname}</p>
-                                    </td>                                                                     
-                                    <td class="border-bottom-0 d-flex justify-content-center align-items-center">
-                                    	<a href="manage-order-update.htm?orderId=${order.id}" class="btn btn-secondary me-2">
-                                            Update
-                                        </a>
-                                    	<form action="manage-order-delete.htm?orderId=${order.id}" method="post" class="m-0">
-		                                	<button type="submit" onclick="return confirm('Are you sure to delete this order?')" class="btn btn-secondary">
-		                                        Delete
-		                                    </button>
-		                                </form>
-                                    </td>
-                                </tr>
+                            	<form:form action="update-status.htm" method="post" modelAttribute="updateOrder" class="m-0">
+                            		<form:hidden path="id" value="${order.id}" />
+	                                <tr
+	                                        onmouseover="this.style.backgroundColor='rgba(93, 135, 255, 0.1)'; this.style.color='#5D87FF'"
+	                                        onmouseout="this.style.backgroundColor=''; this.style.color=''"
+	                                        ondblclick="navigateTo('manage-order-update.htm?orderId=${order.id}')"
+	                                >
+	                                    <td class="border-bottom-0">
+	                                        <h6 class="fw-semibold mb-0">${order.id}</h6>
+	                                    </td>
+	                                    <td class="border-bottom-0">
+	                                        <p class="mb-0 fw-normal">${order.fullname}</p>
+	                                    </td>
+	                                    <td class="border-bottom-0">
+	                                        <p class="mb-0 fw-normal">${order.phoneNumber}</p>
+	                                    </td>
+	                                    <td class="border-bottom-0">
+	                                    	<p class="mb-0 fw-normal">${order.status}</p>
+	                                    </td>                                                                              
+	                                    <td class="border-bottom-0 d-flex justify-content-center align-items-center gap-2">
+		                                    <c:choose>
+			                                	<c:when test="${order.status == 'Placed'}">
+			                                		<form:hidden path="status" value="Confirmed" />
+			                                    	<button type="submit" onclick="return confirm('Are you sure to update this order?')" class="btn btn-secondary">
+				                                       	Update to Confirmed
+				                                    </button> 
+			                                    </c:when>
+	                                        	<c:when test="${order.status == 'Confirmed'}">
+			                                		<form:hidden path="status" value="Delivering" />
+	                                        		<button type="submit" onclick="return confirm('Are you sure to update this order?')" class="btn btn-secondary">
+				                                       	Update to Delivering
+				                                    </button> 
+												</c:when>
+	                                        	<c:when test="${order.status == 'Delivering'}">
+			                                		<form:hidden path="status" value="Delivered" />
+	                                        		<button type="submit" onclick="return confirm('Are you sure to update this order?')" class="btn btn-secondary">
+				                                       	Update to Delivered
+				                                    </button> 
+	                                        	</c:when>
+			                                </c:choose>
+			                                <a href="manage-order-update.htm?orderId=${order.id}" class="btn btn-outline-primary me-2">
+	                                            View detail
+	                                        </a>
+	                                    </td>
+	                                </tr>
+			                    </form:form>
                             </c:forEach>
                         </tbody>
                     </table>
