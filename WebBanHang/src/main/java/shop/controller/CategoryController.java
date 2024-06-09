@@ -21,8 +21,14 @@ public class CategoryController {
 	CategoryService categoryService;
 	
 	@RequestMapping("/manage-category")
-	public String index(ModelMap model) {
-		model.addAttribute("categories",categoryService.getCategories());
+	public String index(ModelMap model, @RequestParam(value="filter", defaultValue="", required=false) String name) {
+		if(name.isBlank()||name==null) {
+			model.addAttribute("categories",categoryService.getCategories());
+		}
+		else {
+			model.addAttribute("categories",categoryService.getCategoriesByName(name));
+			model.addAttribute("filter", name);
+		}
 		return "admin/category/index";
 	}
 	

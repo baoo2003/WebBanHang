@@ -18,6 +18,38 @@
 			font-style: italic;
 		}
 	</style>
+	
+	<script type="text/javascript">
+		function appendParam(paramName, paramValue) {
+		    var currentUrl = window.location.href;
+		    var newUrl;
+
+		    if (paramValue === '') {
+		        // Remove the parameter from the URL if paramValue is empty
+		        var regex = new RegExp("([&?])" + paramName + "=([^&]*)", "i");
+		        newUrl = currentUrl.replace(regex, function(match, p1) {
+		            // If the match is preceded by ?, change it to ? otherwise remove &
+		            return p1 === '?' ? '?' : '';
+		        });
+		        // Clean up any trailing '?' or '&'
+		        newUrl = newUrl.replace(/(\?|&)$/, '');
+		        // Remove '&' if it directly follows '?'
+		        newUrl = newUrl.replace('?&', '?');
+		    } else {
+		        if (currentUrl.includes(paramName + "=")) {
+		            var regex = new RegExp(paramName + "=([^&]*)", "i");
+		            newUrl = currentUrl.replace(regex, paramName + "=" + paramValue);
+		        } else {
+		            if (currentUrl.indexOf('?') > -1)
+		                newUrl = currentUrl + "&" + paramName + "=" + paramValue;
+		            else
+		                newUrl = currentUrl + '?' + paramName + "=" + paramValue;
+		        }
+		    }
+		    
+		    window.location.href = newUrl;
+		}
+		</script>
 </head>
 <body>
 <!--  Body Wrapper -->
@@ -147,9 +179,17 @@
             <div class="card-body p-4">
                 <div class="row justify-content-around">
                     <h5 class="col align-items-start card-title fw-semibold mb-4">All Brands</h5>
+                    <div class="row justify-content-between mb-2">
+        			<form action="manage-brand.htm" class="d-flex w-auto gap-1">
+        				<input name="filter" value="${filter}" class="form-control w-auto" placeholder="Enter keyword"/>   			
+        				<button type="submit" class="btn btn-outline-primary">
+        					Search
+        				</button>        				
+        			</form>                    
                     <a class=" col-1 m-1 align-items-end btn btn-primary" href="manage-brand-create.htm">
                         Create
                     </a>
+                	</div>
                 </div>
                 <div class="d-flex justify-content-center">
         			<span class="error">${message}</span>

@@ -150,9 +150,17 @@
             <div class="card-body p-4">
                 <div class="row justify-content-around">
                     <h5 class="col align-items-start card-title fw-semibold mb-4">All Categories</h5>
+                    <div class="row justify-content-between mb-2">
+                    <form action="manage-category.htm" class="d-flex w-auto gap-1">
+        				<input name="filter" value="${filter}" class="form-control w-auto" placeholder="Enter keyword"/>   			
+        				<button type="submit" class="btn btn-outline-primary">
+        					Search
+        				</button>        				
+        			</form>
                     <a class=" col-1 m-1 align-items-end btn btn-primary" href="manage-category-create.htm">
                         Create
                     </a>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center">
         			<span class="error">${message}</span>
