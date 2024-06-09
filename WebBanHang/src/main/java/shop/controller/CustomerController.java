@@ -9,7 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import shop.dto.request.ChangePasswordDto;
 import shop.dto.request.ProfileDto;
 import shop.entity.Customer;
 import shop.service.CustomerService;
@@ -43,10 +45,6 @@ public class CustomerController {
 			profileDto.setPhoneNumber(null);
 			errors.rejectValue("phoneNumber", "profileDto", "This field is required");			
 		}
-		if (profileDto.getPassword().isBlank()) {
-			profileDto.setPassword(null);
-			errors.rejectValue("password", "profileDto", "This field is required");			
-		}
 		if (profileDto.getAddress().isBlank()) {
 			profileDto.setAddress(null);
 			errors.rejectValue("address", "profileDto", "This field is required");			
@@ -68,6 +66,44 @@ public class CustomerController {
 			}			
 		}		
 		return "Profile";
+	}
+	
+	@RequestMapping("/customer-change-password")
+	public String changePassword(ModelMap model) {
+		model.addAttribute("password", new ChangePasswordDto());
+		return "changePassword";
+	}
+	
+	@RequestMapping(value = "/customer-change-password", method = RequestMethod.POST)
+	public String changePassword(
+		ModelMap model,
+		@RequestParam("id") Integer customerId,
+		@ModelAttribute("password") ChangePasswordDto changePassword,
+		BindingResult errors
+	) {
+		if (changePassword.getOldPassword() == null || changePassword.getOldPassword().isBlank()) {
+			errors.rejectValue("oldPassword", "password", "This field is required");
+		}
+		if (changePassword.getNewPassword() == null || changePassword.getNewPassword().isBlank()) {
+			errors.rejectValue("newPassword", "password", "This field is required");
+		}
+		if (changePassword.getConfirmPassword() == null || changePassword.getConfirmPassword().isBlank()) {
+			errors.rejectValue("confirmPassword", "password", "This field is required");
+		} else if (!changePassword.getConfirmPassword().equals(changePassword.getNewPassword())) {
+			errors.rejectValue("confirmPassword", "password", "Confirm password does not match with new password");
+		}
+		
+		if (errors.hasErrors()) {
+			return "changePassword";
+		}
+		
+		try {
+			customerService.changePassword(customerId, changePassword);
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			return "changePassword";
+		}
+		return "redirect:/home.htm";
 	}
 }
 

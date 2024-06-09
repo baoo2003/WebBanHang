@@ -10,10 +10,12 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shop.dto.request.ChangePasswordDto;
 import shop.dto.request.ProfileDto;
 import shop.entity.Account;
 import shop.entity.Customer;
 import shop.entity.Role;
+import shop.entity.Staff;
 
 @Service
 public class CustomerService {
@@ -59,12 +61,8 @@ public class CustomerService {
 		Session session = factory.openSession();
 		Transaction transaction = session.beginTransaction();
 		Customer customer = (Customer) session.get(Customer.class, customerId);		
-		Account account = (Account) session.get(Account.class, customer.getAccount().getUsername());
 		
-		try {					
-			account.setPassword(profileDto.getPassword());			
-			session.update(account);
-			
+		try {
 			customer.setFirstName(profileDto.getFirstName());
 			customer.setLastName(profileDto.getLastName());
 			customer.setGender(profileDto.getGender());
@@ -78,6 +76,31 @@ public class CustomerService {
 			e.printStackTrace();
 			transaction.rollback();
 			throw new Exception("Error while update. Please try again!");
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Transactional
+	public void changePassword(Integer customerId, ChangePasswordDto changePassword) throws Exception {
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+		
+		try {
+			Customer customer = (Customer) session.get(Customer.class, customerId);
+			String oldPassword = customer.getAccount().getPassword();
+			
+			if (!oldPassword.equals(changePassword.getOldPassword())) {
+				throw new Exception("Old password is wrong");
+			}
+			
+			customer.getAccount().setPassword(changePassword.getNewPassword());
+			session.update(customer);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw e;
 		} finally {
 			session.close();
 		}

@@ -1,49 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>Green Valley - Vegetable Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
-    <head>
-        <meta charset="utf-8">
-        <title>Green Valley - Vegetable Website Template</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="" name="keywords">
-        <meta content="" name="description">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
 
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- Icon Font Stylesheet -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-        <!-- Libraries Stylesheet -->
-        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-        
-        <style>
-			.error {
-				color: red;
-				font-style: italic;
-			}
-		</style>
-    </head>
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+.error {
+	color: red;
+	font-style: italic;
+}
+</style>
+</head>
+<body>
 
-    <body>
-
-        <!-- Spinner Start -->
+		<!-- Spinner Start -->
         <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
             <div class="spinner-grow text-primary" role="status"></div>
         </div>
@@ -130,57 +128,24 @@
             <div class="container py-5">
                 <div class="p-5 bg-light rounded">
                     <div class="d-flex justify-content-center">
-                        <div class="col-lg-7">                        	
-                            <form:form action="customer-profile.htm" method="post" modelAttribute="profileDto">                            	
-                                                        	
+                        <div class="col-lg-7">
+                            <form:form action="customer-change-password.htm?id=${sessionScope.customerId}" method="post" modelAttribute="password">
                             	<div class="mt-4">
-                            		<label>Username</label>
-                            		<label class="w-100 form-control border-0 py-3 mt-0">${profileDto.username}</label>
-                            		<form:hidden path="username" />                            		
+                            		<label>Old password</label>
+                            		<form:input path="oldPassword" type="password" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Old Password"/>
+	                                <form:errors path="oldPassword" cssClass="error" />                        		
                             	</div>
                                                                 
                                 <div class="mt-4">
-	                                <label>First name</label>
-	                                <form:input path="firstName" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your First Name"/>
-	                                <form:errors path="firstName" cssClass="error" />
+	                                <label>New password</label>
+	                                <form:input path="newPassword" type="password" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your New Password"/>
+	                                <form:errors path="newPassword" cssClass="error" />
                                 </div>
                                 
                                 <div class="mt-4">
-	                                <label>Last name</label>
-	                                <form:input path="lastName" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Last Name"/>
-	                                <form:errors path="lastName" cssClass="error" />
-                                </div>
-                                
-                                <div class="mt-4">                                
-                                <div>Gender</div>
-	                                <c:choose>
-									    <c:when test="${profileDto.gender == true}">
-									        <form:radiobutton path="gender" value="true" label="Male" style="margin-left: 10px;" />
-									        <form:radiobutton path="gender" value="false" label="Female" style="margin-left: 10px;" />
-									    </c:when>
-									    <c:otherwise>
-									        <form:radiobutton path="gender" value="true" label="Male" style="margin-left: 10px;" />
-									        <form:radiobutton path="gender" value="false" label="Female" style="margin-left: 10px;" />
-									    </c:otherwise>
-									</c:choose>
-	                            	                           
-	                            </div>
-	                            
-	                            <div class="mt-4">	                                                          
-	                                <label>Address</label>                                
-	                                <form:input path="address" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Address"/>
-	                                <form:errors path="address" cssClass="error" />
-                                </div>
-                                
-                                <div class="mt-4">
-	                                <label>Phone Number</label>
-	                                <form:input path="phoneNumber" type="text" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Phone Number"/>
-	                                <form:errors path="phoneNumber" cssClass="error" />
-                                </div>
-                                
-                                <div class="mt-4">
-	                                <label>Email</label>
-	                                <form:input path="email" type="email" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Email"/>	                                
+	                                <label>Confirm password</label>
+	                                <form:input path="confirmPassword" type="password" class="w-100 form-control border-0 py-3 mt-0" placeholder="Enter Your Confirm Password"/>
+	                                <form:errors path="confirmPassword" cssClass="error" />
                                 </div>
                                 
                                 <div class="d-flex">
@@ -301,6 +266,6 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    </body>
 
+</body>
 </html>
