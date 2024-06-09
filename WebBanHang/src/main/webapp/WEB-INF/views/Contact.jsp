@@ -117,6 +117,8 @@
 											profile</a>
 										<a href="customer-order.htm" class="dropdown-item">View
 											orders</a>
+			                            	<div class="dropdown-divider"></div>
+			                            	<a href="customer-change-password.htm" class="dropdown-item">Change password</a>
 										<div class="dropdown-divider"></div>
 										<form id="logout-form"
 											action="${pageContext.request.contextPath}/logout.htm"
