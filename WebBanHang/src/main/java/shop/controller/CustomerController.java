@@ -1,5 +1,7 @@
 package shop.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shop.dto.request.ChangePasswordDto;
 import shop.dto.request.ProfileDto;
 import shop.entity.Customer;
+import shop.entity.Notification;
 import shop.service.CustomerService;
+import shop.service.NotificationService;
 
 @Controller
 @RequestMapping()
 public class CustomerController {
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@RequestMapping("/customer-profile")
 	public String index(ModelMap model, HttpSession session) {
 		Customer customer=customerService.getCustomerById((Integer) session.getAttribute("customerId"));	
 		ProfileDto profileDto=new ProfileDto(customer);
 		model.addAttribute("profileDto", profileDto);
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		
+		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+		model.addAttribute("notifications", notifications);
 		return "Profile";
 	}
 

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.dto.request.UpdateOrderDto;
+import shop.entity.Notification;
 import shop.entity.Order;
+import shop.service.NotificationService;
 import shop.service.OrderService;
 
 @Controller
@@ -27,15 +29,20 @@ public class OrderController {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@RequestMapping("/customer-order")
 	public String index(ModelMap model, HttpSession session) {
 		Integer customerIdInt = (Integer) session.getAttribute("customerId");		
 		
-		System.out.println(customerIdInt);
 		List<Map<String, Object>> orders = orderService.getOrders(Optional.empty(), Optional.empty(),
 				Optional.of(customerIdInt));
 
+		
+		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+		model.addAttribute("notifications", notifications);
 		model.addAttribute("orders", orders);
 		return "Customer-order";
 	}
