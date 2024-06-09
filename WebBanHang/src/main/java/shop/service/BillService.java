@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.entity.Bill;
+import shop.entity.Brand;
 import shop.entity.Order;
 import shop.entity.OrderDetail;
 import shop.entity.Staff;
@@ -23,6 +24,12 @@ import shop.entity.Staff;
 public class BillService {
 	@Autowired
 	SessionFactory factory;
+	
+	public Bill findBillByOrderId(Integer id) {
+		Session session = factory.openSession();
+		Bill bill = (Bill) session.get(Bill.class, id);
+		return bill;
+	}
 	
 	public Double getTotalPrice(Integer orderId) {
 		Session session1 = factory.openSession();

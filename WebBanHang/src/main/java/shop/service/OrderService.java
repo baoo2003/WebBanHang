@@ -29,6 +29,7 @@ import shop.entity.Order;
 import shop.entity.OrderDetail;
 import shop.entity.OrderDetailId;
 import shop.entity.Product;
+import shop.entity.Staff;
 import shop.service.CartService;;
 
 @Service
@@ -157,15 +158,36 @@ public class OrderService {
 		}
 		return orders;
 	}
+	
+	@Transactional
+	public void updateOrderCustomer(UpdateOrderDto orderDto) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+
+		try {
+			Order order = (Order) session.get(Order.class, orderDto.getId());			
+			order.setStatus(orderDto.getStatus());			
+			session.update(order);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
 	@Transactional
-	public void updateOrder(UpdateOrderDto orderDto) {
+	public void updateOrder(UpdateOrderDto orderDto, Integer staffId) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
 		try {
 			Order order = (Order) session.get(Order.class, orderDto.getId());
+			Staff staff = (Staff) session.get(Staff.class, staffId);
 			order.setStatus(orderDto.getStatus());
+			order.setStaff(staff);
 			session.update(order);
 			transaction.commit();
 		} catch (Exception e) {
@@ -190,5 +212,5 @@ public class OrderService {
 		Query query = session.createQuery(hql);	
 		query.setParameter("id", id);
 		return (Order) query.uniqueResult();
-	}
+	}		
 }
