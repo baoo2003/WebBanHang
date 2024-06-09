@@ -3,6 +3,7 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/cart.htm"/>
 			<mvc:mapping path="/checkout.htm"/>
+			<mvc:mapping path="/customer-order.htm"/>
 			<bean class="shop.interceptor.SecurityCustomerInterceptor" />
 		</mvc:interceptor>
 		
