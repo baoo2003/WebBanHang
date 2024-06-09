@@ -64,10 +64,7 @@ public class OrderController {
 	
 	@RequestMapping("/manage-order")
 	public String index2(ModelMap model, HttpSession session) {
-		List<String> orderStatus = Arrays.asList("Placed", "Confirmed", "Delivering", "Delivered");
-		
 		model.addAttribute("orders", orderService.getAllOrders());
-		model.addAttribute("orderStatus", orderStatus);
 		model.addAttribute("updateOrder", new UpdateOrderDto());
 		return "admin/order/index";
 	}
@@ -80,5 +77,12 @@ public class OrderController {
 		orderService.updateOrder(updateOrder);
 		
 		return "redirect:/manage-order.htm";
+	}
+	
+	@RequestMapping("/manage-order-detail")
+	public String viewDetail(ModelMap model, @RequestParam("id") Integer orderId) {
+		Order order = orderService.findById(orderId);
+		model.addAttribute("order", order);
+		return "admin/order/detail";
 	}
 }
