@@ -31,7 +31,7 @@ public class OrderController {
 
 	@RequestMapping("/customer-order")
 	public String index(ModelMap model, HttpSession session) {
-		Integer customerIdInt = (Integer) session.getAttribute("userId");
+		Integer customerIdInt = (Integer) session.getAttribute("cusomterId");
 
 		if (customerIdInt == null) {
 			return "redirect:/login.htm";
