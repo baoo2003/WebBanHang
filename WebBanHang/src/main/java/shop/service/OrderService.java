@@ -3,6 +3,8 @@ package shop.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -37,6 +39,9 @@ public class OrderService {
 
 	@Autowired
 	private CustomerService customerService;
+
+	@Autowired
+	private ProductService productService;
 
 	@Transactional
 	public void createOrder(OrderDto orderDto, Integer customerId) {
@@ -92,7 +97,8 @@ public class OrderService {
 		}
 	}
 
-	public List<Object[]> getOrders(Optional<Integer> page, Optional<Integer> limit, Optional<Integer> customerId) {
+	public List<Map<String, Object>> getOrders(Optional<Integer> page, Optional<Integer> limit,
+			Optional<Integer> customerId) {
 		Session session = sessionFactory.openSession();
 		String hql = "SELECT o.id, o.customer, o.fullname, o.phoneNumber, o.address, o.deliveryTime, o.orderTime, o.status, o.cancelReason, o.deliveryNote FROM Order o";
 		if (customerId.isPresent()) {
@@ -108,8 +114,37 @@ public class OrderService {
 			query.setMaxResults(limit.get());
 		}
 		List<Object[]> results = query.list();
-
-		return results;
+		List<Map<String, Object>> orders = new ArrayList<>();
+		for (Object[] detail : results) {
+			Map<String, Object> cartMap = new HashMap<>();
+			
+			String productQueryHql = "FROM OrderDetail c WHERE c.order = :orderId";
+			Query productQuery = session.createQuery(productQueryHql);
+			
+			productQuery.setParameter("orderId", detail[1]);
+			
+			List<OrderDetail> orderDetails = productQuery.list();
+			
+			List<Product> productList = new ArrayList<>();
+			
+			for (OrderDetail orderDetail : orderDetails) {
+				Product product = (Product) session.get(Product.class, orderDetail.getProduct().getId());
+				productList.add(product);
+			}
+			
+			cartMap.put("id", detail[0]);
+			cartMap.put("products", productList);
+			cartMap.put("fullname", detail[2]);
+			cartMap.put("phoneNumber", detail[3]);
+			cartMap.put("address", detail[4]);
+			cartMap.put("deliveryTime", detail[5]);
+			cartMap.put("orderTime", detail[6]);
+			cartMap.put("status", detail[7]);
+			cartMap.put("cancelReason", detail[8]);
+			cartMap.put("deliveryNote", detail[9]);
+			orders.add(cartMap);
+		}
+		return orders;
 	}
 
 	@Transactional

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -140,12 +141,34 @@
 		<div class="alert alert-warning text-center">${message}</div>
 	</c:if>
 
+	<div class="container-fluid py-5">
+		<div class="container py-5">
+			<div class="d-flex flex-column">
+				<span class="d-flex justify-content-center">
+					<p style="color: red;">
+						<c:if test="${not empty errorMessage}">${errorMessage} </c:if>
+					</p>
+				</span>
+				<c:choose>
+					<c:when test="${not empty orders}">
+						<c:forEach var="order" items="${orders}">
+							<div class="d-flex"></div>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<h4>
+							<strong>Your cart is currently empty.</strong>
+						</h4>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Contact Start -->
 	<div class="container-fluid contact py-5">
-		<div class="container py-5">
-			
-		</div>
+		<div class="container py-5"></div>
 	</div>
 	<!-- Contact End -->
 

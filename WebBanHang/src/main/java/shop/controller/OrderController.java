@@ -37,7 +37,8 @@ public class OrderController {
 			return "redirect:/login.htm";
 		}
 
-		List<Object[]> orders = orderService.getOrders(Optional.empty(), Optional.empty(), Optional.of(customerIdInt));
+		List<Map<String, Object>> orders = orderService.getOrders(Optional.empty(), Optional.empty(),
+				Optional.of(customerIdInt));
 
 		model.addAttribute("orders", orders);
 		return "Customer-order";

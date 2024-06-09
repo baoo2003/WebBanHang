@@ -31,6 +31,7 @@ public class CartController {
         List<Map<String, Object>> carts = new ArrayList<>();
         for (Object[] detail : cartDetails) {
             Map<String, Object> cartMap = new HashMap<>();
+            
             cartMap.put("customer", detail[0]);
             cartMap.put("product", detail[1]);
             cartMap.put("quantity", detail[2]);

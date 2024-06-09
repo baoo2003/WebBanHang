@@ -66,10 +66,6 @@ public class Order {
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Bill bill;
 	
-	public Order() {
-		
-	}
-	
 	public Integer getId() {
 		return id;
 	}
