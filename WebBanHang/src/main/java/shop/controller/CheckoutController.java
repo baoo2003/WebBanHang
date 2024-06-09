@@ -10,8 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +21,9 @@ import shop.dto.request.ProfileDto;
 import shop.service.CartService;
 import shop.service.OrderService;
 import shop.service.CustomerService;
+import shop.service.NotificationService;
 import shop.entity.Customer;
+import shop.entity.Notification;
 
 @Controller
 public class CheckoutController {
@@ -32,6 +33,9 @@ public class CheckoutController {
 	private OrderService orderService;
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@RequestMapping("/checkout")
 	public String index(ModelMap model, HttpSession session) {
@@ -63,6 +67,9 @@ public class CheckoutController {
 			carts.add(cartMap);
 		}
 
+		
+		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+		model.addAttribute("notifications", notifications);
 		model.addAttribute("carts", carts);
 		return "Checkout";
 	}

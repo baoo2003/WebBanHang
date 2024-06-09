@@ -17,12 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.entity.CartId;
+import shop.entity.Notification;
 import shop.service.CartService;
+import shop.service.NotificationService;
 
 @Controller
 public class CartController {
 	@Autowired
     private CartService cartService;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@RequestMapping("/cart")
 	public String index(ModelMap model, HttpSession session) {
@@ -42,6 +47,9 @@ public class CartController {
         }
 
         model.addAttribute("carts", carts);
+ 
+		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+		model.addAttribute("notifications", notifications);
         return "Cart";
     }
 

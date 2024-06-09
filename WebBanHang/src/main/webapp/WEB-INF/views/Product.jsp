@@ -118,6 +118,7 @@
                                 <!-- <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
                             </a>
                             
+                            <c:if test = "${not empty sessionScope.customerId}">
                             <div class="position-relative me-4 my-auto">
 								<a href="#" id="notification-btn" class="position-relative me-4 my-auto"> 
 									<i class="fa fa-bell fa-2x"></i> 
@@ -160,6 +161,7 @@
 							</div>
 						</div>
                             
+                            </c:if>
                             
                             
                             

@@ -1,5 +1,9 @@
 package shop.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.dto.request.ContactDto;
+import shop.entity.Notification;
+import shop.service.NotificationService;
 import shop.service.SendMailService;
 import shop.utils.Const;
 
@@ -18,9 +24,16 @@ public class ContactController {
 	@Autowired
 	SendMailService mailService;
 	
+	@Autowired
+	private NotificationService notificationService;
+	
 	@RequestMapping("/contact")
-	public String contact(ModelMap model) {
+	public String contact(ModelMap model, HttpSession session) {
 		model.addAttribute("contact", new ContactDto());
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		
+		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+		model.addAttribute("notifications", notifications);
 		return "Contact";
 	}
 	
