@@ -27,6 +27,14 @@ public class CategoryService {
 		return query.list();
 	}
 	
+	public List<Category> getCategoriesByName(String categoryName) {
+		Session session = factory.openSession();
+		String hql = "FROM Category c WHERE c.name LIKE CONCAT('%', :categoryName, '%')";
+		Query query = session.createQuery(hql);
+		query.setParameter("categoryName", categoryName);
+		return query.list();
+	}
+	
 	public Category findById(Integer categoryId) {
 		Session session = factory.openSession();
 		Category category = (Category) session.get(Category.class, categoryId);

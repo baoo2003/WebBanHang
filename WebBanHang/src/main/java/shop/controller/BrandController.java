@@ -22,10 +22,16 @@ public class BrandController {
 	
 	
 	@RequestMapping("/manage-brand")
-	public String index(ModelMap model) {
-		model.addAttribute("brands",brandService.getBrands());
+	public String index(ModelMap model, @RequestParam(value="filter", defaultValue="", required=false) String name) {		
+		if(name.isBlank()||name==null) {
+			model.addAttribute("brands", brandService.getBrands());
+		}
+		else {
+			model.addAttribute("brands", brandService.getBrandsByName(name));
+			model.addAttribute("filter", name);
+		}
 		return "admin/brand/index";
-	}
+	}	
 	
 	@RequestMapping("/manage-brand-create")
 	public String createBrand(ModelMap model) {

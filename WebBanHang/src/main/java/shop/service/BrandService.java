@@ -31,11 +31,20 @@ public class BrandService {
 		return brands;
 	}
 	
+	public List<Brand> getBrandsByName(String brandName) {
+		Session session = factory.openSession();
+		String hql = "FROM Brand b WHERE b.name LIKE CONCAT('%', :brandName, '%')";	
+		Query query = session.createQuery(hql);
+		query.setParameter("brandName", brandName);
+		List<Brand> brands = query.list();
+		return brands;
+	}
+	
 	public Brand findById(Integer brandId) {
 		Session session = factory.openSession();
 		Brand brand = (Brand) session.get(Brand.class, brandId);
 		return brand;
-	}
+	}	
 	
 	@Transactional
 	public void createBrand(CreateBrandDto createbrand) {
