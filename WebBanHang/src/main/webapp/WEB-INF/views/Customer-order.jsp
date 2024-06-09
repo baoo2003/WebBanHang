@@ -163,7 +163,7 @@
 							</a>
 							<div class="dropdown-menu m-0 bg-secondary rounded-0">
 								<c:choose>
-									<c:when test="${empty sessionScope.userId}">
+									<c:when test="${empty sessionScope.customerId}">
 										<a href="login.htm" class="dropdown-item">Login</a>
 										<a href="register.htm" class="dropdown-item">Register</a>
 									</c:when>
@@ -229,17 +229,24 @@
 													<img src="${orderDetail.product.image}"
 														class="img-fluid me-5 rounded-circle"
 														style="width: 80px; height: 80px;" alt="" />
-													<div class="d-flex flex-column align-items-start">
+													<div class="d-flex flex-column align-items-start" style = "flex:1;">
 														<p class='mb-0'>
 															<strong>${orderDetail.product.name}</strong>
 														</p>
+														<p class='mb-0'>
+															<strong>x ${orderDetail.quantity}</strong>
+														</p>
+														<p>
+															$
+															<fmt:formatNumber type="number" maxFractionDigits="2"
+																value="${orderDetail.price}" />
+														</p>
+													</div>
 														<p>
 															$
 															<fmt:formatNumber type="number" maxFractionDigits="2"
 																value="${orderDetail.quantity * orderDetail.price}" />
 														</p>
-													</div>
-
 												</div>
 
 											</c:forEach>
@@ -247,7 +254,7 @@
 									</c:choose>
 
 								</div>
-								<p>
+								<p style="border-top:1px solid #f1f1f1; padding-top: 12px; text-align:right;">
 									Total: $
 									<fmt:formatNumber type="number" maxFractionDigits="2"
 										value="${order.totalPrice}" />

@@ -107,9 +107,9 @@ public class OrderService {
 	public List<Map<String, Object>> getOrders(Optional<Integer> page, Optional<Integer> limit,
 			Optional<Integer> customerId) {
 		Session session = sessionFactory.openSession();
-		String hql = "SELECT o.id, o.customer, o.fullname, o.phoneNumber, o.address, o.deliveryTime, o.orderTime, o.status, o.cancelReason, o.deliveryNote FROM Order o";
+		String hql = "SELECT o.id, o.customer, o.fullname, o.phoneNumber, o.address, o.deliveryTime, o.orderTime, o.status, o.cancelReason, o.deliveryNote FROM Order o ORDER BY o.id DESC";
 		if (customerId.isPresent()) {
-			hql = "SELECT o.id, o.customer, o.fullname, o.phoneNumber, o.address, o.deliveryTime, o.orderTime, o.status, o.cancelReason, o.deliveryNote FROM Order o WHERE o.customer.id = :customerId";
+			hql = "SELECT o.id, o.customer, o.fullname, o.phoneNumber, o.address, o.deliveryTime, o.orderTime, o.status, o.cancelReason, o.deliveryNote FROM Order o WHERE o.customer.id = :customerId ORDER BY o.id DESC";
 		}
 		Query query = session.createQuery(hql);
 		if (customerId.isPresent()) {
