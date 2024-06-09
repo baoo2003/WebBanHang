@@ -44,6 +44,9 @@ public class OrderService {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@Transactional
 	public void createOrder(OrderDto orderDto, Integer customerId) {
@@ -91,6 +94,7 @@ public class OrderService {
 			transaction.commit();
 
 			cartService.deleteCartByCustomerId(customerId);
+			notificationService.setNotification(customerId, "You have just placed a new order. Check order status here.", "/customer-order.htm");
 		} catch (Exception e) {
 			transaction.rollback();
 			throw e;

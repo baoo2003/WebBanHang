@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -33,11 +34,13 @@
 		<link href="css/style.css" rel="stylesheet">
 		
 		<style>
-			.error {
-				color: red;
-				font-style: italic;
-			}
-		</style>
+.error {
+	color: red;
+	font-style: italic;
+}
+
+
+</style>
 		<script type="text/javascript">
 		function appendParam(paramName, paramValue) {
 		    var currentUrl = window.location.href;
@@ -114,6 +117,53 @@
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <!-- <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
                             </a>
+                            
+                            <div class="position-relative me-4 my-auto">
+								<a href="#" id="notification-btn" class="position-relative me-4 my-auto"> 
+									<i class="fa fa-bell fa-2x"></i> 
+									<c:set var="unreadCount" value="0" />
+										<c:forEach items="${notifications}" var="notification">
+											<c:if test="${not notification.status}">
+												<c:set var="unreadCount" value="${unreadCount + 1}" />
+											</c:if>
+										</c:forEach>
+										<c:if test="${unreadCount > 0}">
+											<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${unreadCount} </span>
+									</c:if>
+								</a>
+								<div class="notification" id="notification-box">
+									<div class="notification-header"nstyle="display: flex; justify-content: space-between; align-items: center;">Notification 
+										<a href="${pageContext.request.contextPath}/readAllNotifi.htm" style="font-size: 14px; text-align: right;">Mark all as read</a>
+								</div>
+								<div class="notification-body">
+									<c:forEach items="${notifications}" var="notification">
+										<div class="notification-item" onclick="submitForm('formNotifi-${notification.id}')">
+											<form id="formNotifi-${notification.id}" action="updateNotifi.htm" method="POST">
+												<input type="hidden" name="id" value="${notification.id}">
+												<input type="hidden" name="message" value="${notification.message}"> 
+												<input type="hidden" name="status" value="${notification.status}">
+												<input type="hidden" name="createTime" value="${notification.createTime}"> 
+												<input type="hidden" name="url" value="${notification.url}">
+												<a class="notification-link">
+													<div class="notification-content">
+														<p>${notification.message}</p>
+														<span class="notification-time" style="font-size: 14px; color:${notification.status ? '#000' : '#81C408'}"><fmt:formatDate value="${notification.createTime}" pattern="HH:mm dd/MM/yyyy" /></span>
+													</div> 
+													<c:if test="${not notification.status}">
+														<span class="status-dot" style="height: 10px; width: 10px; background-color: ${notification.status ? '#fff' : '#81C408'}; border-radius: 50%; display: inline-block;"></span>
+													</c:if>
+												</a>
+											</form>
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+                            
+                            
+                            
+                            
+                            
                             <div class=" nav-item dropdown">
                             	<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                 	<i class="fas fa-user fa-2x"></i>
@@ -489,6 +539,27 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    
+    <script >
+    function submitForm(formId) {
+		document.getElementById(formId).submit();
+	}
+    document.getElementById('notification-btn').addEventListener('click', function(event) {
+		event.preventDefault();
+		document.getElementById('notification-box').classList.toggle('active');
+	});
+    window.addEventListener('click', function(event) {
+		if (!event.target.closest('#notification-btn') && !event.target.closest('#notification-box')) {
+			document.getElementById('notification-box').classList.remove('active');
+			}
+		});
+	
+
+ 
+    </script>
+    
+    
+    
     
     </body>
 
