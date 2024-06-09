@@ -3,6 +3,8 @@ package shop.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,10 +20,12 @@ import shop.dto.request.FilterProductDto;
 import shop.dto.request.UpdateProductDto;
 import shop.entity.Brand;
 import shop.entity.Category;
+import shop.entity.Notification;
 import shop.entity.Product;
 import shop.service.BrandService;
 import shop.service.CategoryService;
 import shop.service.ImageService;
+import shop.service.NotificationService;
 import shop.service.ProductService;
 
 @Controller
@@ -39,8 +43,12 @@ public class ProductController {
 	@Autowired
 	ImageService imageService;
 	
+	@Autowired
+	NotificationService notificationService;
+	
 	@RequestMapping("/home")
-	public String index(ModelMap model, @RequestParam(value="categoryId", required=false) Integer categoryId, 
+	public String index(ModelMap model, HttpSession session,
+						@RequestParam(value="categoryId", required=false) Integer categoryId, 
 						@RequestParam(value="pageActive",defaultValue="1", required=false) Long pageNumber, 
 						@RequestParam(value="startPage", defaultValue="1", required=false) Long startPage, 					
 						@RequestParam(value="filterByPrice", defaultValue="0", required=false) Integer filterId, 
@@ -65,6 +73,11 @@ public class ProductController {
 		if (keyWord != null) {
 			model.addAttribute("keyWord", keyWord);
 		}		
+		
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		
+		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+		model.addAttribute("notifications", notifications);
 		return "Product";
 	}
 	

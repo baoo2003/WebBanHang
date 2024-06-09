@@ -494,3 +494,92 @@
     line-height: 35px;
 }
 /*** Footer End ***/
+
+
+.notification-link {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: black;
+	text-decoration: none;
+}
+
+.notification-content {
+	flex-grow: 1; /* Cho phép nội dung chiếm phần lớn không gian */
+}
+.status-indicator {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	display: inline-block;
+	/* Hiển thị dấu hiệu nhỏ báo trạng thái đọc/chưa đọc */
+	margin-left: 10px;
+}
+
+.notification {
+	display: none;
+	position: absolute;
+	top: 50px;
+	right: 0;
+	width: 360px;
+	background-color: white;
+	border: 1px solid #ddd;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	padding: 0;
+	z-index: 1000;
+}
+
+.notification.active{
+	display: block;
+}
+
+.notification-header{
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	font-weight: bold;
+	background-color: #f5f6f7;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	color: #81C408;
+}
+
+.notification-body{
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	max-height: 400px;
+	overflow-y: auto;
+	background-color: #f5f6f7;
+}
+.notification-item {
+	background-color: #f5f6f7;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 0 2px 4p . . .
+} 
+.notification-item:hover {
+	background-color: #fff;
+	cursor: pointer;
+}
+.notification::before{
+content: "";
+	position: absolute;
+	top: -10px; /* Adjust as needed */
+	right: 20px; /* Adjust as needed */
+	border-width: 0 10px 10px 10px;
+	border-style: solid;
+	border-color: transparent transparent white transparent;
+	z-index: -1;
+}
+.notification::after{
+content: "";
+	position: absolute;
+	top: -11px; /* Adjust as needed */
+	right: 20px; /* Adjust as needed */
+	border-width: 0 11px 11px 11px;
+	border-style: solid;
+	border-color: transparent transparent #ddd transparent;
+	z-index: -2;
+}
