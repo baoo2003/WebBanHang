@@ -44,7 +44,7 @@ public class OrderService {
 
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private NotificationService notificationService;
 
@@ -94,7 +94,8 @@ public class OrderService {
 			transaction.commit();
 
 			cartService.deleteCartByCustomerId(customerId);
-			notificationService.setNotification(customerId, "You have just placed a new order. Check order status here.", "/customer-order.htm");
+			notificationService.setNotification(customerId,
+					"You have just placed a new order. Check order status here.", "/customer-order.htm");
 		} catch (Exception e) {
 			transaction.rollback();
 			throw e;
@@ -123,24 +124,26 @@ public class OrderService {
 		List<Map<String, Object>> orders = new ArrayList<>();
 		for (Object[] detail : results) {
 			Map<String, Object> cartMap = new HashMap<>();
-			
-			String productQueryHql = "FROM OrderDetail c WHERE c.order = :orderId";
+
+			String productQueryHql = "FROM OrderDetail c WHERE c.order.id = :orderId";
 			Query productQuery = session.createQuery(productQueryHql);
-			
-			productQuery.setParameter("orderId", detail[1]);
-			
+
+			productQuery.setParameter("orderId", (Integer) detail[0]);
+
 			List<OrderDetail> orderDetails = productQuery.list();
+
+			List<Product> productList = new ArrayList<>();
 			
-			/*
-			 * List<Product> productList = new ArrayList<>();
-			 * 
-			 * for (OrderDetail orderDetail : orderDetails) { Product product = (Product)
-			 * session.get(Product.class, orderDetail.getProduct().getId());
-			 * productList.add(product); }
-			 */
-			
+			Double totalPrice = 0.0;
+
+			for (OrderDetail orderDetail : orderDetails) {
+				Product product = productService.findById(orderDetail.getProduct().getId());
+				totalPrice += orderDetail.getPrice() * orderDetail.getQuantity();
+				orderDetail.setProduct(product);
+			}
+
 			cartMap.put("id", detail[0]);
-			/* cartMap.put("products", productList); */
+			cartMap.put("orderDetails", orderDetails);
 			cartMap.put("fullname", detail[2]);
 			cartMap.put("phoneNumber", detail[3]);
 			cartMap.put("address", detail[4]);
@@ -149,6 +152,7 @@ public class OrderService {
 			cartMap.put("status", detail[7]);
 			cartMap.put("cancelReason", detail[8]);
 			cartMap.put("deliveryNote", detail[9]);
+			cartMap.put("totalPrice", totalPrice);
 			orders.add(cartMap);
 		}
 		return orders;
@@ -172,11 +176,11 @@ public class OrderService {
 			session.close();
 		}
 	}
-	
-	public List<Order> getAllOrders(){
+
+	public List<Order> getAllOrders() {
 		Session session = sessionFactory.openSession();
 		String hql = "FROM Order o";
-		Query query = session.createQuery(hql);		
+		Query query = session.createQuery(hql);
 		return query.list();
 	}
 }

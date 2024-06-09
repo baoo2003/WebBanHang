@@ -98,51 +98,65 @@
 						<a href="cart.htm" class="position-relative me-4 my-auto"> <i
 							class="fa fa-shopping-bag fa-2x"></i> <!-- <span id="quantity-product" class=" position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span> -->
 						</a>
-						<c:if test = "${not empty sessionScope.customerId}">
-                            <div class="position-relative me-4 my-auto">
-								<a href="#" id="notification-btn" class="position-relative me-4 my-auto"> 
-									<i class="fa fa-bell fa-2x"></i> 
-									<c:set var="unreadCount" value="0" />
-										<c:forEach items="${notifications}" var="notification">
-											<c:if test="${not notification.status}">
-												<c:set var="unreadCount" value="${unreadCount + 1}" />
-											</c:if>
-										</c:forEach>
-										<c:if test="${unreadCount > 0}">
-											<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${unreadCount} </span>
+						<c:if test="${not empty sessionScope.customerId}">
+							<div class="position-relative me-4 my-auto">
+								<a href="#" id="notification-btn"
+									class="position-relative me-4 my-auto"> <i
+									class="fa fa-bell fa-2x"></i> <c:set var="unreadCount"
+										value="0" /> <c:forEach items="${notifications}"
+										var="notification">
+										<c:if test="${not notification.status}">
+											<c:set var="unreadCount" value="${unreadCount + 1}" />
+										</c:if>
+									</c:forEach> <c:if test="${unreadCount > 0}">
+										<span
+											class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+											style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${unreadCount}
+										</span>
 									</c:if>
 								</a>
 								<div class="notification" id="notification-box">
-									<div class="notification-header"nstyle="display: flex; justify-content: space-between; align-items: center;">Notification 
-										<a href="${pageContext.request.contextPath}/readAllNotifi.htm" style="font-size: 14px; text-align: right;">Mark all as read</a>
-								</div>
-								<div class="notification-body">
-									<c:forEach items="${notifications}" var="notification">
-										<div class="notification-item" onclick="submitForm('formNotifi-${notification.id}')">
-											<form id="formNotifi-${notification.id}" action="updateNotifi.htm" method="POST">
-												<input type="hidden" name="id" value="${notification.id}">
-												<input type="hidden" name="message" value="${notification.message}"> 
-												<input type="hidden" name="status" value="${notification.status}">
-												<input type="hidden" name="createTime" value="${notification.createTime}"> 
-												<input type="hidden" name="url" value="${notification.url}">
-												<a class="notification-link">
-													<div class="notification-content">
-														<p>${notification.message}</p>
-														<span class="notification-time" style="font-size: 14px; color:${notification.status ? '#000' : '#81C408'}"><fmt:formatDate value="${notification.createTime}" pattern="HH:mm dd/MM/yyyy" /></span>
-													</div> 
-													<c:if test="${not notification.status}">
-														<span class="status-dot" style="height: 10px; width: 10px; background-color: ${notification.status ? '#fff' : '#81C408'}; border-radius: 50%; display: inline-block;"></span>
-													</c:if>
-												</a>
-											</form>
-										</div>
-									</c:forEach>
+									<div class="notification-header"
+										nstyle="display: flex; justify-content: space-between; align-items: center;">
+										Notification <a
+											href="${pageContext.request.contextPath}/readAllNotifi.htm"
+											style="font-size: 14px; text-align: right;">Mark all as
+											read</a>
+									</div>
+									<div class="notification-body">
+										<c:forEach items="${notifications}" var="notification">
+											<div class="notification-item"
+												onclick="submitForm('formNotifi-${notification.id}')">
+												<form id="formNotifi-${notification.id}"
+													action="updateNotifi.htm" method="POST">
+													<input type="hidden" name="id" value="${notification.id}">
+													<input type="hidden" name="message"
+														value="${notification.message}"> <input
+														type="hidden" name="status" value="${notification.status}">
+													<input type="hidden" name="createTime"
+														value="${notification.createTime}"> <input
+														type="hidden" name="url" value="${notification.url}">
+													<a class="notification-link">
+														<div class="notification-content">
+															<p>${notification.message}</p>
+															<span class="notification-time"
+																style="font-size: 14px; color:${notification.status ? '#000' : '#81C408'}"><fmt:formatDate
+																	value="${notification.createTime}"
+																	pattern="HH:mm dd/MM/yyyy" /></span>
+														</div> <c:if test="${not notification.status}">
+															<span class="status-dot"
+																style="flex-shrink:0;height: 10px; width: 10px; background-color: ${notification.status ? '#fff' : '#81C408'}; border-radius: 50%; display: inline-block;"></span>
+														</c:if>
+													</a>
+												</form>
+											</div>
+										</c:forEach>
+									</div>
 								</div>
 							</div>
-						</div>
-                            
-                            </c:if>
-						
+
+						</c:if>
+
 						<div class=" nav-item dropdown">
 							<a href="#" class="my-auto nav-link dropdown-toggle"
 								data-bs-toggle="dropdown"> <i class="fas fa-user fa-2x"></i>
@@ -159,8 +173,9 @@
 											profile</a>
 										<a href="customer-order.htm" class="dropdown-item">View
 											orders</a>
-			                            	<div class="dropdown-divider"></div>
-			                            	<a href="customer-change-password.htm" class="dropdown-item">Change password</a>
+										<div class="dropdown-divider"></div>
+										<a href="customer-change-password.htm" class="dropdown-item">Change
+											password</a>
 										<div class="dropdown-divider"></div>
 										<form id="logout-form"
 											action="${pageContext.request.contextPath}/logout.htm"
@@ -200,29 +215,31 @@
 				<c:choose>
 					<c:when test="${not empty orders}">
 						<c:forEach var="order" items="${orders}">
-							<div class="d-flex flex-column gap-3">
+							<div class="d-flex flex-column gap-3 mb-4"
+								style="border-radius: 20px; border: 1px solid #f1f1f1; padding: 1rem;">
 								<div class="d-flex justify-content-between">
-									<p class="fs-5">Order ID: ${order.id}</p>
-									<p class="fs-5">Order Status: ${order.status}</p>
+									<p class="fs-5 fw-bolder">Order ID: ${order.id}</p>
+									<p class="fs-5 fw-bolder">Order Status: ${order.status}</p>
 								</div>
 								<div class="d-flex flex-column">
 									<c:choose>
 										<c:when test="${not empty order.orderDetails}">
 											<c:forEach var="orderDetail" items="${order.orderDetails}">
-												<div class="d-flex gap-3">
-													<div class="d-flex flex-column">
-														<img src="${orderDetail.product.image}"
-															class="img-fluid me-5 rounded-circle"
-															style="width: 80px; height: 80px;" alt="" />
+												<div class="d-flex gap-3 mb-3">
+													<img src="${orderDetail.product.image}"
+														class="img-fluid me-5 rounded-circle"
+														style="width: 80px; height: 80px;" alt="" />
+													<div class="d-flex flex-column align-items-start">
+														<p class='mb-0'>
+															<strong>${orderDetail.product.name}</strong>
+														</p>
 														<p>
-															<strong>{orderDetail.product.name}</strong>
+															$
+															<fmt:formatNumber type="number" maxFractionDigits="2"
+																value="${orderDetail.quantity * orderDetail.price}" />
 														</p>
 													</div>
-													<p>
-														$
-														<fmt:formatNumber type="number" maxFractionDigits="2"
-															value="${orderDetail.quantity * orderDetail.productPrice}" />
-													</p>
+
 												</div>
 
 											</c:forEach>
@@ -230,20 +247,28 @@
 									</c:choose>
 
 								</div>
+								<p>
+									Total: $
+									<fmt:formatNumber type="number" maxFractionDigits="2"
+										value="${order.totalPrice}" />
+								</p>
 								<c:if
 									test="${order.status == 'PLACED' or order.status == 'DELIVERED'}">
 									<div class='d-flex justify-content-end align-items-center'>
-										<form action="customer-order.htm" method="post">
+										<form action="customer-order.htm" method="post"
+											class='d-flex align-items-center gap-3'>
 											<input type="hidden" name="orderId" value="${order.id }" />
 											<input type="hidden" name="status"
 												value="${order.status == 'PLACED' ? 'CANCEL' : 'RECEIVED' }" />
+
 											<input
 												type="${order.status == 'DELIVERED' ? 'hidden' : 'text' }"
-												name="cancelReason" value="" />
+												name="cancelReason" value="" placeholder="Cancel reason"
+												style="border-radius: 20px; border: 1px solid #f1f1f1; padding: 0.5rem 1rem;" />
 											<button
-												class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4"
+												class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase"
 												type="submit"
-												onclick="return confirm('Are you sure to change status?')">${order.status}</button>
+												onclick="return confirm('Are you sure to change status?')">${order.status == 'PLACED' ? 'CANCEL' : 'RECEIVED'}</button>
 										</form>
 									</div>
 								</c:if>
@@ -252,7 +277,7 @@
 					</c:when>
 					<c:otherwise>
 						<h4>
-							<strong>Your cart is currently empty.</strong>
+							<strong>Your orders is currently empty.</strong>
 						</h4>
 					</c:otherwise>
 				</c:choose>
@@ -390,23 +415,25 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
-	<script >
-    function submitForm(formId) {
-		document.getElementById(formId).submit();
-	}
-    document.getElementById('notification-btn').addEventListener('click', function(event) {
-		event.preventDefault();
-		document.getElementById('notification-box').classList.toggle('active');
-	});
-    window.addEventListener('click', function(event) {
-		if (!event.target.closest('#notification-btn') && !event.target.closest('#notification-box')) {
-			document.getElementById('notification-box').classList.remove('active');
+	<script>
+		function submitForm(formId) {
+			document.getElementById(formId).submit();
+		}
+		document.getElementById('notification-btn').addEventListener(
+				'click',
+				function(event) {
+					event.preventDefault();
+					document.getElementById('notification-box').classList
+							.toggle('active');
+				});
+		window.addEventListener('click', function(event) {
+			if (!event.target.closest('#notification-btn')
+					&& !event.target.closest('#notification-box')) {
+				document.getElementById('notification-box').classList
+						.remove('active');
 			}
 		});
-	
-
- 
-    </script>
+	</script>
 </body>
 
 </html>

@@ -151,7 +151,7 @@
 														<span class="notification-time" style="font-size: 14px; color:${notification.status ? '#000' : '#81C408'}"><fmt:formatDate value="${notification.createTime}" pattern="HH:mm dd/MM/yyyy" /></span>
 													</div> 
 													<c:if test="${not notification.status}">
-														<span class="status-dot" style="height: 10px; width: 10px; background-color: ${notification.status ? '#fff' : '#81C408'}; border-radius: 50%; display: inline-block;"></span>
+														<span class="status-dot" style="flex-shrink:0;height: 10px; width: 10px; background-color: ${notification.status ? '#fff' : '#81C408'}; border-radius: 50%; display: inline-block;"></span>
 													</c:if>
 												</a>
 											</form>
