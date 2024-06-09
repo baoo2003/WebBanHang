@@ -23,6 +23,7 @@ import shop.dto.request.UpdateOrderDto;
 import shop.entity.Notification;
 import shop.entity.Order;
 import shop.entity.OrderDetail;
+import shop.service.BillService;
 import shop.service.NotificationService;
 import shop.service.OrderService;
 
@@ -36,6 +37,9 @@ public class OrderController {
 	
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private BillService billService;
 
 	@RequestMapping("/customer-order")
 	public String index(ModelMap model, HttpSession session) {
@@ -61,7 +65,7 @@ public class OrderController {
 		try {
 			UpdateOrderDto orderDto= new UpdateOrderDto(orderId, status);					
 
-			orderService.updateOrder(orderDto);
+			orderService.updateOrderCustomer(orderDto);
 			return "redirect:/customer-order.htm";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
@@ -87,12 +91,14 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/update-status", method = RequestMethod.POST)
-	public String updateStatus(
+	public String updateStatus(HttpSession session,
 		ModelMap model,
 		@ModelAttribute("updateOrder") UpdateOrderDto updateOrder
 	) {
-		orderService.updateOrder(updateOrder);
-		
+		orderService.updateOrder(updateOrder, (Integer) session.getAttribute("staffId"));
+		if(updateOrder.getStatus().equals("Delivered")) {
+			billService.createBill((Integer) session.getAttribute("staffId"), updateOrder.getId());
+		}
 		return "redirect:/manage-order.htm";
 	}
 	

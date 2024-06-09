@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Create New Category</title>
+	<title>Bill</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/images/logos/favicon.png" />" />
     <link rel="stylesheet" href="<c:url value="/resources/css/styles.min.css" />" />
@@ -64,7 +64,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
+                        <a class="sidebar-link activate" href="${pageContext.request.contextPath}/manage-product.htm?page=1" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
@@ -82,9 +82,6 @@
                     
                     <div class="sidebar-item" style="position: absolute; bottom: 10px">
                     	<li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" >
-	                    	
-	                    	</form>
 	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/change-password.htm" aria-expanded="false">
 	                            <span>
 	                                <i class="ti ti-alert-circle"></i>
@@ -117,7 +114,7 @@
         <header class="app-header">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                	<a href="manage-category.htm">
+	                <a href="manage-order-detail.htm?id=${bill.order.id}">
 	                	<span style="font-size: 20px;">&#x2190;</span>
 	                	Back
 	                </a>
@@ -154,25 +151,24 @@
         <div class="container-fluid">
         	<div class="card-body p-4">
         		<div class="d-flex justify-content-center">
-        			<h3>Create a new category</h3>
+        			<h3>Bill</h3>
         		</div>
         		<div class="d-flex justify-content-center">
         			<span class="error">${message}</span>
         		</div>
-        		<form:form action="manage-category-create.htm" method="post" modelAttribute="category">
+        		
+                	<div class="mb-3">
+                    	<label class="form-label">Id: ${bill.id}</label>                        
+                    </div>                                 	                               
                     <div class="mb-3">
-	                    <form:label path="name" for="categoryName" class="form-label">Name</form:label>
-	                    <form:input path="name" class="form-control" id="categoryName" />
-	                    <form:errors path="name" cssClass="error" />
-                    </div>                                      
-                    
-                    <div class="d-flex">
-                    	<button type="submit" class="btn btn-primary mx-auto px-4 py-8 fs-4 mb-4 rounded-2">
-	                    	Submit
-	                    </button>
+                    	<label class="form-label">Staff name: ${bill.staff.name}</label>                        	
                     </div>
-                    
-                  </form:form>
+                    <div class="mb-3">
+                    	<label class="form-label">Create time: ${bill.createTime}</label>                        	
+                    </div>
+                    <div class="mb-3">
+                    	<label class="form-label">Total price: ${bill.totalPrice}</label>                        	
+                    </div>			                                            	
         	</div>
         </div>
     </div>
