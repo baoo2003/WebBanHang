@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="${pageContext.request.contextPath}/products.htm" aria-expanded="false">
+                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-brand.htm" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="${pageContext.request.contextPath}/categories.htm" aria-expanded="false">
+                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-category.htm" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
@@ -56,7 +56,15 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="${pageContext.request.contextPath}/orders.htm" aria-expanded="false">
+                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-product.htm" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-article"></i>
+                            </span>
+                            <span class="hide-menu">Product</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="${pageContext.request.contextPath}/manage-order.htm" aria-expanded="false">
                             <span>
                                 <i class="ti ti-article"></i>
                             </span>
@@ -66,10 +74,7 @@
                     
                     <div class="sidebar-item" style="position: absolute; bottom: 10px">
                     	<li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" >
-	                    	
-	                    	</form>
-	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/admin/change-password.htm" aria-expanded="false">
+	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/change-password.htm" aria-expanded="false">
 	                            <span>
 	                                <i class="ti ti-alert-circle"></i>
 	                            </span>
@@ -77,40 +82,16 @@
 	                        </a>
 	                    </li>
 	                    <li class="sidebar-item">
-	                    	<form action="${pageContext.request.contextPath}/logout.htm" >
-	                    	
+	                    	<form action="${pageContext.request.contextPath}/admin-logout.htm" method="post">
+	                    		<button class="sidebar-link btn" aria-expanded="false">
+		                            <span>
+		                                <i class="ti ti-login"></i>
+		                            </span>
+		                            <span class="hide-menu">Logout</span>
+		                        </button>
 	                    	</form>
-	                        <a class="sidebar-link" href="${pageContext.request.contextPath}/orders.htm" aria-expanded="false">
-	                            <span>
-	                                <i class="ti ti-login"></i>
-	                            </span>
-	                            <span class="hide-menu">Logout</span>
-	                        </a>
 	                    </li>
                     </div>
-                    
-<!--                     <li class="sidebar-item" style="position: absolute; bottom: 10px"> -->
-<%--                     	<form action="${pageContext.request.contextPath}/logout.htm" > --%>
-                    	
-<!--                     	</form> -->
-<%--                         <a class="sidebar-link" href="${pageContext.request.contextPath}/admin/change-password.htm" aria-expanded="false"> --%>
-<!--                             <span> -->
-<!--                                 <i class="ti ti-login"></i> -->
-<!--                             </span> -->
-<!--                             <span class="hide-menu">Change password</span> -->
-<!--                         </a> -->
-<!--                     </li> -->
-<!--                     <li class="sidebar-item" style="position: absolute; bottom: 10px"> -->
-<%--                     	<form action="${pageContext.request.contextPath}/logout.htm" > --%>
-                    	
-<!--                     	</form> -->
-<%--                         <a class="sidebar-link" href="${pageContext.request.contextPath}/orders.htm" aria-expanded="false"> --%>
-<!--                             <span> -->
-<!--                                 <i class="ti ti-login"></i> -->
-<!--                             </span> -->
-<!--                             <span class="hide-menu">Logout</span> -->
-<!--                         </a> -->
-<!--                     </li> -->
                 </ul>
             </nav>
             <!-- End Sidebar navigation -->
@@ -388,7 +369,7 @@
 <script>
     var salesData = [];
     var categories = [];
-	var maxTotal = ${maxTotal+20};
+	var maxTotal = ${maxTotal};
 	<c:forEach var="dto" items="${salesOverviewDTOs}">
     salesData.push(${dto.total});
     categories.push('${dto.month}/${dto.year}');

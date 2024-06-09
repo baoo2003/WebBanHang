@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
 <!DOCTYPE html>
@@ -31,22 +32,44 @@
         
 		<link href="css/style.css" rel="stylesheet">
 		
-		<script type="text/javascript">
-			function appendParam(paramName, paramValue){
-				var currentUrl=window.location.href;
-				var newUrl;
-				if(currentUrl.includes(paramName+"=")){
-					var regex = new RegExp(paramName + "=([^&]*)");
-					newUrl = currentUrl.replace(regex,paramName + "=" + paramValue);
-				}
-				else{
-					if(currentUrl.indexOf('?')>-1)
-						newUrl = currentUrl + "&" + paramName + "=" + paramValue;
-					else
-						newUrl = currentUrl + '?' + paramName + "=" + paramValue;
-				}
-				window.location.href = newUrl;
+		<style>
+			.error {
+				color: red;
+				font-style: italic;
 			}
+		</style>
+		<script type="text/javascript">
+		function appendParam(paramName, paramValue) {
+		    var currentUrl = window.location.href;
+		    var newUrl;
+
+		    if (paramValue === '') {
+		        // Remove the parameter from the URL if paramValue is empty
+		        var regex = new RegExp("([&?])" + paramName + "=([^&]*)", "i");
+		        newUrl = currentUrl.replace(regex, function(match, p1) {
+		            // If the match is preceded by ?, change it to ? otherwise remove &
+		            return p1 === '?' ? '?' : '';
+		        });
+		        // Clean up any trailing '?' or '&'
+		        newUrl = newUrl.replace(/(\?|&)$/, '');
+		        // Remove '&' if it directly follows '?'
+		        newUrl = newUrl.replace('?&', '?');
+		    } else {
+		        if (currentUrl.includes(paramName + "=")) {
+		            var regex = new RegExp(paramName + "=([^&]*)", "i");
+		            newUrl = currentUrl.replace(regex, paramName + "=" + paramValue);
+		        } else {
+		            if (currentUrl.indexOf('?') > -1)
+		                newUrl = currentUrl + "&" + paramName + "=" + paramValue;
+		            else
+		                newUrl = currentUrl + '?' + paramName + "=" + paramValue;
+		        }
+		    }
+		    
+		    window.location.href = newUrl;
+		}
+
+
 		</script>
 	</head>
 
@@ -97,7 +120,7 @@
                             	</a>
                             	<div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 	<c:choose>
-                        				<c:when test="${empty sessionScope.userId}">
+                        				<c:when test="${empty sessionScope.customerId}">
                         					<a href="login.htm" class="dropdown-item">Login</a>
 		                                	<a href="register.htm" class="dropdown-item">Register</a>
 		                       			</c:when>
@@ -187,14 +210,18 @@
                                             <h4>Categories</h4>
                                             
                                             <ul class="list-unstyled fruite-categorie">
+                                            	<form action="home.htm" method="get">
                                             	<li>                                      
 	                                            	<div class="d-flex justify-content-between fruite-name active">
 	                                            		<c:if test="${empty categoryActive}">
     														<a href="home.htm" style=" color: var(--bs-secondary);"><i class="fas me-2"></i>All</a>
 														</c:if>
-														<c:if test="${not empty categoryActive}">
+														<c:if test="${not empty categoryActive and filterActive == 0}">
     														<a href="home.htm"><i class="fas me-2"></i>All</a>
-														</c:if>															                                           		                        	                                                		                        
+														</c:if>	
+														<c:if test="${not empty categoryActive and filterActive != 0}">
+															<a href="javascript:void(0);" onclick="appendParam('categoryId','')"><i class="fas me-2"></i>All</a>
+														</c:if>												                                           		                        	                                                		                        
 	                                                </div>
                                                 </li> 
                                             	<c:forEach var="category" items="${categories}">
@@ -208,7 +235,8 @@
 															</c:if>														    	                                                	                        
 	                                                    </div>
                                                 	</li>            	
-                                				</c:forEach>                                                                           
+                                				</c:forEach>  
+                                				</form>                                                                         
                                             </ul>
                                         </div>
                                     </div>
@@ -362,9 +390,14 @@
                             </a>
                         </div>
                         <div class="col-lg-6">
+                        
                             <div class="position-relative mx-auto">
-                                <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
+                            <form action = "sendMail.htm" method = "post">
+                       			<input name = "emailReceiver" class = "form-control border-0 w-100 py-3 px-4 rounded-pill" type = "text" placeholder="Your Email" /> 
+                               
+          
                                 <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                            </form>
                             </div>
                         </div>
                         <div class="col-lg-3">

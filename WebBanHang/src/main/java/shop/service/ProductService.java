@@ -331,4 +331,22 @@ public class ProductService {
 			session.close();
 		}
 	}
+	
+	
+	public List<Product> get5Product(){
+		Session session = factory.openSession();
+        try {
+            String hql = "FROM Product p ORDER BY p.quantity DESC";
+            Query query = session.createQuery(hql);
+            query.setMaxResults(5); 
+
+            List<Product> products = query.list();
+            return products;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 }

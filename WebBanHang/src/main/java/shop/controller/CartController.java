@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class CartController {
 	
 	@RequestMapping("/cart")
 	public String index(ModelMap model, HttpSession session) {
-		Integer customerIdInt = (Integer) session.getAttribute("userId");
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
         List<Object[]> cartDetails = cartService.getCartAndProductDetailsByCustomer(customerIdInt);
         List<Map<String, Object>> carts = new ArrayList<>();
         for (Object[] detail : cartDetails) {
@@ -58,7 +57,7 @@ public class CartController {
 	public String addToCart(HttpSession session, ModelMap model, RedirectAttributes redirectAttributes,
 			@RequestParam("productId") Integer productId) {
 		try {
-		Integer customerIdInt = (Integer) session.getAttribute("userId");
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
 		if (customerIdInt == null) {
 			redirectAttributes.addFlashAttribute("message", "Please login to continue!");
             return "redirect:/login.htm"; 
@@ -77,7 +76,7 @@ public class CartController {
 							@RequestParam("productId") Integer productId,
 							@RequestParam("quantity") Integer quantity) {
 		try {
-		Integer customerIdInt = (Integer) session.getAttribute("userId");
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
 		if (customerIdInt == null) {
             return "redirect:/login"; // Redirect to login if customer is not logged in
         }

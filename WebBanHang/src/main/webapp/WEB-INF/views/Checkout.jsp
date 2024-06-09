@@ -92,13 +92,16 @@
 							<a href="#" class="my-auto nav-link dropdown-toggle"
 								data-bs-toggle="dropdown"> <i class="fas fa-user fa-2x"></i>
 							</a>
-							<div class="dropdown-menu m-0 bg-secondary rounded-0">
-								<c:choose>
-									<c:when test="${empty sessionScope.userId}">
-										<a href="login.htm" class="dropdown-item">Login</a>
-										<a href="register.htm" class="dropdown-item">Register</a>
-									</c:when>
-
+							<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+								data-bs-target="#navbarCollapse">
+								<span class="fa fa-bars text-primary"></span>
+							</button>
+										<div class="dropdown-menu m-0 bg-secondary rounded-0">
+											<c:choose>
+												<c:when test="${empty sessionScope.customerId}">
+													<a href="login.htm" class="dropdown-item">Login</a>
+													<a href="register.htm" class="dropdown-item">Register</a>
+												</c:when>
 									<c:otherwise>
 										<a href="checkout.htm" class="dropdown-item">Checkout</a>
 										<a href="customer-profile.htm" class="dropdown-item">View

@@ -22,8 +22,8 @@ public class CustomerController {
 
 	@RequestMapping("/customer-profile")
 	public String index(ModelMap model, HttpSession session) {
-		Customer customer = customerService.getCustomerById((Integer) session.getAttribute("userId"));
-		ProfileDto profileDto = new ProfileDto(customer);
+		Customer customer=customerService.getCustomerById((Integer) session.getAttribute("customerId"));	
+		ProfileDto profileDto=new ProfileDto(customer);
 		model.addAttribute("profileDto", profileDto);
 		return "Profile";
 	}
@@ -60,7 +60,7 @@ public class CustomerController {
 			return "Profile";
 		} else {
 			try {
-				customerService.updateProfile(profileDto, (Integer) session.getAttribute("userId"));
+				customerService.updateProfile(profileDto,(Integer) session.getAttribute("customerId"));
 				model.addAttribute("message", "Update successfully!");
 			} catch (Exception e) {
 				model.addAttribute("message", e.getMessage());

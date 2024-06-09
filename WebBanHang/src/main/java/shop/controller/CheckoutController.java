@@ -35,13 +35,13 @@ public class CheckoutController {
 
 	@RequestMapping("/checkout")
 	public String index(ModelMap model, HttpSession session) {
-		Integer customerIdInt = (Integer) session.getAttribute("userId");
+		Integer customerIdInt = (Integer) session.getAttribute("customerId");
 
 		if (customerIdInt == null) {
 			return "redirect:/login.htm";
 		}
 
-		Customer customer = customerService.getCustomerById((Integer) session.getAttribute("userId"));
+		Customer customer = customerService.getCustomerById((Integer) session.getAttribute("customerId"));
 		ProfileDto profileDto = new ProfileDto(customer);
 		model.addAttribute("profileDto", profileDto);
 
@@ -82,7 +82,7 @@ public class CheckoutController {
 			@RequestParam("note") String note
 			) {
 
-		Integer customerId = (Integer) session.getAttribute("userId");
+		Integer customerId = (Integer) session.getAttribute("customerId");
 		try {
 
 			OrderDto orderDto = new OrderDto();
