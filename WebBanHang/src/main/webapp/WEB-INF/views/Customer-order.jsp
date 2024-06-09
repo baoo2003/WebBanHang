@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -103,7 +104,7 @@
 							</a>
 							<div class="dropdown-menu m-0 bg-secondary rounded-0">
 								<c:choose>
-									<c:when test="${empty sessionScope.customerId}">
+									<c:when test="${empty sessionScope.userId}">
 										<a href="login.htm" class="dropdown-item">Login</a>
 										<a href="register.htm" class="dropdown-item">Register</a>
 									</c:when>
@@ -152,7 +153,54 @@
 				<c:choose>
 					<c:when test="${not empty orders}">
 						<c:forEach var="order" items="${orders}">
-							<div class="d-flex"></div>
+							<div class="d-flex flex-column gap-3">
+								<div class="d-flex justify-content-between">
+									<p class="fs-5">Order ID: ${order.id}</p>
+									<p class="fs-5">Order Status: ${order.status}</p>
+								</div>
+								<div class="d-flex flex-column">
+									<c:choose>
+										<c:when test="${not empty order.orderDetails}">
+											<c:forEach var="orderDetail" items="${order.orderDetails}">
+												<div class="d-flex gap-3">
+													<div class="d-flex flex-column">
+														<img src="${orderDetail.product.image}"
+															class="img-fluid me-5 rounded-circle"
+															style="width: 80px; height: 80px;" alt="" />
+														<p>
+															<strong>{orderDetail.product.name}</strong>
+														</p>
+													</div>
+													<p>
+														$
+														<fmt:formatNumber type="number" maxFractionDigits="2"
+															value="${orderDetail.quantity * orderDetail.productPrice}" />
+													</p>
+												</div>
+
+											</c:forEach>
+										</c:when>
+									</c:choose>
+
+								</div>
+								<c:if
+									test="${order.status == 'PLACED' or order.status == 'DELIVERED'}">
+									<div class='d-flex justify-content-end align-items-center'>
+										<form action="customer-order.htm" method="post">
+											<input type="hidden" name="orderId" value="${order.id }" />
+											<input type="hidden" name="status"
+												value="${order.status == 'PLACED' ? 'CANCEL' : 'RECEIVED' }" />
+											<input
+												type="${order.status == 'DELIVERED' ? 'hidden' : 'text' }"
+												name="cancelReason" value="" />
+											<button
+												class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4"
+												type="submit"
+												onclick="return confirm('Are you sure to change status?')">${order.status}</button>
+										</form>
+									</div>
+								</c:if>
+							</div>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
@@ -186,7 +234,13 @@
 						</a>
 					</div>
 					<div class="col-lg-6">
-						
+						<div class="position-relative mx-auto">
+							<input class="form-control border-0 w-100 py-3 px-4 rounded-pill"
+								type="number" placeholder="Your Email">
+							<button type="submit"
+								class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
+								style="top: 0; right: 0;">Subscribe Now</button>
+						</div>
 					</div>
 					<div class="col-lg-3">
 						<div class="d-flex justify-content-end pt-3">
