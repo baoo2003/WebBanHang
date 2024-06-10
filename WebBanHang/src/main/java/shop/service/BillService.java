@@ -31,10 +31,11 @@ public class BillService {
 		Query query = session.createQuery(hql);
 		query.setParameter("id", id);
 		Bill bill = (Bill) query.uniqueResult();
+		session.close();
 		return bill;
 	}
 	
-	public Double getTotalPrice(Integer orderId) {
+	public Float getTotalPrice(Integer orderId) {
 		Session session1 = factory.openSession();
 		String hql = "FROM OrderDetail od WHERE od.order.id=:orderId";	
 		Query query = session1.createQuery(hql);
@@ -46,7 +47,8 @@ public class BillService {
 		}
 		DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	    String formattedTotal = decimalFormat.format(total);
-	    return Double.parseDouble(formattedTotal);
+	    session1.close();
+	    return Float.parseFloat(formattedTotal);
 	}
 	
 	@Transactional

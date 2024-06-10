@@ -58,10 +58,13 @@ public class SaleOverService {
                     int month = (Integer) detail[0];
                     int year = (Integer) detail[1];
                     double total = (Double) detail[2];
+                    DecimalFormat decimalFormat = new DecimalFormat("#.00");
+            	    String formattedTotal = decimalFormat.format(total);
+            	    double totalPrice=Double.parseDouble(formattedTotal);
 
                     SaleOverDto dto = salesMap.get(year + "-" + month);
                     if (dto != null) {
-                        dto.setTotal(total);
+                        dto.setTotal(totalPrice);
                     }
                 }
             }
@@ -98,11 +101,14 @@ public class SaleOverService {
             for (Object[] result : results) {
                 int year = (Integer) result[0];
                 double total = (Double) result[1];
+                DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        	    String formattedTotal = decimalFormat.format(total);
+        	    double totalPrice=Double.parseDouble(formattedTotal);
                 if (year == currentYear) {
                 	yearBreakDto.setCurrentYear(currentYear);
-                    yearBreakDto.setCurrentYearTotal(total);
+                    yearBreakDto.setCurrentYearTotal(totalPrice);
                 } else if (year == previousYear) {
-                    yearBreakDto.setPreviousYearToTal(total);
+                    yearBreakDto.setPreviousYearToTal(totalPrice);
                 }
             }
             if(yearBreakDto.getCurrentYearTotal() == null) {

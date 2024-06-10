@@ -24,13 +24,9 @@ public class DashboardController {
 		for(SaleOverDto dto : salesOverviewDTOs) {
 			if(dto.getTotal() > maxTotal)
 				maxTotal = dto.getTotal();
+				
 		}
-		
-		for(; ; maxTotal++) {
-			if(maxTotal % 100 == 0)
-				break;
-			
-		}
+		maxTotal+=20;
 		double previousMonthTotal = salesOverviewDTOs.get(4).getTotal();
         double currentMonthTotal = salesOverviewDTOs.get(5).getTotal();
 
