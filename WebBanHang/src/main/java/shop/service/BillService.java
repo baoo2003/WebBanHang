@@ -27,7 +27,10 @@ public class BillService {
 	
 	public Bill findBillByOrderId(Integer id) {
 		Session session = factory.openSession();
-		Bill bill = (Bill) session.get(Bill.class, id);
+		String hql = "FROM Bill WHERE order.id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		Bill bill = (Bill) query.uniqueResult();
 		return bill;
 	}
 	

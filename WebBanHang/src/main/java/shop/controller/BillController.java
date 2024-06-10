@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import shop.entity.Bill;
 import shop.service.BillService;
 
 @Controller
@@ -16,7 +17,9 @@ public class BillController {
 	
 	@RequestMapping("/manage-bill")
 	public String index(ModelMap model, @RequestParam("id") Integer orderId) {
-		model.addAttribute("bill", billService.findBillByOrderId(orderId));
+		Bill bill = billService.findBillByOrderId(orderId);
+		System.out.println(bill.getId());
+		model.addAttribute("bill", bill);
 		return "admin/bill";
 	}
 }
