@@ -260,22 +260,22 @@
 										value="${order.totalPrice}" />
 								</p>
 								<c:if
-									test="${order.status == 'PLACED' or order.status == 'DELIVERED'}">
+									test="${order.status == 'Placed' or order.status == 'Delivered'}">
 									<div class='d-flex justify-content-end align-items-center'>
 										<form action="customer-order.htm" method="post"
 											class='d-flex align-items-center gap-3'>
 											<input type="hidden" name="orderId" value="${order.id }" />
 											<input type="hidden" name="status"
-												value="${order.status == 'PLACED' ? 'CANCEL' : 'RECEIVED' }" />
+												value="${order.status == 'Placed' ? 'Cancel' : 'Received' }" />
 
 											<input
-												type="${order.status == 'DELIVERED' ? 'hidden' : 'text' }"
+												type="${order.status == 'Delivered' ? 'hidden' : 'text' }"
 												name="cancelReason" value="" placeholder="Cancel reason"
 												style="border-radius: 20px; border: 1px solid #f1f1f1; padding: 0.5rem 1rem;" />
 											<button
 												class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase"
 												type="submit"
-												onclick="return confirm('Are you sure to change status?')">${order.status == 'PLACED' ? 'CANCEL' : 'RECEIVED'}</button>
+												onclick="return confirm('Are you sure to change status?')">${order.status == 'Placed' ? 'Cancel' : 'Received'}</button>
 										</form>
 									</div>
 								</c:if>
