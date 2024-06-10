@@ -27,8 +27,10 @@ public class BillService {
 	
 	public Bill findBillByOrderId(Integer id) {
 		Session session = factory.openSession();
-		Bill bill = (Bill) session.get(Bill.class, id);
-		return bill;
+		String hql="FROM Bill b WHERE b.order.id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		return (Bill) query.uniqueResult();
 	}
 	
 	public Double getTotalPrice(Integer orderId) {

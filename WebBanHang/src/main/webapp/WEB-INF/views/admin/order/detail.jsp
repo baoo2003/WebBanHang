@@ -200,11 +200,13 @@
 	                                        <label class="form-label">Cancel reason: ${order.cancelReason}</label>
 	                                    </div>
                                     </c:if>
-                                    <div class="d-flex">
-	                                    <a href="manage-bill.htm?id=${order.id}" class="btn btn-primary mx-auto py-8 fs-4 mb-4 mx-auto rounded-2">
-	                                    	See bill
-	                                    </a>
-                                    </div>
+                                    <c:if test="${order.status == 'Delivered'}">
+                                    	<div class="d-flex">
+		                                    <a href="manage-bill.htm?id=${order.id}" class="btn btn-primary mx-auto py-8 fs-4 mb-4 mx-auto rounded-2">
+		                                    	See bill
+		                                    </a>
+	                                    </div>
+                                    </c:if>                                   
                                 </div>
                             </div>
                         </div>
