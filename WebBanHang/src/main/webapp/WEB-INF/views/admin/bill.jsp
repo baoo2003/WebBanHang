@@ -161,7 +161,7 @@
                     	<label class="form-label">Id: ${bill.id}</label>                        
                     </div>                                 	                               
                     <div class="mb-3">
-                    	<label class="form-label">Staff name: ${bill.staff.name}</label>                        	
+                    	<label class="form-label">Staff name: ${bill.staff.firstName} ${bill.staff.lastName}</label>                        	
                     </div>
                     <div class="mb-3">
                     	<label class="form-label">Create time: ${bill.createTime}</label>                        	

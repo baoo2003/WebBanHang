@@ -10,9 +10,17 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/admin.htm"/>
 			<mvc:mapping path="/manage-brand.htm"/>
+			<mvc:mapping path="/manage-brand-create.htm"/>
+			<mvc:mapping path="/manage-brand-update.htm"/>
 			<mvc:mapping path="/manage-category.htm"/>
+			<mvc:mapping path="/manage-category-create.htm"/>
+			<mvc:mapping path="/manage-category-update.htm"/>
 			<mvc:mapping path="/manage-product.htm"/>
+			<mvc:mapping path="/manage-product-create.htm"/>
+			<mvc:mapping path="/manage-product-detail.htm"/>
 			<mvc:mapping path="/manage-order.htm"/>
+			<mvc:mapping path="/manage-order-detail.htm"/>
+			<mvc:mapping path="/manage-bill.htm"/>
 			<mvc:mapping path="/change-password.htm"/>
 			<bean class="shop.interceptor.SecurityAdminInterceptor" />
 		</mvc:interceptor>
