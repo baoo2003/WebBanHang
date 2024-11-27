@@ -43,6 +43,111 @@
 			color: red;
 			font-style: italic;
 		}
+		
+		.button-chatbot{
+			position: fixed;
+			right: 30px;
+			bottom: 30px;
+			display: flex;
+			width: 45px;
+			height: 45px;
+			align-items: center;
+			justify-content: center;
+			transition: 0.5s;
+			z-index: 99;
+		}
+		
+		.chatbox {
+            width: 350px;
+            height: 500px;
+            position: fixed;
+            bottom: 80px;
+            right: 80px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatbox-header {
+            background-color: #81C408;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-weight: bold;
+        }
+
+        .chatbox-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin: 5px 0;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.ai {
+            text-align: left;
+        }
+
+        .message .content {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+        }
+
+        .message.user .content {
+            background-color: #81C408;
+            color: #fff;
+        }
+
+        .message.ai .content {
+            background-color: #e6e6e6;
+            color: #333;
+        }
+
+        .chatbox-input {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        position: absolute; /* Added to fix the position */
+        bottom: 0; /* Aligns the input area to the bottom */
+        left: 0; /* Aligns the input area to the left */
+        right: 0; /* Aligns the input area to the right */
+    }
+
+        .chatbox-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            outline: none;
+        }
+
+        .chatbox-input button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #81C408;
+            color: #fff;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .chatbox-input button:hover {
+            background-color: #81C408;
+        }
 	</style>
 
 </head>
@@ -355,10 +460,20 @@
 	<!-- Copyright End -->
 
 	<!-- Back to Top -->
-	<a href="#"
-		class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
-		class="fa fa-arrow-up"></i></a>
+	<button 
+	class="btn btn-primary border-3 border-primary rounded-circle button-chatbot" id="chatbot-btn"><i
+	class="fa fa-robot"></i></button>
 
+	<div class="chatbox" id="chatbot" style="display: none;">
+        <div class="chatbox-header">Green Valley Support
+         <span id="close-chatbot" style="cursor: pointer; float: right; font-size: 20px;">&times;</span> <!-- Close button --></div>
+        <div class="chatbox-messages" id="messages"></div>
+        <div class="chatbox-input">
+            <input type="text" id="userInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+	
 	<!-- JavaScript Libraries -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -385,7 +500,61 @@
 			}
 		});
 	
+	const messagesDiv = document.getElementById('messages');
 
+	document.getElementById('chatbot-btn').addEventListener('click', function() {
+       const chatbot = document.getElementById('chatbot');
+       chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
+   });
+	document.getElementById('close-chatbot').addEventListener('click', function() {
+        document.getElementById('chatbot').style.display = 'none'; // Close the chatbox
+    });
+	document.getElementById('userInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default form submission
+            sendMessage(); // Call sendMessage function
+        }
+    });
+function sendMessage() {
+	const userInput = document.getElementById('userInput');
+	const message = userInput.value.trim();
+
+	if (message) {
+		addMessage('user', message);
+		userInput.value = '';
+		simulateAIResponse(message);
+	}
+}
+
+function addMessage(sender, text) {
+	const messageDiv = document.createElement('div');
+	messageDiv.classList.add('message', sender);
+
+	const contentDiv = document.createElement('div');
+	contentDiv.classList.add('content');
+	contentDiv.textContent = text;
+
+	messageDiv.appendChild(contentDiv);
+	messagesDiv.appendChild(messageDiv);
+	messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function simulateAIResponse(userMessage) {
+	setTimeout(() => {
+		const aiResponse = generateAIResponse(userMessage);
+		addMessage('ai', aiResponse);
+	}, 1000);
+}
+
+function generateAIResponse(userMessage) {
+	// Đoạn này bạn có thể tích hợp API chatbot, ví dụ GPT.
+	// Hiện tại chỉ trả lời giả lập.
+	if (userMessage.toLowerCase().includes('hello')) {
+		return 'Hello! How can I assist you today?';
+	} else {
+		return "I'm here to help! Tell me more.";
+	}
+}
  
     </script>
 </body>
