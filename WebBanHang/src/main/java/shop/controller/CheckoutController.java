@@ -67,9 +67,10 @@ public class CheckoutController {
 			carts.add(cartMap);
 		}
 
-		
-		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
-		model.addAttribute("notifications", notifications);
+		if(customerIdInt != null) {
+			List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+			model.addAttribute("notifications", notifications);
+		}
 		model.addAttribute("carts", carts);
 		return "Checkout";
 	}

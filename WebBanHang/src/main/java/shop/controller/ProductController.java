@@ -75,9 +75,11 @@ public class ProductController {
 		}		
 		
 		Integer customerIdInt = (Integer) session.getAttribute("customerId");
+		if(customerIdInt != null) {
+			List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+			model.addAttribute("notifications", notifications);
+		}
 		
-		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
-		model.addAttribute("notifications", notifications);
 		return "Product";
 	}
 	
