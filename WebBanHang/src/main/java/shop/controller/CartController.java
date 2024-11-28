@@ -47,9 +47,10 @@ public class CartController {
         }
 
         model.addAttribute("carts", carts);
- 
-		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
-		model.addAttribute("notifications", notifications);
+        if(customerIdInt != null) {
+        	List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+        	model.addAttribute("notifications", notifications);        	
+        }
         return "Cart";
     }
 

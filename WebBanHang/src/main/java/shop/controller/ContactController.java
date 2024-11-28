@@ -31,9 +31,10 @@ public class ContactController {
 	public String contact(ModelMap model, HttpSession session) {
 		model.addAttribute("contact", new ContactDto());
 		Integer customerIdInt = (Integer) session.getAttribute("customerId");
-		
-		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
-		model.addAttribute("notifications", notifications);
+		if(customerIdInt != null) {
+			List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+			model.addAttribute("notifications", notifications);			
+		}
 		return "Contact";
 	}
 	

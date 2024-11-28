@@ -48,9 +48,11 @@ public class OrderController {
 		List<Map<String, Object>> orders = orderService.getOrders(Optional.empty(), Optional.empty(),
 				Optional.of(customerIdInt));
 
+		if(customerIdInt != null) {
+			List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+			model.addAttribute("notifications", notifications);
+		}
 		
-		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
-		model.addAttribute("notifications", notifications);
 		model.addAttribute("orders", orders);
 		return "Customer-order";
 	}

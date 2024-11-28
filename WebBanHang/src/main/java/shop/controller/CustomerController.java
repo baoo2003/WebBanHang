@@ -35,9 +35,11 @@ public class CustomerController {
 		ProfileDto profileDto=new ProfileDto(customer);
 		model.addAttribute("profileDto", profileDto);
 		Integer customerIdInt = (Integer) session.getAttribute("customerId");
-		
-		List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
-		model.addAttribute("notifications", notifications);
+		if(customerIdInt != null) {
+			List<Notification>  notifications = notificationService.getNotifications(customerIdInt);
+			model.addAttribute("notifications", notifications);
+			
+		}
 		return "Profile";
 	}
 
