@@ -38,6 +38,114 @@
 
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet" />
+<style>
+	.button-chatbot{
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    width: 45px;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    z-index: 99;
+}
+
+.chatbox {
+    width: 350px;
+    height: 500px;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox-header {
+    background-color: #81C408;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-weight: bold;
+}
+
+.chatbox-messages {
+    height: 390px;
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #fff;
+}
+
+.message {
+    margin: 5px 0;
+}
+
+.message.user {
+    text-align: right;
+    padding-right: 12px;
+}
+
+.message.ai {
+    text-align: left;
+}
+
+.message .content {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 70%;
+}
+
+.message.user .content {
+    background-color: #81C408;
+    color: #fff;
+}
+
+.message.ai .content {
+    background-color: #e6e6e6;
+    color: #333;
+}
+
+.chatbox-input {
+display: flex;
+padding: 10px;
+border-top: 1px solid #ddd;
+position: absolute; /* Added to fix the position */
+bottom: 0; /* Aligns the input area to the bottom */
+left: 0; /* Aligns the input area to the left */
+right: 0; /* Aligns the input area to the right */
+}
+
+.chatbox-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    outline: none;
+}
+
+.chatbox-input button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #81C408;
+    color: #fff;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.chatbox-input button:hover {
+    background-color: #81C408;
+}
+</style>
 </head>
 
 <body>
@@ -455,10 +563,20 @@
 	<!-- Copyright End -->
 
 	<!-- Back to Top -->
-	<a href="#"
-		class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
-		class="fa fa-arrow-up"></i></a>
+	<button 
+	class="btn btn-primary border-3 border-primary rounded-circle button-chatbot" id="chatbot-btn"><i
+	class="fa fa-robot"></i></button>
 
+	<div class="chatbox" id="chatbot" style="display: none;">	
+        <div class="chatbox-header">Green Valley Support
+        	<span id="close-chatbot" style="cursor: pointer; float: right; font-size: 20px;">&times;</span>
+		</div>
+        <div class="chatbox-messages" id="messages"></div>
+        <div class="chatbox-input">
+            <input type="text" id="userInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
 	<!-- JavaScript Libraries -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -475,15 +593,19 @@
     function submitForm(formId) {
 		document.getElementById(formId).submit();
 	}
-    document.getElementById('notification-btn').addEventListener('click', function(event) {
-		event.preventDefault();
-		document.getElementById('notification-box').classList.toggle('active');
-	});
-    window.addEventListener('click', function(event) {
-		if (!event.target.closest('#notification-btn') && !event.target.closest('#notification-box')) {
-			document.getElementById('notification-box').classList.remove('active');
-			}
+	var customerID = "${sessionScope.customerId}";
+    if(customerID !== null && customerID !== undefined && customerID !== ""){
+	    document.getElementById('notification-btn').addEventListener('click', function(event) {
+			event.preventDefault();
+			document.getElementById('notification-box').classList.toggle('active');
 		});
+	    window.addEventListener('click', function(event) {
+			if (!event.target.closest('#notification-btn') && !event.target.closest('#notification-box')) {
+				document.getElementById('notification-box').classList.remove('active');
+				}
+			});
+		
+    }
 	
 
  
@@ -504,7 +626,94 @@
 					+ total.toFixed(2);
 		}
 		
+		const messagesDiv = document.getElementById('messages');
+
+	document.getElementById('chatbot-btn').addEventListener('click', function() {
+       const chatbot = document.getElementById('chatbot');
+       chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
+    });
+
+	document.getElementById('close-chatbot').addEventListener('click', function() {
+        document.getElementById('chatbot').style.display = 'none';
+    });
+
+	document.getElementById('userInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); 
+            sendMessage(); 
+        }
+    });
+
+	function sendMessage() {
+		const userInput = document.getElementById('userInput');
+		const message = userInput.value.trim();
+
+		if (message) {
+			addMessage('user', message);
+			userInput.value = '';
+			simulateAIResponse(message);
+		}
+	}
+
+	function addMessage(sender, text) {
+		const messageDiv = document.createElement('div');
+		messageDiv.classList.add('message', sender);
+
+		const contentDiv = document.createElement('div');
+		contentDiv.classList.add('content');
 		
+		contentDiv.innerHTML = text;
+
+		messageDiv.appendChild(contentDiv);
+		messagesDiv.appendChild(messageDiv);
+		messagesDiv.scrollTop = messagesDiv.scrollHeight;
+		
+		saveMessage(sender, text);
+	}
+	
+	function loadMessage(sender, text) {
+		const messageDiv = document.createElement('div');
+		messageDiv.classList.add('message', sender);
+
+		const contentDiv = document.createElement('div');
+		contentDiv.classList.add('content');
+		
+		contentDiv.innerHTML = text;
+
+		messageDiv.appendChild(contentDiv);
+		messagesDiv.appendChild(messageDiv);
+		messagesDiv.scrollTop = messagesDiv.scrollHeight;
+	}
+	window.onload = function() {
+	    const savedMessages = JSON.parse(sessionStorage.getItem('chatMessages')) || [];
+	    savedMessages.forEach(msg => loadMessage(msg.sender, msg.text));
+	};
+	function saveMessage(sender, text) {
+	    const savedMessages = JSON.parse(sessionStorage.getItem('chatMessages')) || [];
+	    savedMessages.push({ sender, text });
+	    sessionStorage.setItem('chatMessages', JSON.stringify(savedMessages));
+	}
+	
+	function simulateAIResponse(userMessage) {
+		setTimeout(async () => {
+			const aiResponse = await generateAIResponse(userMessage);
+			console.log("1" + aiResponse);
+			addMessage('ai', aiResponse);
+		}, 1000);
+	}
+
+	async function generateAIResponse(userMessage) {
+		const response = await fetch('http://127.0.0.1:5000/handle_message', {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json',
+	        },
+	        body: JSON.stringify({ "message": userMessage }),
+	    });
+	    const data = await response.json();
+	    return data.response;
+	}
+
 	</script>
 </body>
 
