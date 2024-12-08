@@ -106,6 +106,7 @@
 
 .message.user .content {
     background-color: #81C408;
+    text-align: left;
     color: #fff;
 }
 
